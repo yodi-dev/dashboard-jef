@@ -2,8 +2,7 @@
     open: false,
     darkMode: localStorage.getItem('theme') === 'dark'
 }" x-init="if (darkMode) document.documentElement.classList.add('dark')"
-    class="bg-gradient-to-br
-            from-green-50 to-green-100 dark:from-gray-900 dark:to-gray-800 border-b border-green-100 dark:border-gray-700">
+    class="bg-gradient-to-br from-green-50 to-green-100 dark:from-gray-900 dark:to-gray-800 border-b border-green-100 dark:border-gray-700">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
             <!-- Left -->

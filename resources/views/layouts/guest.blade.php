@@ -27,10 +27,6 @@
             dark:from-gray-900 dark:to-gray-800">
 
         <div class="w-full max-w-md">
-            <div class="absolute top-6 right-6">
-                <x-theme-toggle />
-            </div>
-
             {{-- Logo / Header --}}
             <div class="text-center mb-8">
                 <h1 class="text-3xl font-bold text-green-700">

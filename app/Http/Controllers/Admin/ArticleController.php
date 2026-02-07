@@ -9,9 +9,6 @@ use App\Http\Requests\UpdateArticleRequest;
 
 class ArticleController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         //

@@ -21,6 +21,21 @@
                                hover:text-green-600 dark:hover:text-green-400">
                         {{ __('Dashboard') }}
                     </x-nav-link>
+                    {{-- <x-nav-link :href="route('portfolio')" :active="request()->routeIs('portfolio')"
+                        class="text-gray-600 dark:text-gray-300
+                               hover:text-green-600 dark:hover:text-green-400">
+                        {{ __('Portfolio') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('article')" :active="request()->routeIs('article')"
+                        class="text-gray-600 dark:text-gray-300
+                               hover:text-green-600 dark:hover:text-green-400">
+                        {{ __('Article') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('booking')" :active="request()->routeIs('booking')"
+                        class="text-gray-600 dark:text-gray-300
+                               hover:text-green-600 dark:hover:text-green-400">
+                        {{ __('Booking') }}
+                    </x-nav-link> --}}
                 </div>
             </div>
 

@@ -8,7 +8,7 @@
             <!-- Left -->
             <div class="flex items-center">
                 <!-- Logo -->
-                <a href="{{ route('dashboard') }}"
+                <a href="{{ route('admin.dashboard') }}"
                     class="text-xl font-semibold tracking-tight
                           text-green-600 dark:text-green-400">
                     Jef
@@ -16,22 +16,22 @@
 
                 <!-- Navigation -->
                 <div class="hidden sm:flex sm:ms-10 space-x-8">
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')"
+                    <x-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.dashboard')"
                         class="text-gray-600 dark:text-gray-300
                                hover:text-green-600 dark:hover:text-green-400">
                         {{ __('Dashboard') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('portfolio')" :active="request()->routeIs('portfolio')"
+                    <x-nav-link :href="route('admin.portfolios.index')" :active="request()->routeIs('admin.portfolios.index')"
                         class="text-gray-600 dark:text-gray-300
                                hover:text-green-600 dark:hover:text-green-400">
                         {{ __('Portfolio') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('article')" :active="request()->routeIs('article')"
+                    <x-nav-link :href="route('admin.articles.index')" :active="request()->routeIs('admin.articles.index')"
                         class="text-gray-600 dark:text-gray-300
                                hover:text-green-600 dark:hover:text-green-400">
                         {{ __('Article') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('booking')" :active="request()->routeIs('booking')"
+                    <x-nav-link :href="route('admin.bookings.index')" :active="request()->routeIs('admin.bookings.index')"
                         class="text-gray-600 dark:text-gray-300
                                hover:text-green-600 dark:hover:text-green-400">
                         {{ __('Booking') }}
@@ -62,7 +62,7 @@
                     </x-slot>
 
                     <x-slot name="content">
-                        <x-dropdown-link :href="route('profile.edit')">
+                        <x-dropdown-link :href="route('admin.profile.edit')">
                             {{ __('Profile') }}
                         </x-dropdown-link>
 
@@ -98,7 +98,7 @@
     <!-- Mobile Menu -->
     <div x-show="open" class="sm:hidden border-t border-green-100 dark:border-gray-700">
         <div class="px-4 py-3 space-y-2">
-            <x-responsive-nav-link :href="route('dashboard')">
+            <x-responsive-nav-link :href="route('admin.dashboard')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
 

@@ -3,65 +3,88 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Portfolio;
 use App\Http\Requests\StorePortfolioRequest;
 use App\Http\Requests\UpdatePortfolioRequest;
+use App\Models\Portfolio;
+use Illuminate\Support\Str;
 
 class PortfolioController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        return view('portfolio.index');
+        $portfolios = Portfolio::latest()->paginate(10);
+
+        return view('admin.portfolios.index', compact('portfolios'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        return view('admin.portfolios.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(StorePortfolioRequest $request)
     {
-        //
+        $data = $request->validated();
+
+        $data['slug'] = Str::slug($data['title']);
+
+        Portfolio::create($data);
+
+        return redirect()
+            ->route('admin.portfolios.index')
+            ->with('success', 'Portfolio created successfully');
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Portfolio $portfolio)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(Portfolio $portfolio)
     {
-        //
+        return view('admin.portfolios.edit', compact('portfolio'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(UpdatePortfolioRequest $request, Portfolio $portfolio)
     {
-        //
+        $data = $request->validated();
+
+        $portfolio->update($data);
+
+        return redirect()
+            ->route('admin.portfolios.index')
+            ->with('success', 'Portfolio updated');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+    public function trash()
+    {
+        $portfolios = Portfolio::onlyTrashed()->paginate(10);
+
+        return view('admin.portfolios.trash', compact('portfolios'));
+    }
+
+    public function restore($id)
+    {
+        $portfolio = Portfolio::withTrashed()->findOrFail($id);
+        $portfolio->restore();
+
+        return redirect()->route('admin.portfolios.index')
+            ->with('success', 'Portfolio berhasil dikembalikan!');
+    }
+
+    public function forceDelete($id)
+    {
+        $portfolio = Portfolio::withTrashed()->findOrFail($id);
+        $portfolio->forceDelete();
+
+        return redirect()->route('admin.portfolios.trash')
+            ->with('success', 'Portfolio dihapus permanen.');
+    }
+
     public function destroy(Portfolio $portfolio)
     {
-        //
+        $portfolio->delete();
+
+        return back()->with('success', 'Portfolio deleted');
     }
 }

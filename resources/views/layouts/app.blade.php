@@ -30,6 +30,12 @@
             </div>
         </main>
     </div>
+
+    @if (session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
 </body>
 
 </html>

@@ -2,15 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Illuminate\Routing\Controllers\HasMiddleware;
+use App\Http\Controllers\Controller;
 
-class DashboardController implements HasMiddleware
+class DashboardController extends Controller
 {
-    public static function middleware(): array
-    {
-        return ['auth'];
-    }
-
     public function index()
     {
         return view('dashboard');

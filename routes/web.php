@@ -12,16 +12,26 @@ Route::get('/', function () {
     return redirect()->route('login');
 });
 
-Route::prefix('admin')->group(function () {
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-    Route::controller(ProfileController::class)->group(function () {
-        Route::get('/profile', 'edit')->name('profile.edit');
-        Route::patch('/profile', 'update')->name('profile.update');
-        Route::delete('/profile', 'destroy')->name('profile.destroy');
+Route::prefix('admin')
+    ->name('admin.')
+    ->middleware('auth')
+    ->group(function () {
+        Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+        Route::get('/portfolios/trash', [PortfolioController::class, 'trash'])->name('portfolios.trash');
+        Route::patch('/portfolios/{id}/restore', [PortfolioController::class, 'restore'])->name('portfolios.restore');
+        Route::delete('/portfolios/{id}/force-delete', [PortfolioController::class, 'forceDelete'])->name('portfolios.forceDelete');
+        Route::resource('portfolios', PortfolioController::class);
+
+        Route::resource('articles', ArticleController::class);
+
+        Route::resource('bookings', BookingController::class);
+
+        Route::controller(ProfileController::class)->group(function () {
+            Route::get('/profile', 'edit')->name('profile.edit');
+            Route::patch('/profile', 'update')->name('profile.update');
+            Route::delete('/profile', 'destroy')->name('profile.destroy');
+        });
     });
-    Route::get('/portfolio', [PortfolioController::class, 'index'])->name('portfolio');
-    Route::get('/article', [ArticleController::class, 'index'])->name('article');
-    Route::get('/booking', [BookingController::class, 'index'])->name('booking');
-});
 
 require __DIR__ . '/auth.php';

@@ -21,15 +21,17 @@ return new class extends Migration
 
             $table->string('thumbnail')->nullable();
 
-            $table->string('project_url')->nullable();
+            $table->json('gallery')->nullable();
 
             $table->boolean('is_published')->default(false);
 
             $table->timestamp('published_at')->nullable();
 
-            $table->softDeletes();
+            $table->boolean('is_highlight')->default(false);
 
             $table->timestamps();
+
+            $table->softDeletes();
         });
     }
 

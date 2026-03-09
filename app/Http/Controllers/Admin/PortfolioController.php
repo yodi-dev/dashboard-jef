@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StorePortfolioRequest;
 use App\Http\Requests\UpdatePortfolioRequest;
 use App\Models\Portfolio;
-use Illuminate\Support\Str;
+use App\Services\PortfolioService;
 
 class PortfolioController extends Controller
 {
@@ -22,17 +22,13 @@ class PortfolioController extends Controller
         return view('admin.portfolios.create');
     }
 
-    public function store(StorePortfolioRequest $request)
+
+    public function store(StorePortfolioRequest $request, PortfolioService $portfolioService)
     {
-        $data = $request->validated();
+        $portfolioService->createPortfolio($request);
 
-        $data['slug'] = Str::slug($data['title']);
-
-        Portfolio::create($data);
-
-        return redirect()
-            ->route('admin.portfolios.index')
-            ->with('success', 'Portfolio created successfully');
+        return redirect()->route('admin.portfolios.index')
+            ->with('success', 'Portfolio berhasil ditambahkan!');
     }
 
     public function show(Portfolio $portfolio)

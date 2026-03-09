@@ -18,11 +18,15 @@ class UpdatePortfolioRequest extends FormRequest
 
             'description' => 'nullable|string',
 
-            'thumbnail' => 'nullable|image|max:2048',
+            'thumbnail' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
 
-            'project_url' => 'nullable|url',
+            'gallery' => 'nullable|array',
+
+            'gallery.*' => 'image|mimes:jpeg,png,jpg,webp|max:2048',
 
             'is_published' => 'boolean',
+
+            'is_highlight' => 'boolean',
         ];
     }
 

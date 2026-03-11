@@ -22,7 +22,7 @@ class UpdatePortfolioRequest extends FormRequest
 
             'gallery' => 'nullable|array',
 
-            'gallery.*' => 'image|mimes:jpeg,png,jpg,webp|max:2048',
+            'gallery.*' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
 
             'is_published' => 'boolean',
 

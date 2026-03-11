@@ -1,4 +1,4 @@
-<div class="space-y-6"> {{-- Jarak antar elemen form --}}
+<div class="space-y-6">
 
     {{-- Title --}}
     <div>
@@ -34,6 +34,16 @@
             <label for="thumbnail" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                 Thumbnail <span class="text-xs text-gray-500">(Format: JPG, PNG, WEBP)</span>
             </label>
+
+            {{-- PREVIEW GAMBAR LAMA --}}
+            @if (isset($portfolio) && $portfolio->thumbnail)
+                <div class="mb-3">
+                    <p class="text-xs text-gray-500 dark:text-gray-400 mb-1">Current Thumbnail:</p>
+                    <img src="{{ Storage::url($portfolio->thumbnail) }}" alt="Thumbnail"
+                        class="h-32 object-cover rounded-md border border-gray-300 dark:border-gray-700">
+                </div>
+            @endif
+
             <input type="file" id="thumbnail" name="thumbnail" accept="image/*"
                 class="w-full px-3 py-2 border rounded-md bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 border-gray-300 dark:border-gray-700 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 dark:file:bg-gray-700 dark:file:text-gray-300 transition duration-150">
 
@@ -47,6 +57,20 @@
             <label for="gallery" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                 Gallery <span class="text-xs text-gray-500">(Bisa pilih lebih dari 1 gambar)</span>
             </label>
+
+            {{-- PREVIEW GAMBAR LAMA --}}
+            @if (isset($portfolio) && !empty($portfolio->gallery))
+                <div class="mb-3">
+                    <p class="text-xs text-gray-500 dark:text-gray-400 mb-1">Current Gallery:</p>
+                    <div class="flex flex-wrap gap-2">
+                        @foreach ($portfolio->gallery as $image)
+                            <img src="{{ Storage::url($image) }}" alt="Gallery"
+                                class="h-16 w-16 object-cover rounded-md border border-gray-300 dark:border-gray-700">
+                        @endforeach
+                    </div>
+                </div>
+            @endif
+
             <input type="file" id="gallery" name="gallery[]" multiple accept="image/*"
                 class="w-full px-3 py-2 border rounded-md bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 border-gray-300 dark:border-gray-700 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 dark:file:bg-gray-700 dark:file:text-gray-300 transition duration-150">
 
@@ -54,7 +78,6 @@
                 <p class="mt-1.5 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
             @enderror
             @error('gallery.*')
-                {{-- Error jika ada file di dalam array yang nggak valid --}}
                 <p class="mt-1.5 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
             @enderror
         </div>

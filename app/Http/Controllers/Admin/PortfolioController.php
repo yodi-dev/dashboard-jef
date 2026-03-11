@@ -41,15 +41,13 @@ class PortfolioController extends Controller
         return view('admin.portfolios.edit', compact('portfolio'));
     }
 
-    public function update(UpdatePortfolioRequest $request, Portfolio $portfolio)
+    public function update(UpdatePortfolioRequest $request, Portfolio $portfolio, PortfolioService $portfolioService)
     {
-        $data = $request->validated();
+        // Lempar tugas update ke Service Class
+        $portfolioService->updatePortfolio($portfolio, $request);
 
-        $portfolio->update($data);
-
-        return redirect()
-            ->route('admin.portfolios.index')
-            ->with('success', 'Portfolio updated');
+        return redirect()->route('admin.portfolios.index')
+            ->with('success', 'Portfolio berhasil diperbarui!');
     }
 
     public function trash()

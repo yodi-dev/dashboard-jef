@@ -18,7 +18,7 @@
         <div
             class="bg-white dark:bg-gray-800 shadow rounded-lg p-6 border border-gray-200 dark:border-gray-700 transition duration-200">
 
-            <form action="{{ route('admin.portfolios.update', $portfolio) }}" method="POST">
+            <form action="{{ route('admin.portfolios.update', $portfolio) }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
 

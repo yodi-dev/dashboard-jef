@@ -7,6 +7,7 @@ use App\Http\Requests\StorePortfolioRequest;
 use App\Http\Requests\UpdatePortfolioRequest;
 use App\Models\Portfolio;
 use App\Services\PortfolioService;
+use Illuminate\Http\Request;
 
 class PortfolioController extends Controller
 {
@@ -34,6 +35,48 @@ class PortfolioController extends Controller
     public function show(Portfolio $portfolio)
     {
         //
+    }
+
+    public function toggle(Request $request, Portfolio $portfolio)
+    {
+        $field = $request->input('field');
+
+        // Pastikan cuma field ini yang bisa diubah lewat toggle
+        if (in_array($field, ['is_published', 'is_highlight'])) {
+
+            // 1. Balikkan nilai field yang sedang diklik
+            $portfolio->$field = !$portfolio->$field;
+
+            // 2. Logika jika yang diklik adalah toggle "is_highlight"
+            if ($field === 'is_highlight') {
+                // Jika highlight dihidupkan (true), maka otomatis is_published juga true
+                if ($portfolio->is_highlight === true) {
+                    $portfolio->is_published = true;
+
+                    // Pastikan published_at terisi jika sebelumnya masih kosong
+                    if (is_null($portfolio->published_at)) {
+                        $portfolio->published_at = now();
+                    }
+                }
+                // Jika highlight dimatikan (false), is_published tetap dibiarkan sesuai aslinya
+            }
+
+            // 3. Logika jika yang diklik adalah toggle "is_published"
+            if ($field === 'is_published') {
+                // Atur tanggal publish
+                $portfolio->published_at = $portfolio->is_published ? now() : null;
+
+                // Jika publish dimatikan (false / jadi draft), maka otomatis highlight juga mati
+                if ($portfolio->is_published === false) {
+                    $portfolio->is_highlight = false;
+                }
+            }
+
+            // Simpan ke database
+            $portfolio->save();
+        }
+
+        return back()->with('success', 'Status berhasil diubah!');
     }
 
     public function edit(Portfolio $portfolio)

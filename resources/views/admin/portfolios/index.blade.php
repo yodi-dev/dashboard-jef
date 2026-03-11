@@ -81,32 +81,48 @@
 
                             {{-- Status & Highlight --}}
                             <td class="p-4">
-                                <div class="flex flex-col gap-1.5 items-start">
-                                    {{-- Published Status --}}
-                                    @if ($portfolio->is_published)
-                                        <span
-                                            class="px-2.5 py-1 text-xs font-medium bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 border border-green-200 dark:border-green-800 rounded-full">
-                                            Published
-                                        </span>
-                                    @else
-                                        <span
-                                            class="px-2.5 py-1 text-xs font-medium bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-400 border border-yellow-200 dark:border-yellow-800 rounded-full">
-                                            Draft
-                                        </span>
-                                    @endif
+                                <div class="flex flex-col gap-3 items-start">
 
-                                    {{-- Highlight Status --}}
-                                    @if ($portfolio->is_highlight)
-                                        <span
-                                            class="px-2.5 py-1 text-xs font-medium bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-400 border border-purple-200 dark:border-purple-800 rounded-full flex items-center gap-1">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" viewBox="0 0 20 20"
-                                                fill="currentColor">
-                                                <path
-                                                    d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                            </svg>
-                                            Highlight
-                                        </span>
-                                    @endif
+                                    {{-- Form Toggle Published --}}
+                                    <form action="{{ route('admin.portfolios.toggle', $portfolio) }}" method="POST"
+                                        class="flex items-center">
+                                        @csrf
+                                        @method('PATCH')
+                                        <input type="hidden" name="field" value="is_published">
+
+                                        <label class="relative inline-flex items-center cursor-pointer">
+                                            <input type="checkbox" value="1" class="sr-only peer"
+                                                onchange="this.form.submit()"
+                                                {{ $portfolio->is_published ? 'checked' : '' }}>
+                                            <div
+                                                class="w-9 h-5 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-600 peer-checked:bg-green-500">
+                                            </div>
+                                            <span class="ml-2 text-xs font-medium text-gray-700 dark:text-gray-300">
+                                                {{ $portfolio->is_published ? 'Published' : 'Draft' }}
+                                            </span>
+                                        </label>
+                                    </form>
+
+                                    {{-- Form Toggle Highlight --}}
+                                    <form action="{{ route('admin.portfolios.toggle', $portfolio) }}" method="POST"
+                                        class="flex items-center">
+                                        @csrf
+                                        @method('PATCH')
+                                        <input type="hidden" name="field" value="is_highlight">
+
+                                        <label class="relative inline-flex items-center cursor-pointer">
+                                            <input type="checkbox" value="1" class="sr-only peer"
+                                                onchange="this.form.submit()"
+                                                {{ $portfolio->is_highlight ? 'checked' : '' }}>
+                                            <div
+                                                class="w-9 h-5 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-purple-300 dark:peer-focus:ring-purple-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-600 peer-checked:bg-purple-500">
+                                            </div>
+                                            <span class="ml-2 text-xs font-medium text-gray-700 dark:text-gray-300">
+                                                Highlight
+                                            </span>
+                                        </label>
+                                    </form>
+
                                 </div>
                             </td>
 

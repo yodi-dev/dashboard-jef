@@ -34,7 +34,7 @@ class PortfolioController extends Controller
 
     public function show(Portfolio $portfolio)
     {
-        //
+        return view('admin.portfolios.show', compact('portfolio'));
     }
 
     public function toggle(Request $request, Portfolio $portfolio)

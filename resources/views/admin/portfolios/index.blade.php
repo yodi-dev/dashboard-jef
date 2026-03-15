@@ -72,7 +72,10 @@
                             {{-- Title & Slug --}}
                             <td class="p-4">
                                 <div class="font-medium text-gray-900 dark:text-gray-200">
-                                    {{ $portfolio->title }}
+                                    <a href="{{ route('admin.portfolios.show', $portfolio) }}"
+                                        class="font-medium text-blue-600 dark:text-blue-400 hover:underline">
+                                        {{ $portfolio->title }}
+                                    </a>
                                 </div>
                                 <div class="text-sm text-gray-500 dark:text-gray-400 mt-0.5">
                                     {{ $portfolio->slug }}
@@ -134,6 +137,12 @@
                             {{-- Actions --}}
                             <td class="p-4 text-right">
                                 <div class="flex justify-end gap-2">
+
+                                    {{-- View --}}
+                                    <a href="{{ route('admin.portfolios.show', $portfolio) }}"
+                                        class="px-3 py-1.5 text-sm font-medium bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400 rounded hover:bg-blue-200 dark:hover:bg-blue-800/50 transition duration-150">
+                                        View
+                                    </a>
 
                                     {{-- Edit --}}
                                     <a href="{{ route('admin.portfolios.edit', $portfolio) }}"

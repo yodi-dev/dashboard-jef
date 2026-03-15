@@ -26,14 +26,14 @@ class PortfolioService
 
         // Handle Upload Thumbnail
         if ($request->hasFile('thumbnail')) {
-            $data['thumbnail'] = $request->file('thumbnail')->store('portfolios/thumbnails', 'public');
+            $data['thumbnail'] = $request->file('thumbnail')->store('portfolios/thumbnails');
         }
 
         // Handle Upload Gallery
         if ($request->hasFile('gallery')) {
             $galleryPaths = [];
             foreach ($request->file('gallery') as $image) {
-                $galleryPaths[] = $image->store('portfolios/galleries', 'public');
+                $galleryPaths[] = $image->store('portfolios/galleries');
             }
             $data['gallery'] = $galleryPaths;
         }
@@ -66,10 +66,10 @@ class PortfolioService
         if ($request->hasFile('thumbnail')) {
             // Hapus gambar lama fisik di storage jika ada
             if ($portfolio->thumbnail) {
-                Storage::disk('public')->delete($portfolio->thumbnail);
+                Storage::delete($portfolio->thumbnail);
             }
             // Upload gambar baru dan masukkan path-nya ke array $data
-            $data['thumbnail'] = $request->file('thumbnail')->store('portfolios/thumbnails', 'public');
+            $data['thumbnail'] = $request->file('thumbnail')->store('portfolios/thumbnails');
         }
 
         // Handle Update Gallery
@@ -77,14 +77,14 @@ class PortfolioService
             // Hapus gambar gallery lama secara fisik jika ada
             if (!empty($portfolio->gallery)) {
                 foreach ($portfolio->gallery as $oldImage) {
-                    Storage::disk('public')->delete($oldImage);
+                    Storage::delete($oldImage);
                 }
             }
 
             // Upload gambar gallery baru
             $galleryPaths = [];
             foreach ($request->file('gallery') as $image) {
-                $galleryPaths[] = $image->store('portfolios/galleries', 'public');
+                $galleryPaths[] = $image->store('portfolios/galleries');
             }
             $data['gallery'] = $galleryPaths;
         }

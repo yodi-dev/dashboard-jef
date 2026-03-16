@@ -41,9 +41,6 @@ class PortfolioService
         return Portfolio::create($data);
     }
 
-    /**
-     * Handle pembaruan Portfolio (Update)
-     */
     public function updatePortfolio(Portfolio $portfolio, $request)
     {
         $validatedData = $request->validated();

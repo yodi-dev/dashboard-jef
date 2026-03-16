@@ -66,7 +66,7 @@
                             {{ __('Profile') }}
                         </x-dropdown-link>
 
-                        <x-dropdown-link :href="route('admin.portfolios.trash')">
+                        <x-dropdown-link :href="route('admin.trash')">
                             {{ __('Trash') }}
                         </x-dropdown-link>
 

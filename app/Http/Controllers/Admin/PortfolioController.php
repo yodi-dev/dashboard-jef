@@ -8,6 +8,7 @@ use App\Http\Requests\UpdatePortfolioRequest;
 use App\Models\Portfolio;
 use App\Services\PortfolioService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class PortfolioController extends Controller
 {
@@ -109,13 +110,23 @@ class PortfolioController extends Controller
             ->with('success', 'Portfolio berhasil dikembalikan!');
     }
 
-    public function forceDelete($id)
+    public function forceDestroy($id)
     {
-        $portfolio = Portfolio::withTrashed()->findOrFail($id);
+        $portfolio = Portfolio::onlyTrashed()->findOrFail($id);
+
+        if ($portfolio->thumbnail) {
+            Storage::delete($portfolio->thumbnail);
+        }
+
+        if (!empty($portfolio->gallery)) {
+            foreach ($portfolio->gallery as $image) {
+                Storage::delete($image);
+            }
+        }
+
         $portfolio->forceDelete();
 
-        return redirect()->route('admin.portfolios.trash')
-            ->with('success', 'Portfolio dihapus permanen.');
+        return back()->with('success', 'Portfolio successfully deleted permanently!');
     }
 
     public function destroy(Portfolio $portfolio)

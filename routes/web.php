@@ -33,6 +33,8 @@ Route::prefix('admin')
             ->name('articles.toggle');
 
         Route::resource('bookings', BookingController::class)->except(['create', 'store']);
+        Route::post('bookings/{id}/restore', [BookingController::class, 'restore'])->name('bookings.restore');
+        Route::delete('bookings/{id}/force-destroy', [BookingController::class, 'forceDestroy'])->name('bookings.forceDestroy');
 
         Route::controller(ProfileController::class)->group(function () {
             Route::get('/profile', 'edit')->name('profile.edit');

@@ -41,4 +41,21 @@ class BookingController extends Controller
             ->route('admin.bookings.index')
             ->with('success', 'Data booking dipindah ke Trash!');
     }
+
+    public function restore($id)
+    {
+        $booking = Booking::onlyTrashed()->findOrFail($id);
+        $booking->restore();
+
+        return back()->with('success', 'Booking berhasil direstore!');
+    }
+
+    // Hapus permanen
+    public function forceDestroy($id)
+    {
+        $booking = Booking::onlyTrashed()->findOrFail($id);
+        $booking->forceDelete();
+
+        return back()->with('success', 'Booking dihapus permanen!');
+    }
 }

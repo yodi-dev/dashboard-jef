@@ -13,19 +13,25 @@
         {{-- Alpine.js Component for Tabs --}}
         <div x-data="{ activeTab: 'portfolios' }" class="bg-white dark:bg-gray-800 shadow rounded-lg overflow-hidden">
 
-            {{-- Tabs Header --}}
+            {{-- Tabs Header (Ubah w-1/2 jadi flex-1 biar otomatis bagi 3 rata) --}}
             <div class="flex border-b border-gray-200 dark:border-gray-700">
                 <button @click="activeTab = 'portfolios'"
                     :class="activeTab === 'portfolios' ? 'border-indigo-500 text-indigo-600 dark:text-indigo-400' :
                         'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-300'"
-                    class="w-1/2 py-4 px-6 text-center border-b-2 font-medium text-sm transition-colors duration-200">
+                    class="flex-1 py-4 px-6 text-center border-b-2 font-medium text-sm transition-colors duration-200">
                     Portfolios ({{ $trashedPortfolios->count() }})
                 </button>
                 <button @click="activeTab = 'articles'"
                     :class="activeTab === 'articles' ? 'border-indigo-500 text-indigo-600 dark:text-indigo-400' :
                         'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-300'"
-                    class="w-1/2 py-4 px-6 text-center border-b-2 font-medium text-sm transition-colors duration-200">
+                    class="flex-1 py-4 px-6 text-center border-b-2 font-medium text-sm transition-colors duration-200">
                     Articles ({{ $trashedArticles->count() }})
+                </button>
+                <button @click="activeTab = 'bookings'"
+                    :class="activeTab === 'bookings' ? 'border-indigo-500 text-indigo-600 dark:text-indigo-400' :
+                        'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-300'"
+                    class="flex-1 py-4 px-6 text-center border-b-2 font-medium text-sm transition-colors duration-200">
+                    Bookings ({{ $trashedBookings->count() }})
                 </button>
             </div>
 
@@ -44,25 +50,20 @@
                                         {{ $portfolio->deleted_at->format('d M Y, H:i') }}</p>
                                 </div>
                                 <div class="flex space-x-2">
-                                    {{-- Tombol Restore --}}
                                     <form action="{{ route('admin.portfolios.restore', $portfolio->id) }}"
                                         method="POST">
                                         @csrf
                                         <button type="submit"
-                                            class="px-3 py-1 bg-green-500 hover:bg-green-600 text-white text-xs rounded transition">
-                                            Restore
-                                        </button>
+                                            class="px-3 py-1 bg-green-500 hover:bg-green-600 text-white text-xs rounded transition">Restore</button>
                                     </form>
-                                    {{-- Tombol Force Delete --}}
                                     <form action="{{ route('admin.portfolios.forceDestroy', $portfolio->id) }}"
                                         method="POST"
-                                        onsubmit="return confirm('Are you sure you want to permanently delete this? This action cannot be undone.');">
+                                        onsubmit="return confirm('Are you sure? This cannot be undone.');">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit"
-                                            class="px-3 py-1 bg-red-500 hover:bg-red-600 text-white text-xs rounded transition">
-                                            Delete Permanently
-                                        </button>
+                                            class="px-3 py-1 bg-red-500 hover:bg-red-600 text-white text-xs rounded transition">Delete
+                                            Permanently</button>
                                     </form>
                                 </div>
                             </li>
@@ -86,24 +87,55 @@
                                         {{ $article->deleted_at->format('d M Y, H:i') }}</p>
                                 </div>
                                 <div class="flex space-x-2">
-                                    {{-- Tombol Restore --}}
                                     <form action="{{ route('admin.articles.restore', $article->id) }}" method="POST">
                                         @csrf
                                         <button type="submit"
-                                            class="px-3 py-1 bg-green-500 hover:bg-green-600 text-white text-xs rounded transition">
-                                            Restore
-                                        </button>
+                                            class="px-3 py-1 bg-green-500 hover:bg-green-600 text-white text-xs rounded transition">Restore</button>
                                     </form>
-                                    {{-- Tombol Force Delete --}}
                                     <form action="{{ route('admin.articles.forceDestroy', $article->id) }}"
                                         method="POST"
-                                        onsubmit="return confirm('Are you sure you want to permanently delete this? This action cannot be undone.');">
+                                        onsubmit="return confirm('Are you sure? This cannot be undone.');">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit"
-                                            class="px-3 py-1 bg-red-500 hover:bg-red-600 text-white text-xs rounded transition">
-                                            Delete Permanently
-                                        </button>
+                                            class="px-3 py-1 bg-red-500 hover:bg-red-600 text-white text-xs rounded transition">Delete
+                                            Permanently</button>
+                                    </form>
+                                </div>
+                            </li>
+                        @endforeach
+                    </ul>
+                @endif
+            </div>
+
+            {{-- Tab Content: Bookings (TAMBAHAN BARU) --}}
+            <div x-show="activeTab === 'bookings'" class="p-6" style="display: none;">
+                @if ($trashedBookings->isEmpty())
+                    <p class="text-gray-500 dark:text-gray-400 text-center italic py-4">No trashed bookings found.</p>
+                @else
+                    <ul class="divide-y divide-gray-200 dark:divide-gray-700">
+                        @foreach ($trashedBookings as $booking)
+                            <li class="py-4 flex items-center justify-between">
+                                <div>
+                                    <p class="text-sm font-medium text-gray-900 dark:text-white">{{ $booking->name }} -
+                                        {{ $booking->package }}</p>
+                                    <p class="text-xs text-gray-500 dark:text-gray-400">Deleted at:
+                                        {{ $booking->deleted_at->format('d M Y, H:i') }}</p>
+                                </div>
+                                <div class="flex space-x-2">
+                                    <form action="{{ route('admin.bookings.restore', $booking->id) }}" method="POST">
+                                        @csrf
+                                        <button type="submit"
+                                            class="px-3 py-1 bg-green-500 hover:bg-green-600 text-white text-xs rounded transition">Restore</button>
+                                    </form>
+                                    <form action="{{ route('admin.bookings.forceDestroy', $booking->id) }}"
+                                        method="POST"
+                                        onsubmit="return confirm('Are you sure? This cannot be undone.');">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit"
+                                            class="px-3 py-1 bg-red-500 hover:bg-red-600 text-white text-xs rounded transition">Delete
+                                            Permanently</button>
                                     </form>
                                 </div>
                             </li>

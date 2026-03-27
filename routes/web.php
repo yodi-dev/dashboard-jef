@@ -32,7 +32,7 @@ Route::prefix('admin')
         Route::patch('articles/{article}/toggle', [ArticleController::class, 'toggle'])
             ->name('articles.toggle');
 
-        Route::resource('bookings', BookingController::class);
+        Route::resource('bookings', BookingController::class)->except(['create', 'store']);
 
         Route::controller(ProfileController::class)->group(function () {
             Route::get('/profile', 'edit')->name('profile.edit');

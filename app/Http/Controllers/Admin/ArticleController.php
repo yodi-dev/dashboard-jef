@@ -27,7 +27,7 @@ class ArticleController extends Controller
     {
         $articleService->createArticle($request);
 
-        return redirect()->route('admin.articles.index')->with('success', 'Artikel berhasil ditambahkan!');
+        return redirect()->route('admin.articles.index')->with('success', 'Article successfully added!');
     }
 
     public function show(Article $article)
@@ -44,14 +44,14 @@ class ArticleController extends Controller
     {
         $articleService->updateArticle($article, $request);
 
-        return redirect()->route('admin.articles.index')->with('success', 'Artikel berhasil diperbarui!');
+        return redirect()->route('admin.articles.index')->with('success', 'Article successfully updated!');
     }
 
     public function destroy(Article $article)
     {
         $article->delete();
 
-        return redirect()->route('admin.articles.index')->with('success', 'Artikel berhasil dihapus!');
+        return redirect()->route('admin.articles.index')->with('success', 'Article successfully deleted!');
     }
 
     public function trash()
@@ -66,7 +66,7 @@ class ArticleController extends Controller
         $article = Article::onlyTrashed()->findOrFail($id);
         $article->restore();
 
-        return redirect()->back()->with('success', 'Artikel berhasil dipulihkan!');
+        return redirect()->back()->with('success', 'Article successfully recovered!');
     }
 
     public function forceDestroy($id)
@@ -79,7 +79,7 @@ class ArticleController extends Controller
 
         $article->forceDelete();
 
-        return redirect()->back()->with('success', 'Artikel beserta gambarnya berhasil dimusnahkan!');
+        return redirect()->back()->with('success', 'The article and its images were successfully destroyed!');
     }
 
     public function toggle(Request $request, Article $article)
@@ -107,6 +107,6 @@ class ArticleController extends Controller
             $article->save();
         }
 
-        return back()->with('success', 'Status artikel berhasil diubah!');
+        return back()->with('success', 'Article status successfully changed!');
     }
 }

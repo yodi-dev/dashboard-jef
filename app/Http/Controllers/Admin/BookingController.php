@@ -30,7 +30,7 @@ class BookingController extends Controller
 
         return redirect()
             ->route('admin.bookings.index')
-            ->with('success', 'Status booking berhasil diupdate!');
+            ->with('success', 'Booking status successfully updated!');
     }
 
     public function destroy(Booking $booking)
@@ -39,7 +39,7 @@ class BookingController extends Controller
 
         return redirect()
             ->route('admin.bookings.index')
-            ->with('success', 'Data booking dipindah ke Trash!');
+            ->with('success', 'Booking data moved to Trash!');
     }
 
     public function restore($id)
@@ -47,7 +47,7 @@ class BookingController extends Controller
         $booking = Booking::onlyTrashed()->findOrFail($id);
         $booking->restore();
 
-        return back()->with('success', 'Booking berhasil direstore!');
+        return back()->with('success', 'Booking successfully restored!');
     }
 
     // Hapus permanen
@@ -56,6 +56,6 @@ class BookingController extends Controller
         $booking = Booking::onlyTrashed()->findOrFail($id);
         $booking->forceDelete();
 
-        return back()->with('success', 'Booking dihapus permanen!');
+        return back()->with('success', 'Booking permanently deleted!');
     }
 }

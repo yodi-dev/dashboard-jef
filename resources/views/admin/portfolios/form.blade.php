@@ -26,16 +26,16 @@
         @enderror
     </div>
 
-    {{-- Grid untuk Upload Files biar rapi --}}
+    {{-- Grid for Upload Files --}}
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
         {{-- Thumbnail --}}
         <div>
             <label for="thumbnail" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                Thumbnail <span class="text-xs text-gray-500">(Format: JPG, PNG, WEBP)</span>
+                Thumbnail <span class="text-xs text-gray-500">(Formats: JPG, PNG, WEBP)</span>
             </label>
 
-            {{-- PREVIEW GAMBAR LAMA --}}
+            {{-- OLD IMAGE PREVIEW --}}
             @if (isset($portfolio) && $portfolio->thumbnail)
                 <div class="mb-3">
                     <p class="text-xs text-gray-500 dark:text-gray-400 mb-1">Current Thumbnail:</p>
@@ -55,10 +55,10 @@
         {{-- Gallery (Multiple) --}}
         <div>
             <label for="gallery" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                Gallery <span class="text-xs text-gray-500">(Bisa pilih lebih dari 1 gambar)</span>
+                Gallery <span class="text-xs text-gray-500">(You can select multiple images)</span>
             </label>
 
-            {{-- PREVIEW GAMBAR LAMA --}}
+            {{-- OLD IMAGE PREVIEW --}}
             @if (isset($portfolio) && !empty($portfolio->gallery))
                 <div class="mb-3">
                     <p class="text-xs text-gray-500 dark:text-gray-400 mb-1">Current Gallery:</p>
@@ -84,7 +84,7 @@
 
     </div>
 
-    {{-- Checkboxes untuk Status (Published & Highlight) --}}
+    {{-- Checkboxes for Status (Published & Highlight) --}}
     <div class="flex flex-col sm:flex-row sm:space-x-8 space-y-3 sm:space-y-0 pt-2">
 
         {{-- Is Published --}}
@@ -100,7 +100,7 @@
             <input type="checkbox" name="is_highlight" value="1"
                 class="w-5 h-5 rounded border-gray-300 text-blue-600 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 dark:bg-gray-900 dark:border-gray-700"
                 {{ old('is_highlight', $portfolio->is_highlight ?? false) ? 'checked' : '' }}>
-            <span class="ml-2 text-sm text-gray-700 dark:text-gray-300 font-medium">Jadikan Highlight (Landing
+            <span class="ml-2 text-sm text-gray-700 dark:text-gray-300 font-medium">Set as Highlight (Landing
                 Page)</span>
         </label>
 

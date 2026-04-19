@@ -24,13 +24,12 @@ class PortfolioController extends Controller
         return view('admin.portfolios.create');
     }
 
-
     public function store(StorePortfolioRequest $request, PortfolioService $portfolioService)
     {
         $portfolioService->createPortfolio($request);
 
         return redirect()->route('admin.portfolios.index')
-            ->with('success', 'Portfolio berhasil ditambahkan!');
+            ->with('success', 'Portfolio successfully created!');
     }
 
     public function show(Portfolio $portfolio)
@@ -42,42 +41,42 @@ class PortfolioController extends Controller
     {
         $field = $request->input('field');
 
-        // Pastikan cuma field ini yang bisa diubah lewat toggle
+        // Ensure only these fields can be changed via toggle
         if (in_array($field, ['is_published', 'is_highlight'])) {
 
-            // 1. Balikkan nilai field yang sedang diklik
+            // 1. Toggle the value of the clicked field
             $portfolio->$field = !$portfolio->$field;
 
-            // 2. Logika jika yang diklik adalah toggle "is_highlight"
+            // 2. Logic if the "is_highlight" toggle is clicked
             if ($field === 'is_highlight') {
-                // Jika highlight dihidupkan (true), maka otomatis is_published juga true
+                // If highlight is turned on (true), automatically set is_published to true
                 if ($portfolio->is_highlight === true) {
                     $portfolio->is_published = true;
 
-                    // Pastikan published_at terisi jika sebelumnya masih kosong
+                    // Ensure published_at is filled if it was previously empty
                     if (is_null($portfolio->published_at)) {
                         $portfolio->published_at = now();
                     }
                 }
-                // Jika highlight dimatikan (false), is_published tetap dibiarkan sesuai aslinya
+                // If highlight is turned off (false), leave is_published as is
             }
 
-            // 3. Logika jika yang diklik adalah toggle "is_published"
+            // 3. Logic if the "is_published" toggle is clicked
             if ($field === 'is_published') {
-                // Atur tanggal publish
+                // Set publish date
                 $portfolio->published_at = $portfolio->is_published ? now() : null;
 
-                // Jika publish dimatikan (false / jadi draft), maka otomatis highlight juga mati
+                // If publish is turned off (false / becomes draft), automatically turn off highlight
                 if ($portfolio->is_published === false) {
                     $portfolio->is_highlight = false;
                 }
             }
 
-            // Simpan ke database
+            // Save to database
             $portfolio->save();
         }
 
-        return back()->with('success', 'Status berhasil diubah!');
+        return back()->with('success', 'Status successfully updated!');
     }
 
     public function edit(Portfolio $portfolio)
@@ -87,11 +86,11 @@ class PortfolioController extends Controller
 
     public function update(UpdatePortfolioRequest $request, Portfolio $portfolio, PortfolioService $portfolioService)
     {
-        // Lempar tugas update ke Service Class
+        // Delegate update task to Service Class
         $portfolioService->updatePortfolio($portfolio, $request);
 
         return redirect()->route('admin.portfolios.index')
-            ->with('success', 'Portfolio berhasil diperbarui!');
+            ->with('success', 'Portfolio successfully updated!');
     }
 
     public function trash()
@@ -107,7 +106,7 @@ class PortfolioController extends Controller
         $portfolio->restore();
 
         return redirect()->route('admin.portfolios.index')
-            ->with('success', 'Portfolio berhasil dikembalikan!');
+            ->with('success', 'Portfolio successfully restored!');
     }
 
     public function forceDestroy($id)
@@ -133,6 +132,6 @@ class PortfolioController extends Controller
     {
         $portfolio->delete();
 
-        return back()->with('success', 'Portfolio deleted');
+        return back()->with('success', 'Portfolio successfully deleted!');
     }
 }

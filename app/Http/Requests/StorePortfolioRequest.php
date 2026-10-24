@@ -15,17 +15,12 @@ class StorePortfolioRequest extends FormRequest
     {
         return [
             'title' => 'required|string|max:255',
-
+            'category' => 'nullable|string|max:255',
             'description' => 'nullable|string',
-
             'thumbnail' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
-
             'gallery' => 'nullable|array',
-
             'gallery.*' => 'image|mimes:jpeg,png,jpg,webp|max:2048',
-
             'is_published' => 'boolean',
-
             'is_highlight' => 'boolean',
         ];
     }

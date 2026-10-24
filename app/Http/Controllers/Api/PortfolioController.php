@@ -5,16 +5,22 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\PortfolioResource;
 use App\Models\Portfolio;
+use Illuminate\Http\Request;
 
 class PortfolioController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $portfolios = Portfolio::where('is_published', true)->latest()->get();
+        $query = Portfolio::where('is_published', true);
+
+        if ($request->filled('category') && $request->category !== 'All') {
+            $query->where('category', $request->category);
+        }
+
+        $portfolios = $query->latest()->get();
         return PortfolioResource::collection($portfolios);
     }
 
-    // Tambahkan highlighted juga biar frontend gampang kalau mau bikin carousel portfolio
     public function highlighted()
     {
         $portfolios = Portfolio::where('is_published', true)

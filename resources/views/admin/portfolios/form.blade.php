@@ -13,6 +13,25 @@
         @enderror
     </div>
 
+    {{-- Category / Theme --}}
+    <div>
+        <label for="category" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+            Category / Theme <span class="text-red-500">*</span>
+        </label>
+        <select id="category" name="category"
+            class="w-full px-4 py-2.5 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 border-gray-300 dark:border-gray-700 focus:border-blue-500 dark:focus:border-blue-500 transition duration-150">
+            @foreach(\App\Models\Portfolio::CATEGORIES as $cat)
+                <option value="{{ $cat }}" {{ old('category', $portfolio->category ?? 'Portrait') === $cat ? 'selected' : '' }}>
+                    {{ $cat }}
+                </option>
+            @endforeach
+        </select>
+
+        @error('category')
+            <p class="mt-1.5 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
+        @enderror
+    </div>
+
     {{-- Description --}}
     <div>
         <label for="description" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">

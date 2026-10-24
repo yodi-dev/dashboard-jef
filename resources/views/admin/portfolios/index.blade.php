@@ -50,6 +50,7 @@
                         <tr>
                             <th scope="col" class="px-6 py-4 font-semibold">Thumbnail</th>
                             <th scope="col" class="px-6 py-4 font-semibold">Title</th>
+                            <th scope="col" class="px-6 py-4 font-semibold">Category</th>
                             <th scope="col" class="px-6 py-4 font-semibold">Status</th>
                             <th scope="col" class="px-6 py-4 font-semibold text-right">Actions</th>
                         </tr>
@@ -80,6 +81,13 @@
                                     <div class="mt-1 text-xs text-gray-400">
                                         Created: {{ $portfolio->created_at->format('d M Y') }}
                                     </div>
+                                </td>
+
+                                {{-- Category --}}
+                                <td class="px-6 py-4">
+                                    <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300">
+                                        {{ $portfolio->category ?? 'Portrait' }}
+                                    </span>
                                 </td>
 
                                 {{-- Status & Toggles (Sliders) --}}
@@ -153,7 +161,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="4" class="px-6 py-12 text-center text-gray-500 dark:text-gray-400">
+                                <td colspan="5" class="px-6 py-12 text-center text-gray-500 dark:text-gray-400">
                                     <svg xmlns="http://www.w3.org/2000/svg"
                                         class="mx-auto h-12 w-12 text-gray-300 dark:text-gray-600 mb-3" fill="none"
                                         viewBox="0 0 24 24" stroke="currentColor">

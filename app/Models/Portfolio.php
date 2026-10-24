@@ -10,9 +10,24 @@ class Portfolio extends Model
 {
     use SoftDeletes;
 
+    public const CATEGORIES = [
+        'Family',
+        'Portrait',
+        'Couple',
+        'Newborn',
+        'Work Documentary',
+        'Animal',
+        'Plant',
+        'Sports',
+        'Event',
+        'Celebration',
+        'Travel',
+    ];
+
     protected $fillable = [
         'title',
         'slug',
+        'category',
         'description',
         'thumbnail',
         'gallery',
@@ -25,7 +40,7 @@ class Portfolio extends Model
         'gallery' => 'array',
         'is_published' => 'boolean',
         'is_highlight' => 'boolean',
-        'published_at' => 'datetime'
+        'published_at' => 'datetime',
     ];
 
     protected static function booted()

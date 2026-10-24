@@ -16,7 +16,7 @@ class ArticleResource extends JsonResource
             'slug'         => $this->slug,
             'excerpt'      => $this->excerpt,
             'content'      => $this->content,
-            'cover_image'  => $this->cover_image ? Storage::url($this->cover_image) : null,
+            'cover_image'  => $this->cover_image ? url(Storage::url($this->cover_image)) : null,
             'is_highlight' => (bool) $this->is_highlight,
             'created_at'   => $this->created_at->format('d M Y'),
         ];

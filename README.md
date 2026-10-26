@@ -69,13 +69,29 @@ DB_USERNAME=root
 DB_PASSWORD=
 ```
 
-### 3. Migrasi & Storage Link
+### 3. Migrasi, Seeding & Storage Link
 ```bash
 php artisan migrate
+php artisan db:seed
 php artisan storage:link
 ```
+> **Catatan Seeder:** Menjalankan `php artisan db:seed` otomatis mengeksekusi `DemoDataSeeder` yang mengisi **11 tema fotografi lengkap** beserta multi-image gallery dan 4 artikel refleksi cerita.
 
-### 4. Menjalankan Server
+### 4. Integrasi Cloudflare R2 Storage (S3-Compatible)
+Aplikasi ini sudah terpasang paket `league/flysystem-aws-s3-v3` dan dikonfigurasi disk `'r2'`. Untuk mengaktifkan Cloudflare R2 pada versi produksi/cloud:
+1. Buat bucket di Cloudflare R2 (misal: `portfolio-jeff`).
+2. Buat API Token R2 dengan permission *Object Read & Write*.
+3. Atur environment variables pada `.env`:
+```ini
+FILESYSTEM_DISK=r2
+CLOUDFLARE_R2_ACCESS_KEY_ID=<your-access-key-id>
+CLOUDFLARE_R2_SECRET_ACCESS_KEY=<your-secret-access-key>
+CLOUDFLARE_R2_BUCKET=portfolio-jeff
+CLOUDFLARE_R2_ENDPOINT=https://<account-id>.r2.cloudflarestorage.com
+CLOUDFLARE_R2_URL=https://pub-<hash>.r2.dev
+```
+
+### 5. Menjalankan Server
 ```bash
 php artisan serve
 ```

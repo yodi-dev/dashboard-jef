@@ -8,6 +8,17 @@ use Illuminate\Support\Facades\Storage;
 
 class PortfolioResource extends JsonResource
 {
+    private function resolveUrl(?string $path): ?string
+    {
+        if (!$path) {
+            return null;
+        }
+        if (str_starts_with($path, 'http://') || str_starts_with($path, 'https://')) {
+            return $path;
+        }
+        return url(Storage::url($path));
+    }
+
     public function toArray(Request $request): array
     {
         return [
@@ -16,9 +27,9 @@ class PortfolioResource extends JsonResource
             'slug'         => $this->slug,
             'category'     => $this->category ?? 'Portrait',
             'description'  => $this->description,
-            'thumbnail'    => $this->thumbnail ? url(Storage::url($this->thumbnail)) : null,
+            'thumbnail'    => $this->resolveUrl($this->thumbnail),
             'gallery'      => is_array($this->gallery)
-                                ? array_map(fn($img) => url(Storage::url($img)), $this->gallery)
+                                ? array_map(fn($img) => $this->resolveUrl($img), $this->gallery)
                                 : [],
             'is_highlight' => (bool) $this->is_highlight,
             'created_at'   => $this->created_at->format('d M Y'),

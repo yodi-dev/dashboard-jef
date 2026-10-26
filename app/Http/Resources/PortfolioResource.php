@@ -14,6 +14,9 @@ class PortfolioResource extends JsonResource
             return null;
         }
         if (str_starts_with($path, 'http://') || str_starts_with($path, 'https://')) {
+            if (str_contains($path, 'dashboard-jef.test')) {
+                return str_replace('http://dashboard-jef.test', config('app.url'), $path);
+            }
             return $path;
         }
         return url(Storage::url($path));

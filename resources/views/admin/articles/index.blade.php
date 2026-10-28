@@ -1,13 +1,13 @@
 <x-app-layout>
-    <div class="container mx-auto py-8 px-4 sm:px-6 lg:px-8">
+    <div class="space-y-6">
 
         {{-- Header Section --}}
-        <div class="flex justify-between items-center mb-6">
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <h1 class="text-2xl font-bold text-gray-900 dark:text-gray-100">
                 Manage Articles
             </h1>
             <a href="{{ route('admin.articles.create') }}"
-                class="bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-lg shadow-sm transition duration-150 ease-in-out flex items-center gap-2">
+                class="inline-flex items-center justify-center gap-2 bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-lg shadow-sm transition duration-150 ease-in-out">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                     <path fill-rule="evenodd"
                         d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
@@ -60,8 +60,8 @@
 
                                 {{-- Cover Image --}}
                                 <td class="px-6 py-4">
-                                    @if ($article->cover_image)
-                                        <img src="{{ Storage::url($article->cover_image) }}" alt="Cover"
+                                    @if ($article->cover_image_url)
+                                        <img src="{{ $article->cover_image_url }}" alt="Cover"
                                             class="w-16 h-12 object-cover rounded shadow-sm border border-gray-200 dark:border-gray-600">
                                     @else
                                         <div

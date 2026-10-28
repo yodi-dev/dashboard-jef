@@ -21,17 +21,17 @@
                                hover:text-green-600 dark:hover:text-green-400">
                         {{ __('Dashboard') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('admin.portfolios.index')" :active="request()->routeIs('admin.portfolios.index')"
+                    <x-nav-link :href="route('admin.portfolios.index')" :active="request()->routeIs('admin.portfolios.*')"
                         class="text-gray-600 dark:text-gray-300
                                hover:text-green-600 dark:hover:text-green-400">
                         {{ __('Portfolio') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('admin.articles.index')" :active="request()->routeIs('admin.articles.index')"
+                    <x-nav-link :href="route('admin.articles.index')" :active="request()->routeIs('admin.articles.*')"
                         class="text-gray-600 dark:text-gray-300
                                hover:text-green-600 dark:hover:text-green-400">
                         {{ __('Article') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('admin.bookings.index')" :active="request()->routeIs('admin.bookings.index')"
+                    <x-nav-link :href="route('admin.bookings.index')" :active="request()->routeIs('admin.bookings.*')"
                         class="text-gray-600 dark:text-gray-300
                                hover:text-green-600 dark:hover:text-green-400">
                         {{ __('Booking') }}
@@ -100,32 +100,62 @@
     </div>
 
     <!-- Mobile Menu -->
-    <div x-show="open" class="sm:hidden border-t border-green-100 dark:border-gray-700">
-        <div class="px-4 py-3 space-y-2">
-            <x-responsive-nav-link :href="route('admin.dashboard')">
+    <div x-show="open" class="sm:hidden border-t border-green-100 dark:border-gray-700 bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm">
+        <div class="pt-2 pb-3 space-y-1">
+            <x-responsive-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.dashboard')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('admin.portfolios.index')" :active="request()->routeIs('admin.portfolios.*')">
+                {{ __('Portfolio') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('admin.articles.index')" :active="request()->routeIs('admin.articles.*')">
+                {{ __('Article') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('admin.bookings.index')" :active="request()->routeIs('admin.bookings.*')">
+                {{ __('Booking') }}
+            </x-responsive-nav-link>
+        </div>
 
-            <button
-                @click="
-                    darkMode = !darkMode;
-                    document.documentElement.classList.toggle('dark', darkMode);
-                    localStorage.setItem('theme', darkMode ? 'dark' : 'light');
-                "
-                class="w-full flex justify-between px-3 py-2 rounded-lg
-                       bg-green-50 dark:bg-gray-800
-                       text-sm text-gray-700 dark:text-gray-200">
-                <span>Dark Mode</span>
-                <span x-text="darkMode ? 'On' : 'Off'"></span>
-            </button>
+        <!-- Mobile User & Actions Menu -->
+        <div class="pt-3 pb-3 border-t border-green-100 dark:border-gray-700">
+            <div class="px-4 mb-3">
+                <div class="font-medium text-base text-gray-800 dark:text-gray-200">{{ Auth::user()->name }}</div>
+                <div class="font-medium text-sm text-gray-500 dark:text-gray-400">{{ Auth::user()->email }}</div>
+            </div>
 
-            <form method="POST" action="{{ route('logout') }}">
-                @csrf
-                <x-responsive-nav-link :href="route('logout')"
-                    onclick="event.preventDefault(); this.closest('form').submit();">
-                    {{ __('Log Out') }}
+            <div class="space-y-1">
+                <x-responsive-nav-link :href="route('admin.profile.edit')" :active="request()->routeIs('admin.profile.edit')">
+                    {{ __('Profile') }}
                 </x-responsive-nav-link>
-            </form>
+
+                <x-responsive-nav-link :href="route('admin.trash')" :active="request()->routeIs('admin.trash')">
+                    {{ __('Trash') }}
+                </x-responsive-nav-link>
+
+                <div class="px-4 py-2">
+                    <button
+                        @click="
+                            darkMode = !darkMode;
+                            document.documentElement.classList.toggle('dark', darkMode);
+                            localStorage.setItem('theme', darkMode ? 'dark' : 'light');
+                        "
+                        class="w-full flex items-center justify-between px-3 py-2 rounded-lg
+                               bg-green-50 dark:bg-gray-800 border border-green-200 dark:border-gray-700
+                               text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-green-100 dark:hover:bg-gray-700 transition">
+                        <span>Dark Mode</span>
+                        <span class="text-xs px-2 py-0.5 rounded bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-600 font-mono"
+                              x-text="darkMode ? 'On' : 'Off'"></span>
+                    </button>
+                </div>
+
+                <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+                    <x-responsive-nav-link :href="route('logout')"
+                        onclick="event.preventDefault(); this.closest('form').submit();">
+                        {{ __('Log Out') }}
+                    </x-responsive-nav-link>
+                </form>
+            </div>
         </div>
     </div>
 </nav>

@@ -1,5 +1,5 @@
 <x-app-layout>
-    <div class="container mx-auto py-8 px-4 sm:px-6 lg:px-8 max-w-4xl">
+    <div class="space-y-6 max-w-4xl mx-auto">
 
         <div class="flex justify-between items-center mb-6">
             <h1 class="text-2xl font-bold text-gray-900 dark:text-gray-100">Create New Article</h1>

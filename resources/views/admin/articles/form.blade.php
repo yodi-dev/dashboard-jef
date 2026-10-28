@@ -15,9 +15,9 @@
     <label for="cover_image" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Cover Image</label>
 
     {{-- Preview Gambar Lama (Hanya muncul saat Edit & gambar ada) --}}
-    @if (isset($article) && $article->cover_image)
+    @if (isset($article) && $article->cover_image_url)
         <div class="mb-3 relative inline-block">
-            <img src="{{ Storage::url($article->cover_image) }}" alt="Current Cover"
+            <img src="{{ $article->cover_image_url }}" alt="Current Cover"
                 class="h-32 object-cover rounded-md border border-gray-200 dark:border-gray-600 shadow-sm">
             <span class="absolute top-2 right-2 bg-gray-900/70 text-white text-xs px-2 py-1 rounded">Current</span>
         </div>

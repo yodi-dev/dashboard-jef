@@ -74,7 +74,48 @@
                     </a>
                 </div>
 
-                <div class="overflow-x-auto">
+                {{-- 1. MOBILE RECENT BOOKINGS LIST (< md) --}}
+                <div class="md:hidden divide-y divide-gray-200 dark:divide-gray-700">
+                    @forelse ($recentBookings as $booking)
+                        <div class="p-4 space-y-2">
+                            <div class="flex items-start justify-between gap-2">
+                                <div>
+                                    <h4 class="text-sm font-semibold text-gray-900 dark:text-white">
+                                        {{ $booking->name }}
+                                    </h4>
+                                    <p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
+                                        {{ $booking->package }}
+                                    </p>
+                                </div>
+                                <div>
+                                    @if ($booking->status === 'pending')
+                                        <span class="px-2 py-0.5 inline-flex text-xs font-semibold rounded-full bg-yellow-100 text-yellow-800 dark:bg-yellow-900/40 dark:text-yellow-300 border border-yellow-200 dark:border-yellow-800/50">Pending</span>
+                                    @elseif($booking->status === 'confirmed')
+                                        <span class="px-2 py-0.5 inline-flex text-xs font-semibold rounded-full bg-blue-100 text-blue-800 dark:bg-blue-900/40 dark:text-blue-300 border border-blue-200 dark:border-blue-800/50">Confirmed</span>
+                                    @elseif($booking->status === 'completed')
+                                        <span class="px-2 py-0.5 inline-flex text-xs font-semibold rounded-full bg-green-100 text-green-800 dark:bg-green-900/40 dark:text-green-300 border border-green-200 dark:border-green-800/50">Completed</span>
+                                    @else
+                                        <span class="px-2 py-0.5 inline-flex text-xs font-semibold rounded-full bg-red-100 text-red-800 dark:bg-red-900/40 dark:text-red-300 border border-red-200 dark:border-red-800/50">Canceled</span>
+                                    @endif
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-between text-xs pt-1 text-gray-500 dark:text-gray-400">
+                                <span>📅 {{ \Carbon\Carbon::parse($booking->booking_date)->format('d M Y, H:i') }}</span>
+                                <a href="{{ route('admin.bookings.edit', $booking->id) }}"
+                                    class="font-medium text-green-600 dark:text-green-400 hover:underline">
+                                    Review &rarr;
+                                </a>
+                            </div>
+                        </div>
+                    @empty
+                        <div class="p-6 text-center text-sm text-gray-500 dark:text-gray-400">
+                            No recent bookings found.
+                        </div>
+                    @endforelse
+                </div>
+
+                {{-- 2. DESKTOP DATA TABLE (>= md) --}}
+                <div class="hidden md:block overflow-x-auto">
                     <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
                         <thead class="bg-gray-50 dark:bg-gray-700">
                             <tr>

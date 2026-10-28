@@ -32,9 +32,87 @@
             </div>
         @endif
 
-        {{-- Table Section --}}
+        {{-- Main Container Card --}}
         <div class="bg-white dark:bg-gray-800 shadow-sm rounded-xl overflow-hidden border border-gray-200 dark:border-gray-700">
-            <div class="overflow-x-auto">
+
+            {{-- 1. MOBILE CARD LIST VIEW (Visible on mobile/tablet < md) --}}
+            <div class="md:hidden divide-y divide-gray-200 dark:divide-gray-700">
+                @forelse($bookings as $booking)
+                    <div class="p-4 space-y-3">
+                        @php
+                            $badgeClass = match ($booking->status) {
+                                'pending' => 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/40 dark:text-yellow-300 border border-yellow-200 dark:border-yellow-800/50',
+                                'confirmed' => 'bg-blue-100 text-blue-800 dark:bg-blue-900/40 dark:text-blue-300 border border-blue-200 dark:border-blue-800/50',
+                                'completed' => 'bg-green-100 text-green-800 dark:bg-green-900/40 dark:text-green-300 border border-green-200 dark:border-green-800/50',
+                                'canceled' => 'bg-red-100 text-red-800 dark:bg-red-900/40 dark:text-red-300 border border-red-200 dark:border-red-800/50',
+                                default => 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300',
+                            };
+                        @endphp
+
+                        {{-- Top: Client & Status --}}
+                        <div class="flex items-start justify-between gap-3">
+                            <div>
+                                <h3 class="text-base font-semibold text-gray-900 dark:text-white">
+                                    {{ $booking->name }}
+                                </h3>
+                                <p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
+                                    {{ $booking->phone }}
+                                </p>
+                            </div>
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold {{ $badgeClass }}">
+                                {{ strtoupper($booking->status) }}
+                            </span>
+                        </div>
+
+                        {{-- Middle: Details Grid --}}
+                        <div class="grid grid-cols-2 gap-2 text-xs pt-1 text-gray-600 dark:text-gray-300">
+                            <div>
+                                <span class="text-gray-400 block mb-0.5">Package</span>
+                                <span class="font-medium text-gray-800 dark:text-gray-200">{{ $booking->package }}</span>
+                            </div>
+                            <div>
+                                <span class="text-gray-400 block mb-0.5">Location</span>
+                                <span class="font-medium text-gray-800 dark:text-gray-200">{{ $booking->location }}</span>
+                            </div>
+                            <div class="col-span-2 pt-1 border-t border-gray-100 dark:border-gray-700/60">
+                                <span class="text-gray-400">Date: </span>
+                                <span class="font-medium text-gray-800 dark:text-gray-200">
+                                    {{ $booking->booking_date->format('l, d M Y - H:i') }} WIB
+                                </span>
+                            </div>
+                        </div>
+
+                        {{-- Bottom: Action Buttons --}}
+                        <div class="flex items-center justify-end gap-2 pt-2 border-t border-gray-100 dark:border-gray-700/60 text-xs font-medium">
+                            <a href="{{ route('admin.bookings.edit', $booking->id) }}"
+                                class="px-3 py-1.5 rounded-lg bg-green-50 dark:bg-green-950/40 text-green-700 dark:text-green-300 hover:bg-green-100 dark:hover:bg-green-900/50 transition">
+                                Manage
+                            </a>
+                            <form action="{{ route('admin.bookings.destroy', $booking->id) }}"
+                                method="POST"
+                                onsubmit="return confirm('Are you sure you want to delete this booking?');"
+                                class="inline-block">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit"
+                                    class="px-3 py-1.5 rounded-lg bg-red-50 dark:bg-red-950/40 text-red-600 dark:text-red-400 hover:bg-red-100 dark:hover:bg-red-900/50 transition">
+                                    Delete
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                @empty
+                    <div class="px-6 py-12 text-center text-gray-500 dark:text-gray-400">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="mx-auto h-12 w-12 text-gray-300 dark:text-gray-600 mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
+                        <p class="text-lg font-medium">No booking requests found</p>
+                    </div>
+                @endforelse
+            </div>
+
+            {{-- 2. DESKTOP DATA TABLE (Visible on screen >= md) --}}
+            <div class="hidden md:block overflow-x-auto">
                 <table class="w-full whitespace-nowrap text-left text-sm text-gray-500 dark:text-gray-400">
                     <thead class="bg-gray-50 dark:bg-gray-700/50 text-gray-700 dark:text-gray-300">
                         <tr>

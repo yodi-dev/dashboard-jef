@@ -41,10 +41,103 @@
             </div>
         @endif
 
-        {{-- Table Section --}}
-        <div
-            class="bg-white dark:bg-gray-800 shadow-sm rounded-xl overflow-hidden border border-gray-200 dark:border-gray-700">
-            <div class="overflow-x-auto">
+        {{-- Main Container Card --}}
+        <div class="bg-white dark:bg-gray-800 shadow-sm rounded-xl overflow-hidden border border-gray-200 dark:border-gray-700">
+
+            {{-- 1. MOBILE CARD LIST VIEW (Visible on mobile/tablet < md) --}}
+            <div class="md:hidden divide-y divide-gray-200 dark:divide-gray-700">
+                @forelse($articles as $article)
+                    <div class="p-4 space-y-3">
+                        {{-- Top: Cover Image & Title --}}
+                        <div class="flex items-start gap-3">
+                            @if ($article->cover_image_url)
+                                <img src="{{ $article->cover_image_url }}" alt="Cover"
+                                    class="w-16 h-16 rounded-lg object-cover flex-shrink-0 border border-gray-200 dark:border-gray-700 shadow-sm">
+                            @else
+                                <div class="w-16 h-16 bg-gray-100 dark:bg-gray-700 rounded-lg flex items-center justify-center flex-shrink-0 border border-dashed border-gray-300 dark:border-gray-600 text-xs text-gray-400">
+                                    No Image
+                                </div>
+                            @endif
+
+                            <div class="flex-1 min-w-0">
+                                <span class="text-xs text-gray-400 block mb-1">
+                                    {{ $article->created_at->format('d M Y') }}
+                                </span>
+                                <h3 class="text-sm font-semibold text-gray-900 dark:text-white line-clamp-2">
+                                    {{ $article->title }}
+                                </h3>
+                            </div>
+                        </div>
+
+                        {{-- Middle: Toggles (Published & Highlight) --}}
+                        <div class="flex flex-wrap items-center justify-between gap-3 pt-2 border-t border-gray-100 dark:border-gray-700/60">
+                            {{-- Toggle Published --}}
+                            <form action="{{ route('admin.articles.toggle', $article->id) }}" method="POST" class="flex items-center">
+                                @csrf
+                                @method('PATCH')
+                                <input type="hidden" name="field" value="is_published">
+                                <label class="relative inline-flex items-center cursor-pointer">
+                                    <input type="checkbox" class="sr-only peer" onchange="this.form.submit()" {{ $article->is_published ? 'checked' : '' }}>
+                                    <div class="w-9 h-5 bg-gray-200 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-600 peer-checked:bg-green-500"></div>
+                                    <span class="ml-2 text-xs font-medium text-gray-700 dark:text-gray-300">
+                                        {{ $article->is_published ? 'Published' : 'Draft' }}
+                                    </span>
+                                </label>
+                            </form>
+
+                            {{-- Toggle Highlight --}}
+                            <form action="{{ route('admin.articles.toggle', $article->id) }}" method="POST" class="flex items-center">
+                                @csrf
+                                @method('PATCH')
+                                <input type="hidden" name="field" value="is_highlight">
+                                <label class="relative inline-flex items-center cursor-pointer">
+                                    <input type="checkbox" class="sr-only peer" onchange="this.form.submit()" {{ $article->is_highlight ? 'checked' : '' }}>
+                                    <div class="w-9 h-5 bg-gray-200 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-600 peer-checked:bg-purple-500"></div>
+                                    <span class="ml-2 text-xs font-medium text-gray-700 dark:text-gray-300">
+                                        Highlight
+                                    </span>
+                                </label>
+                            </form>
+                        </div>
+
+                        {{-- Bottom: Action Buttons --}}
+                        <div class="flex items-center justify-end gap-2 pt-2 border-t border-gray-100 dark:border-gray-700/60 text-xs font-medium">
+                            <a href="{{ route('admin.articles.show', $article->id) }}"
+                                class="px-3 py-1.5 rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-600 transition">
+                                View
+                            </a>
+                            <a href="{{ route('admin.articles.edit', $article->id) }}"
+                                class="px-3 py-1.5 rounded-lg bg-green-50 dark:bg-green-950/40 text-green-700 dark:text-green-300 hover:bg-green-100 dark:hover:bg-green-900/50 transition">
+                                Edit
+                            </a>
+                            <form action="{{ route('admin.articles.destroy', $article->id) }}"
+                                method="POST" class="inline-block"
+                                onsubmit="return confirm('Move this article to trash?');">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit"
+                                    class="px-3 py-1.5 rounded-lg bg-red-50 dark:bg-red-950/40 text-red-600 dark:text-red-400 hover:bg-red-100 dark:hover:bg-red-900/50 transition">
+                                    Trash
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                @empty
+                    <div class="px-6 py-12 text-center text-gray-500 dark:text-gray-400">
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                            class="mx-auto h-12 w-12 text-gray-300 dark:text-gray-600 mb-3" fill="none"
+                            viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                        <p class="text-lg font-medium">No articles found</p>
+                        <p class="text-sm mt-1">Get started by creating a new article.</p>
+                    </div>
+                @endforelse
+            </div>
+
+            {{-- 2. DESKTOP DATA TABLE (Visible on screen >= md) --}}
+            <div class="hidden md:block overflow-x-auto">
                 <table class="w-full whitespace-nowrap text-left text-sm text-gray-500 dark:text-gray-400">
                     <thead class="bg-gray-50 dark:bg-gray-700/50 text-gray-700 dark:text-gray-300">
                         <tr>
@@ -169,7 +262,7 @@
 
             {{-- Pagination --}}
             @if ($articles->hasPages())
-                <div class="px-6 py-4 border-t border-gray-200 dark:border-gray-700">
+                <div class="px-6 py-4 border-t border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
                     {{ $articles->links() }}
                 </div>
             @endif

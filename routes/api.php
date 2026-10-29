@@ -20,4 +20,4 @@ Route::prefix('articles')->group(function () {
     Route::get('/{slug}', [ArticleController::class, 'show']);
 });
 
-Route::post('/bookings', [BookingController::class, 'store']);
+Route::post('/bookings', [BookingController::class, 'store'])->middleware('throttle:6,1');

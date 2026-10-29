@@ -12,8 +12,10 @@ class ArticleService
     {
         $data = $request->validated();
 
-        // Kalau excerpt kosong, potong 150 huruf pertama dari konten
-        $validated['excerpt'] = $request->excerpt ?? Str::limit(strip_tags($request->content), 150);
+        // Auto generate excerpt dari konten jika excerpt kosong
+        if (empty($data['excerpt'])) {
+            $data['excerpt'] = Str::limit(strip_tags($data['content']), 150);
+        }
 
         // Handle Checkbox & Published At
         $data['is_published'] = $request->has('is_published');
@@ -23,7 +25,7 @@ class ArticleService
             $data['published_at'] = now();
         }
 
-        // Handle Upload Cover Image (Langsung ngikutin default disk di .env)
+        // Handle Upload Cover Image (Langsung mengikuti default disk di .env)
         if ($request->hasFile('cover_image')) {
             $data['cover_image'] = $request->file('cover_image')->store('articles/covers');
         }
@@ -34,6 +36,11 @@ class ArticleService
     public function updateArticle(Article $article, $request)
     {
         $data = $request->validated();
+
+        // Auto generate excerpt jika kosong
+        if (empty($data['excerpt']) && !empty($data['content'])) {
+            $data['excerpt'] = Str::limit(strip_tags($data['content']), 150);
+        }
 
         // Handle Checkboxes
         $data['is_published'] = $request->has('is_published');
@@ -48,8 +55,8 @@ class ArticleService
 
         // Handle Update Cover Image
         if ($request->hasFile('cover_image')) {
-            // Hapus gambar lama jika ada
-            if ($article->cover_image) {
+            // Hapus gambar lama fisik di storage jika ada dan bukan link eksternal
+            if ($article->cover_image && ! Str::startsWith($article->cover_image, ['http://', 'https://'])) {
                 Storage::delete($article->cover_image);
             }
             // Upload gambar baru

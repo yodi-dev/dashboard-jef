@@ -9,6 +9,7 @@ use App\Models\Article;
 use App\Services\ArticleService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class ArticleController extends Controller
 {
@@ -73,7 +74,7 @@ class ArticleController extends Controller
     {
         $article = Article::onlyTrashed()->findOrFail($id);
 
-        if ($article->cover_image) {
+        if ($article->cover_image && ! Str::startsWith($article->cover_image, ['http://', 'https://'])) {
             Storage::delete($article->cover_image);
         }
 

@@ -115,4 +115,16 @@ return [
         'name' => env('MAIL_FROM_NAME', 'Example'),
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Admin Notification Email
+    |--------------------------------------------------------------------------
+    |
+    | Destination email address for receiving internal notifications, such as
+    | client booking requests sent via the public website API.
+    |
+    */
+
+    'admin_address' => env('ADMIN_EMAIL', 'admin@jef.com'),
+
 ];

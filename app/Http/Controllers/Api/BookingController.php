@@ -7,6 +7,7 @@ use App\Http\Requests\StoreBookingRequest;
 use App\Http\Resources\BookingResource;
 use App\Mail\NewBookingNotification;
 use App\Models\Booking;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 
 class BookingController extends Controller
@@ -15,8 +16,20 @@ class BookingController extends Controller
     {
         $booking = Booking::create($request->validated());
 
-        Mail::to('dykhazta@gmail.com')->send(new NewBookingNotification($booking));
+        // Send email notification to admin with fail-safe error handling
+        $adminEmail = config('mail.admin_address', 'admin@jef.com');
 
-        return new BookingResource($booking);
+        try {
+            Mail::to($adminEmail)->send(new NewBookingNotification($booking));
+        } catch (\Throwable $e) {
+            Log::warning('Failed to send booking notification email: ' . $e->getMessage(), [
+                'booking_id' => $booking->id,
+                'client_email' => $booking->email,
+            ]);
+        }
+
+        return (new BookingResource($booking))
+            ->response()
+            ->setStatusCode(201);
     }
 }

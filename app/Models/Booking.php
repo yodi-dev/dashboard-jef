@@ -22,6 +22,10 @@ class Booking extends Model
         'status',
     ];
 
+    protected $attributes = [
+        'status' => 'pending',
+    ];
+
     protected $casts = [
         'booking_date' => 'datetime',
     ];

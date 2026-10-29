@@ -9,6 +9,7 @@ use App\Models\Portfolio;
 use App\Services\PortfolioService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class PortfolioController extends Controller
 {
@@ -113,13 +114,15 @@ class PortfolioController extends Controller
     {
         $portfolio = Portfolio::onlyTrashed()->findOrFail($id);
 
-        if ($portfolio->thumbnail) {
+        if ($portfolio->thumbnail && ! Str::startsWith($portfolio->thumbnail, ['http://', 'https://'])) {
             Storage::delete($portfolio->thumbnail);
         }
 
         if (!empty($portfolio->gallery)) {
             foreach ($portfolio->gallery as $image) {
-                Storage::delete($image);
+                if (! Str::startsWith($image, ['http://', 'https://'])) {
+                    Storage::delete($image);
+                }
             }
         }
 

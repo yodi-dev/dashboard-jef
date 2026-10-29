@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\Portfolio;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class PortfolioService
 {
@@ -45,7 +46,7 @@ class PortfolioService
     {
         $validatedData = $request->validated();
 
-        // Keluarkan data gambar dari array utama biar nggak nimpa data lama jadi kosong
+        // Keluarkan data gambar dari array utama biar tidak menimpa data lama jadi kosong
         $data = Arr::except($validatedData, ['thumbnail', 'gallery']);
 
         // Handle Checkboxes
@@ -61,8 +62,8 @@ class PortfolioService
 
         // Handle Update Thumbnail
         if ($request->hasFile('thumbnail')) {
-            // Hapus gambar lama fisik di storage jika ada
-            if ($portfolio->thumbnail) {
+            // Hapus gambar lama fisik di storage jika ada dan bukan link eksternal (seperti seeder)
+            if ($portfolio->thumbnail && ! Str::startsWith($portfolio->thumbnail, ['http://', 'https://'])) {
                 Storage::delete($portfolio->thumbnail);
             }
             // Upload gambar baru dan masukkan path-nya ke array $data
@@ -71,10 +72,12 @@ class PortfolioService
 
         // Handle Update Gallery
         if ($request->hasFile('gallery')) {
-            // Hapus gambar gallery lama secara fisik jika ada
+            // Hapus gambar gallery lama secara fisik jika ada dan bukan link eksternal
             if (!empty($portfolio->gallery)) {
                 foreach ($portfolio->gallery as $oldImage) {
-                    Storage::delete($oldImage);
+                    if (! Str::startsWith($oldImage, ['http://', 'https://'])) {
+                        Storage::delete($oldImage);
+                    }
                 }
             }
 

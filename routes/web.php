@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\ArticleController;
 use App\Http\Controllers\Admin\BookingController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\PhotographerProfileController;
 use App\Http\Controllers\Admin\PortfolioController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\TrashController;
@@ -35,6 +36,11 @@ Route::prefix('admin')
         Route::resource('bookings', BookingController::class)->except(['create', 'store']);
         Route::post('bookings/{id}/restore', [BookingController::class, 'restore'])->name('bookings.restore');
         Route::delete('bookings/{id}/force-destroy', [BookingController::class, 'forceDestroy'])->name('bookings.forceDestroy');
+
+        Route::controller(PhotographerProfileController::class)->group(function () {
+            Route::get('/photographer-profile', 'edit')->name('photographer-profile.edit');
+            Route::put('/photographer-profile', 'update')->name('photographer-profile.update');
+        });
 
         Route::controller(ProfileController::class)->group(function () {
             Route::get('/profile', 'edit')->name('profile.edit');

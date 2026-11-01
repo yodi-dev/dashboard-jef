@@ -25,7 +25,7 @@ class PhotographerProfileTest extends TestCase
 
         $response = $this->actingAs($user)->get(route('admin.photographer-profile.edit'));
         $response->assertStatus(200);
-        $response->assertSee('Pengaturan Profil Publik Fotografer');
+        $response->assertSee('Photographer Public Profile Settings');
     }
 
     public function test_authenticated_user_can_update_photographer_profile()

@@ -5,16 +5,16 @@
         <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
                 <h1 class="text-2xl font-bold text-gray-900 dark:text-gray-100">
-                    Pengaturan Profil Publik Fotografer
+                    Photographer Public Profile Settings
                 </h1>
                 <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
-                    Kelola foto profil, narasi biografi, kutipan, dan kontak publik yang tampil secara dinamis di website portfolio.
+                    Manage portrait photo, biography narrative, artistic quote, and public contact information displayed dynamically across the portfolio website.
                 </p>
             </div>
 
             <a href="http://localhost:3000" target="_blank" rel="noopener noreferrer"
                 class="inline-flex items-center gap-1.5 px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded-lg text-sm font-medium hover:bg-gray-300 dark:hover:bg-gray-600 transition duration-150 self-start sm:self-auto">
-                <span>Lihat Web Portfolio</span>
+                <span>View Portfolio Website</span>
                 <span>&rarr;</span>
             </a>
         </div>
@@ -31,7 +31,7 @@
 
         @if ($errors->any())
             <div class="p-4 bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-800 text-red-800 dark:text-red-300 rounded-xl text-sm space-y-1 shadow-sm">
-                <p class="font-semibold">Terjadi beberapa kesalahan input:</p>
+                <p class="font-semibold">There were some errors with your submission:</p>
                 <ul class="list-disc pl-5 space-y-0.5 text-xs">
                     @foreach ($errors->all() as $error)
                         <li>{{ $error }}</li>
@@ -44,23 +44,23 @@
             @csrf
             @method('PUT')
 
-            {{-- Card 1: Identitas & Foto Profil --}}
+            {{-- Card 1: Identity & Portrait Photo --}}
             <div class="bg-white dark:bg-gray-800 shadow-sm rounded-xl p-6 sm:p-8 border border-gray-200 dark:border-gray-700 space-y-6">
                 <div class="border-b border-gray-200 dark:border-gray-700 pb-4">
                     <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-100 flex items-center gap-2">
                         <span class="w-2.5 h-2.5 rounded-full bg-green-500"></span>
-                        1. Identitas & Foto Potret
+                        1. Identity & Portrait Photo
                     </h2>
                     <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                        Foto potret ini akan tampil di bagian hero About, thumbnail bio homepage, dan kartu penulis di detail artikel.
+                        This portrait photo appears on the About hero section, homepage biography teaser, and article author colophon.
                     </p>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-start">
-                    {{-- Foto Avatar --}}
+                    {{-- Avatar Photo --}}
                     <div class="md:col-span-4 space-y-3">
                         <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                            Foto Potret / Avatar
+                            Portrait Photo / Avatar
                         </label>
 
                         <div class="space-y-3">
@@ -74,23 +74,23 @@
                             <div>
                                 <input type="file" name="avatar" id="avatar-input" accept="image/*"
                                     class="block w-full text-xs text-gray-500 file:mr-2 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-medium file:bg-green-50 file:text-green-700 hover:file:bg-green-100 dark:file:bg-gray-700 dark:file:text-gray-200 cursor-pointer">
-                                <p class="text-[11px] text-gray-400 mt-1">Maks. 5MB (JPG, PNG, WEBP)</p>
+                                <p class="text-[11px] text-gray-400 mt-1">Max 5MB (JPG, PNG, WEBP)</p>
                             </div>
 
                             @if ($profile->avatar)
                                 <label class="inline-flex items-center gap-2 text-xs text-red-600 dark:text-red-400 cursor-pointer pt-1">
                                     <input type="checkbox" name="remove_avatar" value="1" class="rounded border-gray-300 text-red-600 focus:ring-red-500">
-                                    <span>Hapus foto kustom (gunakan default)</span>
+                                    <span>Remove custom photo (revert to default)</span>
                                 </label>
                             @endif
                         </div>
                     </div>
 
-                    {{-- Nama, Tagline, Lokasi --}}
+                    {{-- Name, Tagline, Location --}}
                     <div class="md:col-span-8 space-y-4">
                         <div>
                             <label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                                Nama Lengkap Fotografer <span class="text-red-500">*</span>
+                                Full Name <span class="text-red-500">*</span>
                             </label>
                             <input type="text" name="name" id="name" value="{{ old('name', $profile->name) }}" required
                                 class="w-full px-4 py-2.5 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 text-sm focus:ring-2 focus:ring-green-500 focus:border-transparent">
@@ -98,7 +98,7 @@
 
                         <div>
                             <label for="tagline" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                                Tagline Profesi
+                                Professional Tagline
                             </label>
                             <input type="text" name="tagline" id="tagline" value="{{ old('tagline', $profile->tagline) }}"
                                 placeholder="e.g. Portrait & Documentary Photographer"
@@ -107,7 +107,7 @@
 
                         <div>
                             <label for="location" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                                Lokasi / Basis Studio
+                                Location / Studio Base
                             </label>
                             <input type="text" name="location" id="location" value="{{ old('location', $profile->location) }}"
                                 placeholder="e.g. Australia / Kyoto, Japan"
@@ -117,22 +117,22 @@
                 </div>
             </div>
 
-            {{-- Card 2: Headline & Pernyataan Seni Homepage --}}
+            {{-- Card 2: Headline & Homepage Statement --}}
             <div class="bg-white dark:bg-gray-800 shadow-sm rounded-xl p-6 sm:p-8 border border-gray-200 dark:border-gray-700 space-y-6">
                 <div class="border-b border-gray-200 dark:border-gray-700 pb-4">
                     <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-100 flex items-center gap-2">
                         <span class="w-2.5 h-2.5 rounded-full bg-green-500"></span>
-                        2. Headline & Kutipan Filosofi (Homepage)
+                        2. Homepage Headline & Art Statement
                     </h2>
                     <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                        Pernyataan pembuka di halaman depan website portfolio.
+                        The primary opening statement displayed prominently on the portfolio homepage.
                     </p>
                 </div>
 
                 <div class="space-y-4">
                     <div>
                         <label for="headline" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                            Headline Utama (H1 Homepage)
+                            Main Headline (Homepage H1)
                         </label>
                         <input type="text" name="headline" id="headline" value="{{ old('headline', $profile->headline) }}"
                             class="w-full px-4 py-2.5 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 text-sm focus:ring-2 focus:ring-green-500 focus:border-transparent">
@@ -140,7 +140,7 @@
 
                     <div>
                         <label for="sub_headline" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                            Sub-Headline / Deskripsi Singkat Hero
+                            Sub-Headline / Hero Description
                         </label>
                         <textarea name="sub_headline" id="sub_headline" rows="2"
                             class="w-full px-4 py-2.5 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 text-sm focus:ring-2 focus:ring-green-500 focus:border-transparent">{{ old('sub_headline', $profile->sub_headline) }}</textarea>
@@ -148,7 +148,7 @@
 
                     <div>
                         <label for="quote" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                            Kutipan Seni / Filosofi Fotografi
+                            Photographer Quote / Art Philosophy
                         </label>
                         <textarea name="quote" id="quote" rows="2"
                             class="w-full px-4 py-2.5 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 text-sm focus:ring-2 focus:ring-green-500 focus:border-transparent">{{ old('quote', $profile->quote) }}</textarea>
@@ -156,22 +156,22 @@
                 </div>
             </div>
 
-            {{-- Card 3: Biografi & Narasi About --}}
+            {{-- Card 3: Biography & About Narrative --}}
             <div class="bg-white dark:bg-gray-800 shadow-sm rounded-xl p-6 sm:p-8 border border-gray-200 dark:border-gray-700 space-y-6">
                 <div class="border-b border-gray-200 dark:border-gray-700 pb-4">
                     <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-100 flex items-center gap-2">
                         <span class="w-2.5 h-2.5 rounded-full bg-green-500"></span>
-                        3. Biografi & Cerita (Halaman About)
+                        3. Biography & Narrative (About Page)
                     </h2>
                     <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                        Narasi personal tentang perjalanan fotografi dan filosofi berkarya.
+                        Personal narrative detailing your background, vision, and photographic philosophy.
                     </p>
                 </div>
 
                 <div class="space-y-4">
                     <div>
                         <label for="about_title" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                            Judul Biografi (About Header)
+                            Biography Title (About Header)
                         </label>
                         <input type="text" name="about_title" id="about_title" value="{{ old('about_title', $profile->about_title) }}"
                             class="w-full px-4 py-2.5 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 text-sm focus:ring-2 focus:ring-green-500 focus:border-transparent">
@@ -179,16 +179,16 @@
 
                     <div>
                         <label for="about_journey" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                            Paragraf Perjalanan (My Journey Behind The Lens)
+                            Journey Behind The Lens (Story Paragraphs)
                         </label>
                         <textarea name="about_journey" id="about_journey" rows="4"
                             class="w-full px-4 py-2.5 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 text-sm focus:ring-2 focus:ring-green-500 focus:border-transparent">{{ old('about_journey', $profile->about_journey) }}</textarea>
-                        <p class="text-[11px] text-gray-400 mt-1">Gunakan baris baru (Enter) untuk memisahkan antar paragraf.</p>
+                        <p class="text-[11px] text-gray-400 mt-1">Use new lines (Enter) to separate paragraphs.</p>
                     </div>
 
                     <div>
                         <label for="about_philosophy" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                            Paragraf Pendekatan & Filosofi Berkarya
+                            Approach & Working Philosophy Overview
                         </label>
                         <textarea name="about_philosophy" id="about_philosophy" rows="3"
                             class="w-full px-4 py-2.5 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 text-sm focus:ring-2 focus:ring-green-500 focus:border-transparent">{{ old('about_philosophy', $profile->about_philosophy) }}</textarea>
@@ -196,59 +196,59 @@
                 </div>
             </div>
 
-            {{-- Card 4: 3 Pilar Filosofi Kerja --}}
+            {{-- Card 4: Three Working Philosophy Pillars --}}
             <div class="bg-white dark:bg-gray-800 shadow-sm rounded-xl p-6 sm:p-8 border border-gray-200 dark:border-gray-700 space-y-6">
                 <div class="border-b border-gray-200 dark:border-gray-700 pb-4">
                     <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-100 flex items-center gap-2">
                         <span class="w-2.5 h-2.5 rounded-full bg-green-500"></span>
-                        4. Tiga Pilar Filosofi Kerja (Working Philosophy)
+                        4. Three Working Philosophy Pillars
                     </h2>
                     <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                        Ditampilkan dalam 3 kolom elegan pada halaman About.
+                        Displayed in an elegant 3-column layout on the About page.
                     </p>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    {{-- Pilar 1 --}}
+                    {{-- Pillar 1 --}}
                     <div class="space-y-3 p-4 rounded-lg bg-gray-50 dark:bg-gray-900/60 border border-gray-200 dark:border-gray-700">
-                        <span class="text-xs font-mono font-bold text-green-600 dark:text-green-400 uppercase">Pilar 01</span>
+                        <span class="text-xs font-mono font-bold text-green-600 dark:text-green-400 uppercase">Pillar 01</span>
                         <div>
-                            <label for="philosophy_1_title" class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Judul Pilar</label>
+                            <label for="philosophy_1_title" class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Pillar Title</label>
                             <input type="text" name="philosophy_1_title" id="philosophy_1_title" value="{{ old('philosophy_1_title', $profile->philosophy_1_title) }}"
                                 class="w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 text-xs focus:ring-2 focus:ring-green-500">
                         </div>
                         <div>
-                            <label for="philosophy_1_desc" class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Deskripsi Singkat</label>
+                            <label for="philosophy_1_desc" class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Short Description</label>
                             <textarea name="philosophy_1_desc" id="philosophy_1_desc" rows="3"
                                 class="w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 text-xs focus:ring-2 focus:ring-green-500">{{ old('philosophy_1_desc', $profile->philosophy_1_desc) }}</textarea>
                         </div>
                     </div>
 
-                    {{-- Pilar 2 --}}
+                    {{-- Pillar 2 --}}
                     <div class="space-y-3 p-4 rounded-lg bg-gray-50 dark:bg-gray-900/60 border border-gray-200 dark:border-gray-700">
-                        <span class="text-xs font-mono font-bold text-green-600 dark:text-green-400 uppercase">Pilar 02</span>
+                        <span class="text-xs font-mono font-bold text-green-600 dark:text-green-400 uppercase">Pillar 02</span>
                         <div>
-                            <label for="philosophy_2_title" class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Judul Pilar</label>
+                            <label for="philosophy_2_title" class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Pillar Title</label>
                             <input type="text" name="philosophy_2_title" id="philosophy_2_title" value="{{ old('philosophy_2_title', $profile->philosophy_2_title) }}"
                                 class="w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 text-xs focus:ring-2 focus:ring-green-500">
                         </div>
                         <div>
-                            <label for="philosophy_2_desc" class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Deskripsi Singkat</label>
+                            <label for="philosophy_2_desc" class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Short Description</label>
                             <textarea name="philosophy_2_desc" id="philosophy_2_desc" rows="3"
                                 class="w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 text-xs focus:ring-2 focus:ring-green-500">{{ old('philosophy_2_desc', $profile->philosophy_2_desc) }}</textarea>
                         </div>
                     </div>
 
-                    {{-- Pilar 3 --}}
+                    {{-- Pillar 3 --}}
                     <div class="space-y-3 p-4 rounded-lg bg-gray-50 dark:bg-gray-900/60 border border-gray-200 dark:border-gray-700">
-                        <span class="text-xs font-mono font-bold text-green-600 dark:text-green-400 uppercase">Pilar 03</span>
+                        <span class="text-xs font-mono font-bold text-green-600 dark:text-green-400 uppercase">Pillar 03</span>
                         <div>
-                            <label for="philosophy_3_title" class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Judul Pilar</label>
+                            <label for="philosophy_3_title" class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Pillar Title</label>
                             <input type="text" name="philosophy_3_title" id="philosophy_3_title" value="{{ old('philosophy_3_title', $profile->philosophy_3_title) }}"
                                 class="w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 text-xs focus:ring-2 focus:ring-green-500">
                         </div>
                         <div>
-                            <label for="philosophy_3_desc" class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Deskripsi Singkat</label>
+                            <label for="philosophy_3_desc" class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Short Description</label>
                             <textarea name="philosophy_3_desc" id="philosophy_3_desc" rows="3"
                                 class="w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 text-xs focus:ring-2 focus:ring-green-500">{{ old('philosophy_3_desc', $profile->philosophy_3_desc) }}</textarea>
                         </div>
@@ -256,22 +256,22 @@
                 </div>
             </div>
 
-            {{-- Card 5: Kontak Publik & Sosial Media --}}
+            {{-- Card 5: Public Contact & Social Media --}}
             <div class="bg-white dark:bg-gray-800 shadow-sm rounded-xl p-6 sm:p-8 border border-gray-200 dark:border-gray-700 space-y-6">
                 <div class="border-b border-gray-200 dark:border-gray-700 pb-4">
                     <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-100 flex items-center gap-2">
                         <span class="w-2.5 h-2.5 rounded-full bg-green-500"></span>
-                        5. Kontak Publik & Sosial Media
+                        5. Public Contact & Social Channels
                     </h2>
                     <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                        Informasi ini ditampilkan di halaman Contact, direktori komunikasi, dan footer website.
+                        Displayed on the Contact page, communications directory, and website footer.
                     </p>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
                         <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                            Email Publik
+                            Public Email
                         </label>
                         <input type="email" name="email" id="email" value="{{ old('email', $profile->email) }}"
                             class="w-full px-4 py-2.5 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 text-sm focus:ring-2 focus:ring-green-500 focus:border-transparent">
@@ -279,7 +279,7 @@
 
                     <div>
                         <label for="phone" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                            Nomor WhatsApp / Telepon
+                            WhatsApp / Direct Line
                         </label>
                         <input type="text" name="phone" id="phone" value="{{ old('phone', $profile->phone) }}"
                             placeholder="e.g. +61 400 123 456"
@@ -288,7 +288,7 @@
 
                     <div>
                         <label for="instagram" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                            Handle Instagram
+                            Instagram Handle
                         </label>
                         <input type="text" name="instagram" id="instagram" value="{{ old('instagram', $profile->instagram) }}"
                             placeholder="e.g. @jeflee"
@@ -297,7 +297,7 @@
 
                     <div>
                         <label for="instagram_url" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                            URL Profil Instagram
+                            Instagram Profile URL
                         </label>
                         <input type="url" name="instagram_url" id="instagram_url" value="{{ old('instagram_url', $profile->instagram_url) }}"
                             placeholder="https://instagram.com/jeflee"
@@ -313,7 +313,7 @@
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
                     </svg>
-                    <span>Simpan Perubahan Profil</span>
+                    <span>Save Profile Changes</span>
                 </button>
             </div>
         </form>
@@ -335,4 +335,3 @@
         });
     </script>
 </x-app-layout>
-

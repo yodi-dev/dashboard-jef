@@ -63,7 +63,7 @@ class PhotographerProfileController extends Controller
         $profile->update($validated);
 
         return redirect()->route('admin.photographer-profile.edit')
-            ->with('success', 'Profil publik fotografer berhasil diperbarui!');
+            ->with('success', 'Photographer public profile updated successfully!');
     }
 }
 

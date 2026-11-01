@@ -39,7 +39,7 @@
                     <x-nav-link :href="route('admin.photographer-profile.edit')" :active="request()->routeIs('admin.photographer-profile.*')"
                         class="text-gray-600 dark:text-gray-300
                                hover:text-green-600 dark:hover:text-green-400">
-                        {{ __('Profil Publik') }}
+                        {{ __('Public Profile') }}
                     </x-nav-link>
                 </div>
             </div>
@@ -68,11 +68,11 @@
 
                     <x-slot name="content">
                         <x-dropdown-link :href="route('admin.photographer-profile.edit')">
-                            {{ __('Profil Publik Fotografer') }}
+                            {{ __('Public Profile') }}
                         </x-dropdown-link>
 
                         <x-dropdown-link :href="route('admin.profile.edit')">
-                            {{ __('Akun Admin') }}
+                            {{ __('Account Settings') }}
                         </x-dropdown-link>
 
                         <x-dropdown-link :href="route('admin.trash')">
@@ -124,7 +124,7 @@
                 {{ __('Booking') }}
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('admin.photographer-profile.edit')" :active="request()->routeIs('admin.photographer-profile.*')">
-                {{ __('Profil Publik') }}
+                {{ __('Public Profile') }}
             </x-responsive-nav-link>
         </div>
 

@@ -6,7 +6,7 @@
             Title <span class="text-red-500">*</span>
         </label>
         <input type="text" id="title" name="title" value="{{ old('title', $portfolio->title ?? '') }}" required
-            class="w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 border-gray-300 dark:border-gray-700 focus:border-green-500 dark:focus:border-green-500 transition duration-150">
+            class="w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-zinc-800 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100 border-zinc-300 dark:border-zinc-700 focus:border-zinc-800 dark:focus:border-zinc-200 dark:focus:ring-zinc-200 transition duration-150">
 
         @error('title')
             <p class="mt-1.5 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
@@ -19,7 +19,7 @@
             Category / Theme <span class="text-red-500">*</span>
         </label>
         <select id="category" name="category" required
-            class="w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 border-gray-300 dark:border-gray-700 focus:border-green-500 dark:focus:border-green-500 transition duration-150">
+            class="w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-zinc-800 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100 border-zinc-300 dark:border-zinc-700 focus:border-zinc-800 dark:focus:border-zinc-200 dark:focus:ring-zinc-200 transition duration-150">
             @foreach(\App\Models\Portfolio::CATEGORIES as $cat)
                 <option value="{{ $cat }}" {{ old('category', $portfolio->category ?? 'Portrait') === $cat ? 'selected' : '' }}>
                     {{ $cat }}
@@ -38,7 +38,7 @@
             Description
         </label>
         <textarea id="description" name="description" rows="4"
-            class="w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 border-gray-300 dark:border-gray-700 focus:border-green-500 dark:focus:border-green-500 transition duration-150">{{ old('description', $portfolio->description ?? '') }}</textarea>
+            class="w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-zinc-800 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100 border-zinc-300 dark:border-zinc-700 focus:border-zinc-800 dark:focus:border-zinc-200 dark:focus:ring-zinc-200 transition duration-150">{{ old('description', $portfolio->description ?? '') }}</textarea>
 
         @error('description')
             <p class="mt-1.5 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
@@ -56,9 +56,9 @@
 
             {{-- LIVE CLIENT PREVIEW --}}
             <div x-show="preview" class="mb-3">
-                <p class="text-xs text-green-600 dark:text-green-400 font-medium mb-1">New Thumbnail Selected (Preview):</p>
+                <p class="text-xs text-zinc-700 dark:text-zinc-300 font-medium mb-1">New Thumbnail Selected (Preview):</p>
                 <img :src="preview" alt="New Thumbnail Preview"
-                    class="h-32 object-cover rounded-md border-2 border-green-500 shadow-sm">
+                    class="h-32 object-cover rounded-md border-2 border-zinc-800 dark:border-zinc-200 shadow-sm">
             </div>
 
             {{-- OLD IMAGE PREVIEW --}}
@@ -72,7 +72,7 @@
 
             <input type="file" id="thumbnail" name="thumbnail" accept="image/*"
                 @change="preview = $event.target.files[0] ? URL.createObjectURL($event.target.files[0]) : null"
-                class="w-full px-3 py-2 border rounded-lg bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 border-gray-300 dark:border-gray-700 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-green-50 file:text-green-700 hover:file:bg-green-100 dark:file:bg-gray-700 dark:file:text-gray-300 transition duration-150">
+                class="w-full px-3 py-2 border rounded-lg bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100 border-zinc-300 dark:border-zinc-700 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-stone-100 file:text-zinc-800 hover:file:bg-stone-200 dark:file:bg-zinc-800 dark:file:text-zinc-200 transition duration-150">
 
             @error('thumbnail')
                 <p class="mt-1.5 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
@@ -114,8 +114,8 @@
 
             <input type="file" id="gallery" name="gallery[]" multiple accept="image/*"
                 @change="count = $event.target.files.length"
-                class="w-full px-3 py-2 border rounded-lg bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 border-gray-300 dark:border-gray-700 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-green-50 file:text-green-700 hover:file:bg-green-100 dark:file:bg-gray-700 dark:file:text-gray-300 transition duration-150">
-            <p x-show="count > 0" class="mt-1 text-xs text-green-600 dark:text-green-400 font-medium">
+                class="w-full px-3 py-2 border rounded-lg bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100 border-zinc-300 dark:border-zinc-700 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-stone-100 file:text-zinc-800 hover:file:bg-stone-200 dark:file:bg-zinc-800 dark:file:text-zinc-200 transition duration-150">
+            <p x-show="count > 0" class="mt-1 text-xs text-zinc-700 dark:text-zinc-300 font-medium">
                 <span x-text="count"></span> new photo(s) selected to add.
             </p>
 
@@ -135,7 +135,7 @@
         {{-- Is Published --}}
         <label class="inline-flex items-center cursor-pointer">
             <input type="checkbox" name="is_published" value="1"
-                class="w-5 h-5 rounded border-gray-300 text-green-600 shadow-sm focus:border-green-300 focus:ring focus:ring-green-200 focus:ring-opacity-50 dark:bg-gray-900 dark:border-gray-700"
+                class="w-5 h-5 rounded border-zinc-300 text-zinc-900 shadow-sm focus:border-zinc-500 focus:ring focus:ring-zinc-400 focus:ring-opacity-50 dark:bg-zinc-900 dark:border-zinc-700"
                 {{ old('is_published', $portfolio->is_published ?? false) ? 'checked' : '' }}>
             <span class="ml-2 text-sm text-gray-700 dark:text-gray-300 font-medium">Publish Portfolio</span>
         </label>
@@ -143,7 +143,7 @@
         {{-- Is Highlight --}}
         <label class="inline-flex items-center cursor-pointer">
             <input type="checkbox" name="is_highlight" value="1"
-                class="w-5 h-5 rounded border-gray-300 text-purple-600 shadow-sm focus:border-purple-300 focus:ring focus:ring-purple-200 focus:ring-opacity-50 dark:bg-gray-900 dark:border-gray-700"
+                class="w-5 h-5 rounded border-zinc-300 text-zinc-900 shadow-sm focus:border-zinc-500 focus:ring focus:ring-zinc-400 focus:ring-opacity-50 dark:bg-zinc-900 dark:border-zinc-700"
                 {{ old('is_highlight', $portfolio->is_highlight ?? false) ? 'checked' : '' }}>
             <span class="ml-2 text-sm text-gray-700 dark:text-gray-300 font-medium">Set as Highlight (Landing Page)</span>
         </label>

@@ -1,4 +1,6 @@
 <x-app-layout>
+    @section('title', 'Portfolio: ' . $portfolio->title)
+
     <div class="space-y-6">
 
         {{-- Header & Actions --}}
@@ -8,7 +10,7 @@
             </h1>
             <div class="flex items-center gap-3">
                 <a href="{{ route('admin.portfolios.edit', $portfolio->id) }}"
-                    class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition duration-150 shadow-sm font-medium text-sm">
+                    class="px-4 py-2 bg-zinc-900 text-white hover:bg-zinc-800 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-white rounded-lg transition duration-150 shadow-sm font-medium text-sm">
                     Edit Portfolio
                 </a>
                 <a href="{{ route('admin.portfolios.index') }}"

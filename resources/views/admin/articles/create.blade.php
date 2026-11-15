@@ -1,4 +1,6 @@
 <x-app-layout>
+    @section('title', 'Create Article')
+
     <div class="space-y-6 max-w-4xl mx-auto">
 
         <div class="flex justify-between items-center mb-6">

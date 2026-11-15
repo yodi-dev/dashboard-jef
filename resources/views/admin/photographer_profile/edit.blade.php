@@ -1,4 +1,6 @@
 <x-app-layout>
+    @section('title', 'Photographer Public Profile')
+
     <div class="space-y-6 max-w-4xl mx-auto pb-8">
 
         {{-- Header Section --}}
@@ -65,7 +67,7 @@
                                 </div>
 
                                 <input type="file" id="avatar" name="avatar" accept="image/*"
-                                    class="w-full px-3 py-1.5 text-xs border rounded-lg bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 border-gray-300 dark:border-gray-700 file:mr-3 file:py-1.5 file:px-3 file:rounded-md file:border-0 file:text-xs file:font-semibold file:bg-green-50 file:text-green-700 hover:file:bg-green-100 dark:file:bg-gray-700 dark:file:text-gray-300 transition duration-150">
+                                    class="w-full px-3 py-1.5 text-xs border rounded-lg bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100 border-zinc-300 dark:border-zinc-700 file:mr-3 file:py-1.5 file:px-3 file:rounded-md file:border-0 file:text-xs file:font-semibold file:bg-stone-100 file:text-zinc-800 hover:file:bg-stone-200 dark:file:bg-zinc-800 dark:file:text-zinc-200 transition duration-150">
 
                                 <p class="text-[11px] text-gray-500 dark:text-gray-400">JPG, PNG, WEBP (max 5MB)</p>
 
@@ -85,7 +87,7 @@
                                     Full Name <span class="text-red-500">*</span>
                                 </label>
                                 <input type="text" id="name" name="name" value="{{ old('name', $profile->name) }}" required
-                                    class="w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 border-gray-300 dark:border-gray-700 focus:border-green-500 dark:focus:border-green-500 transition duration-150">
+                                    class="w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-zinc-800 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100 border-zinc-300 dark:border-zinc-700 focus:border-zinc-800 dark:focus:border-zinc-200 dark:focus:ring-zinc-200 transition duration-150">
                             </div>
 
                             <div>
@@ -94,7 +96,7 @@
                                 </label>
                                 <input type="text" id="tagline" name="tagline" value="{{ old('tagline', $profile->tagline) }}"
                                     placeholder="e.g. Portrait & Documentary Photographer"
-                                    class="w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 border-gray-300 dark:border-gray-700 focus:border-green-500 dark:focus:border-green-500 transition duration-150">
+                                    class="w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-zinc-800 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100 border-zinc-300 dark:border-zinc-700 focus:border-zinc-800 dark:focus:border-zinc-200 dark:focus:ring-zinc-200 transition duration-150">
                             </div>
 
                             <div>
@@ -103,7 +105,7 @@
                                 </label>
                                 <input type="text" id="location" name="location" value="{{ old('location', $profile->location) }}"
                                     placeholder="e.g. Australia / Kyoto, Japan"
-                                    class="w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 border-gray-300 dark:border-gray-700 focus:border-green-500 dark:focus:border-green-500 transition duration-150">
+                                    class="w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-zinc-800 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100 border-zinc-300 dark:border-zinc-700 focus:border-zinc-800 dark:focus:border-zinc-200 dark:focus:ring-zinc-200 transition duration-150">
                             </div>
                         </div>
                     </div>
@@ -126,7 +128,7 @@
                         </label>
                         <input type="text" id="headline" name="headline" value="{{ old('headline', $profile->headline) }}"
                             placeholder="e.g. Telling honest stories through natural light and quiet moments."
-                            class="w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 border-gray-300 dark:border-gray-700 focus:border-green-500 dark:focus:border-green-500 transition duration-150">
+                            class="w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-zinc-800 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100 border-zinc-300 dark:border-zinc-700 focus:border-zinc-800 dark:focus:border-zinc-200 dark:focus:ring-zinc-200 transition duration-150">
                     </div>
 
                     <div>
@@ -134,7 +136,7 @@
                             Sub-Headline / Hero Brief
                         </label>
                         <textarea id="sub_headline" name="sub_headline" rows="2"
-                            class="w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 border-gray-300 dark:border-gray-700 focus:border-green-500 dark:focus:border-green-500 transition duration-150">{{ old('sub_headline', $profile->sub_headline) }}</textarea>
+                            class="w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-zinc-800 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100 border-zinc-300 dark:border-zinc-700 focus:border-zinc-800 dark:focus:border-zinc-200 dark:focus:ring-zinc-200 transition duration-150">{{ old('sub_headline', $profile->sub_headline) }}</textarea>
                     </div>
 
                     <div>
@@ -142,7 +144,7 @@
                             Photographer Philosophy Quote
                         </label>
                         <textarea id="quote" name="quote" rows="2"
-                            class="w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 border-gray-300 dark:border-gray-700 focus:border-green-500 dark:focus:border-green-500 transition duration-150">{{ old('quote', $profile->quote) }}</textarea>
+                            class="w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-zinc-800 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100 border-zinc-300 dark:border-zinc-700 focus:border-zinc-800 dark:focus:border-zinc-200 dark:focus:ring-zinc-200 transition duration-150">{{ old('quote', $profile->quote) }}</textarea>
                     </div>
                 </div>
 
@@ -163,7 +165,7 @@
                         </label>
                         <input type="text" id="about_title" name="about_title" value="{{ old('about_title', $profile->about_title) }}"
                             placeholder="e.g. Documenting the quiet cadence of ordinary life."
-                            class="w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 border-gray-300 dark:border-gray-700 focus:border-green-500 dark:focus:border-green-500 transition duration-150">
+                            class="w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-zinc-800 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100 border-zinc-300 dark:border-zinc-700 focus:border-zinc-800 dark:focus:border-zinc-200 dark:focus:ring-zinc-200 transition duration-150">
                     </div>
 
                     <div>
@@ -171,7 +173,7 @@
                             Journey Behind The Lens (Story Paragraphs)
                         </label>
                         <textarea id="about_journey" name="about_journey" rows="5"
-                            class="w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 border-gray-300 dark:border-gray-700 focus:border-green-500 dark:focus:border-green-500 transition duration-150 leading-relaxed">{{ old('about_journey', $profile->about_journey) }}</textarea>
+                            class="w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-zinc-800 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100 border-zinc-300 dark:border-zinc-700 focus:border-zinc-800 dark:focus:border-zinc-200 dark:focus:ring-zinc-200 transition duration-150 leading-relaxed">{{ old('about_journey', $profile->about_journey) }}</textarea>
                         <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Use an empty line to separate paragraphs.</p>
                     </div>
 
@@ -180,7 +182,7 @@
                             Working Approach & Philosophy Overview
                         </label>
                         <textarea id="about_philosophy" name="about_philosophy" rows="3"
-                            class="w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 border-gray-300 dark:border-gray-700 focus:border-green-500 dark:focus:border-green-500 transition duration-150 leading-relaxed">{{ old('about_philosophy', $profile->about_philosophy) }}</textarea>
+                            class="w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-zinc-800 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100 border-zinc-300 dark:border-zinc-700 focus:border-zinc-800 dark:focus:border-zinc-200 dark:focus:ring-zinc-200 transition duration-150 leading-relaxed">{{ old('about_philosophy', $profile->about_philosophy) }}</textarea>
                     </div>
                 </div>
 
@@ -198,46 +200,46 @@
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
                         {{-- Pillar 1 --}}
                         <div class="space-y-3 p-4 rounded-lg bg-gray-50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700">
-                            <span class="text-xs font-mono font-bold text-green-600 dark:text-green-400 uppercase">Pillar 01</span>
+                            <span class="text-xs font-mono font-bold text-zinc-800 dark:text-zinc-200 uppercase">Pillar 01</span>
                             <div>
                                 <label for="philosophy_1_title" class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Title</label>
                                 <input type="text" id="philosophy_1_title" name="philosophy_1_title" value="{{ old('philosophy_1_title', $profile->philosophy_1_title) }}"
-                                    class="w-full px-3 py-2 text-sm border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 border-gray-300 dark:border-gray-700 focus:border-green-500 dark:focus:border-green-500">
+                                    class="w-full px-3 py-2 text-sm border rounded-lg focus:outline-none focus:ring-2 focus:ring-zinc-800 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100 border-zinc-300 dark:border-zinc-700 focus:border-zinc-800 dark:focus:border-zinc-200 dark:focus:ring-zinc-200">
                             </div>
                             <div>
                                 <label for="philosophy_1_desc" class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Description</label>
                                 <textarea id="philosophy_1_desc" name="philosophy_1_desc" rows="4"
-                                    class="w-full px-3 py-2 text-sm border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 border-gray-300 dark:border-gray-700 focus:border-green-500 dark:focus:border-green-500 leading-relaxed">{{ old('philosophy_1_desc', $profile->philosophy_1_desc) }}</textarea>
+                                    class="w-full px-3 py-2 text-sm border rounded-lg focus:outline-none focus:ring-2 focus:ring-zinc-800 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100 border-zinc-300 dark:border-zinc-700 focus:border-zinc-800 dark:focus:border-zinc-200 dark:focus:ring-zinc-200 leading-relaxed">{{ old('philosophy_1_desc', $profile->philosophy_1_desc) }}</textarea>
                             </div>
                         </div>
 
                         {{-- Pillar 2 --}}
                         <div class="space-y-3 p-4 rounded-lg bg-gray-50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700">
-                            <span class="text-xs font-mono font-bold text-green-600 dark:text-green-400 uppercase">Pillar 02</span>
+                            <span class="text-xs font-mono font-bold text-zinc-800 dark:text-zinc-200 uppercase">Pillar 02</span>
                             <div>
                                 <label for="philosophy_2_title" class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Title</label>
                                 <input type="text" id="philosophy_2_title" name="philosophy_2_title" value="{{ old('philosophy_2_title', $profile->philosophy_2_title) }}"
-                                    class="w-full px-3 py-2 text-sm border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 border-gray-300 dark:border-gray-700 focus:border-green-500 dark:focus:border-green-500">
+                                    class="w-full px-3 py-2 text-sm border rounded-lg focus:outline-none focus:ring-2 focus:ring-zinc-800 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100 border-zinc-300 dark:border-zinc-700 focus:border-zinc-800 dark:focus:border-zinc-200 dark:focus:ring-zinc-200">
                             </div>
                             <div>
                                 <label for="philosophy_2_desc" class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Description</label>
                                 <textarea id="philosophy_2_desc" name="philosophy_2_desc" rows="4"
-                                    class="w-full px-3 py-2 text-sm border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 border-gray-300 dark:border-gray-700 focus:border-green-500 dark:focus:border-green-500 leading-relaxed">{{ old('philosophy_2_desc', $profile->philosophy_2_desc) }}</textarea>
+                                    class="w-full px-3 py-2 text-sm border rounded-lg focus:outline-none focus:ring-2 focus:ring-zinc-800 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100 border-zinc-300 dark:border-zinc-700 focus:border-zinc-800 dark:focus:border-zinc-200 dark:focus:ring-zinc-200 leading-relaxed">{{ old('philosophy_2_desc', $profile->philosophy_2_desc) }}</textarea>
                             </div>
                         </div>
 
                         {{-- Pillar 3 --}}
                         <div class="space-y-3 p-4 rounded-lg bg-gray-50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700">
-                            <span class="text-xs font-mono font-bold text-green-600 dark:text-green-400 uppercase">Pillar 03</span>
+                            <span class="text-xs font-mono font-bold text-zinc-800 dark:text-zinc-200 uppercase">Pillar 03</span>
                             <div>
                                 <label for="philosophy_3_title" class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Title</label>
                                 <input type="text" id="philosophy_3_title" name="philosophy_3_title" value="{{ old('philosophy_3_title', $profile->philosophy_3_title) }}"
-                                    class="w-full px-3 py-2 text-sm border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 border-gray-300 dark:border-gray-700 focus:border-green-500 dark:focus:border-green-500">
+                                    class="w-full px-3 py-2 text-sm border rounded-lg focus:outline-none focus:ring-2 focus:ring-zinc-800 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100 border-zinc-300 dark:border-zinc-700 focus:border-zinc-800 dark:focus:border-zinc-200 dark:focus:ring-zinc-200">
                             </div>
                             <div>
                                 <label for="philosophy_3_desc" class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Description</label>
                                 <textarea id="philosophy_3_desc" name="philosophy_3_desc" rows="4"
-                                    class="w-full px-3 py-2 text-sm border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 border-gray-300 dark:border-gray-700 focus:border-green-500 dark:focus:border-green-500 leading-relaxed">{{ old('philosophy_3_desc', $profile->philosophy_3_desc) }}</textarea>
+                                    class="w-full px-3 py-2 text-sm border rounded-lg focus:outline-none focus:ring-2 focus:ring-zinc-800 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100 border-zinc-300 dark:border-zinc-700 focus:border-zinc-800 dark:focus:border-zinc-200 dark:focus:ring-zinc-200 leading-relaxed">{{ old('philosophy_3_desc', $profile->philosophy_3_desc) }}</textarea>
                             </div>
                         </div>
                     </div>
@@ -261,7 +263,7 @@
                             </label>
                             <input type="email" id="email" name="email" value="{{ old('email', $profile->email) }}"
                                 placeholder="jef@example.com"
-                                class="w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 border-gray-300 dark:border-gray-700 focus:border-green-500 dark:focus:border-green-500 transition duration-150">
+                                class="w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-zinc-800 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100 border-zinc-300 dark:border-zinc-700 focus:border-zinc-800 dark:focus:border-zinc-200 dark:focus:ring-zinc-200 transition duration-150">
                         </div>
 
                         <div>
@@ -270,7 +272,7 @@
                             </label>
                             <input type="text" id="phone" name="phone" value="{{ old('phone', $profile->phone) }}"
                                 placeholder="+61 400 123 456"
-                                class="w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 border-gray-300 dark:border-gray-700 focus:border-green-500 dark:focus:border-green-500 transition duration-150">
+                                class="w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-zinc-800 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100 border-zinc-300 dark:border-zinc-700 focus:border-zinc-800 dark:focus:border-zinc-200 dark:focus:ring-zinc-200 transition duration-150">
                         </div>
 
                         <div>
@@ -279,7 +281,7 @@
                             </label>
                             <input type="text" id="instagram" name="instagram" value="{{ old('instagram', $profile->instagram) }}"
                                 placeholder="@jeflee"
-                                class="w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 border-gray-300 dark:border-gray-700 focus:border-green-500 dark:focus:border-green-500 transition duration-150">
+                                class="w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-zinc-800 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100 border-zinc-300 dark:border-zinc-700 focus:border-zinc-800 dark:focus:border-zinc-200 dark:focus:ring-zinc-200 transition duration-150">
                         </div>
 
                         <div>
@@ -288,7 +290,7 @@
                             </label>
                             <input type="url" id="instagram_url" name="instagram_url" value="{{ old('instagram_url', $profile->instagram_url) }}"
                                 placeholder="https://instagram.com/jeflee"
-                                class="w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 border-gray-300 dark:border-gray-700 focus:border-green-500 dark:focus:border-green-500 transition duration-150">
+                                class="w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-zinc-800 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100 border-zinc-300 dark:border-zinc-700 focus:border-zinc-800 dark:focus:border-zinc-200 dark:focus:ring-zinc-200 transition duration-150">
                         </div>
                     </div>
                 </div>
@@ -298,7 +300,7 @@
                     <button type="submit"
                         :disabled="submitting"
                         :class="submitting ? 'opacity-70 cursor-not-allowed' : ''"
-                        class="px-6 py-2.5 bg-green-600 text-white font-medium rounded-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition duration-150 shadow-sm cursor-pointer inline-flex items-center gap-2">
+                        class="px-6 py-2.5 bg-zinc-900 text-white font-medium rounded-lg hover:bg-zinc-800 focus:outline-none focus:ring-2 focus:ring-zinc-900 focus:ring-offset-2 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-white dark:focus:ring-offset-zinc-800 transition duration-150 shadow-sm cursor-pointer inline-flex items-center gap-2">
                         <svg x-show="submitting" class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                             <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                             <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>

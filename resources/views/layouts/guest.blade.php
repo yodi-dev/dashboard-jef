@@ -19,26 +19,22 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
-<body class="font-sans antialiased text-gray-900">
-    <div
-        class="min-h-screen flex items-center justify-center
-            bg-gradient-to-br
-            from-green-50 to-green-100
-            dark:from-gray-900 dark:to-gray-800">
+<body class="font-sans antialiased text-zinc-900 dark:text-zinc-100">
+    <div class="min-h-screen flex items-center justify-center bg-stone-50 dark:bg-zinc-950 p-4">
 
         <div class="w-full max-w-md">
             {{-- Logo / Header --}}
             <div class="text-center mb-8">
-                <h1 class="text-3xl font-bold text-green-700">
-                    Welcome Jef!
-                </h1>
-                <p class="mt-2 text-sm text-gray-500">
-                    Admin Dashboard Login
+                <span class="inline-block text-2xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100">
+                    Jef Lee
+                </span>
+                <p class="mt-1.5 text-xs uppercase tracking-widest text-zinc-500 dark:text-zinc-400 font-medium">
+                    Studio Management Console
                 </p>
             </div>
 
             {{-- Auth Card --}}
-            <div class="bg-white dark:bg-gray-800 shadow-lg rounded-xl px-8 py-6">
+            <div class="bg-white dark:bg-zinc-900 border border-stone-200 dark:border-zinc-800 shadow-sm rounded-2xl px-8 py-7">
                 {{ $slot }}
             </div>
 

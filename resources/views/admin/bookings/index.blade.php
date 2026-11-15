@@ -1,3 +1,5 @@
+@section('title', 'Manage Bookings')
+
 <x-app-layout>
     <div class="space-y-6">
 
@@ -53,7 +55,7 @@
                             <div class="col-span-2 pt-1 border-t border-gray-100 dark:border-gray-700/60">
                                 <span class="text-gray-400">Date: </span>
                                 <span class="font-medium text-gray-800 dark:text-gray-200">
-                                    {{ $booking->booking_date->format('l, d M Y - H:i') }} WIB
+                                    {{ $booking->booking_date->format('l, d M Y - H:i') }}
                                 </span>
                             </div>
                         </div>
@@ -61,18 +63,18 @@
                         {{-- Bottom: Action Buttons --}}
                         <div class="flex items-center justify-end gap-2 pt-2 border-t border-gray-100 dark:border-gray-700/60 text-xs font-medium">
                             <a href="{{ route('admin.bookings.edit', $booking->id) }}"
-                                class="px-3 py-1.5 rounded-lg bg-green-50 dark:bg-green-950/40 text-green-700 dark:text-green-300 hover:bg-green-100 dark:hover:bg-green-900/50 transition">
+                                class="px-3 py-1.5 rounded-lg bg-zinc-100 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200 hover:bg-zinc-200 dark:hover:bg-zinc-700 transition">
                                 Manage
                             </a>
                             <form action="{{ route('admin.bookings.destroy', $booking->id) }}"
                                 method="POST"
-                                onsubmit="return confirm('Are you sure you want to delete this booking?');"
+                                onsubmit="return confirm('Move this booking to trash?');"
                                 class="inline-block">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit"
                                     class="px-3 py-1.5 rounded-lg bg-red-50 dark:bg-red-950/40 text-red-600 dark:text-red-400 hover:bg-red-100 dark:hover:bg-red-900/50 transition">
-                                    Delete
+                                    Trash
                                 </button>
                             </form>
                         </div>
@@ -123,7 +125,7 @@
                                         {{ $booking->booking_date->format('d M Y') }}
                                     </div>
                                     <div class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
-                                        {{ $booking->booking_date->format('H:i') }} WIB
+                                        {{ $booking->booking_date->format('H:i') }}
                                     </div>
                                 </td>
                                 <td class="px-6 py-4">
@@ -142,19 +144,19 @@
                                 </td>
                                 <td class="px-6 py-4 text-right space-x-2">
                                     <a href="{{ route('admin.bookings.edit', $booking->id) }}"
-                                        class="inline-flex items-center text-sm font-medium text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300">
+                                        class="inline-flex items-center text-sm font-medium text-zinc-900 dark:text-zinc-100 hover:underline">
                                         Manage
                                     </a>
                                     <span class="text-gray-300 dark:text-gray-600">|</span>
                                     <form action="{{ route('admin.bookings.destroy', $booking->id) }}"
                                         method="POST"
-                                        onsubmit="return confirm('Are you sure you want to delete this booking?');"
+                                        onsubmit="return confirm('Move this booking to trash?');"
                                         class="inline-block">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit"
                                             class="inline-flex items-center text-sm font-medium text-red-600 hover:text-red-800 dark:text-red-400 dark:hover:text-red-300">
-                                            Delete
+                                            Trash
                                         </button>
                                     </form>
                                 </td>

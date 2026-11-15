@@ -2,51 +2,42 @@
     open: false,
     darkMode: localStorage.getItem('theme') === 'dark'
 }" x-init="if (darkMode) document.documentElement.classList.add('dark')"
-    class="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800">
+    class="bg-white dark:bg-zinc-900 border-b border-stone-200 dark:border-zinc-800">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
             <!-- Left -->
             <div class="flex items-center">
                 <!-- Logo -->
                 <a href="{{ route('admin.dashboard') }}"
-                    class="text-xl font-semibold tracking-tight
-                          text-green-600 dark:text-green-400">
-                    Jef
+                    class="flex items-center gap-2 text-zinc-900 dark:text-zinc-100 group">
+                    <span class="font-serif text-xl font-bold tracking-tight">Jef Lee</span>
+                    <span class="text-[10px] font-mono tracking-widest uppercase px-1.5 py-0.5 rounded bg-stone-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 border border-stone-200 dark:border-zinc-700">Studio</span>
                 </a>
 
                 <!-- Navigation -->
                 <div class="hidden sm:flex sm:ms-10 space-x-8">
-                    <x-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.dashboard')"
-                        class="text-gray-600 dark:text-gray-300
-                               hover:text-green-600 dark:hover:text-green-400">
+                    <x-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('admin.portfolios.index')" :active="request()->routeIs('admin.portfolios.*')"
-                        class="text-gray-600 dark:text-gray-300
-                               hover:text-green-600 dark:hover:text-green-400">
-                        {{ __('Portfolio') }}
+                    <x-nav-link :href="route('admin.portfolios.index')" :active="request()->routeIs('admin.portfolios.*')">
+                        {{ __('Portfolios') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('admin.articles.index')" :active="request()->routeIs('admin.articles.*')"
-                        class="text-gray-600 dark:text-gray-300
-                               hover:text-green-600 dark:hover:text-green-400">
-                        {{ __('Article') }}
+                    <x-nav-link :href="route('admin.articles.index')" :active="request()->routeIs('admin.articles.*')">
+                        {{ __('Articles') }}
                     </x-nav-link>
                     @php
                         $globalPendingBookings = \App\Models\Booking::where('status', 'pending')->count();
                     @endphp
                     <x-nav-link :href="route('admin.bookings.index')" :active="request()->routeIs('admin.bookings.*')"
-                        class="text-gray-600 dark:text-gray-300
-                               hover:text-green-600 dark:hover:text-green-400 inline-flex items-center gap-1.5">
-                        <span>{{ __('Booking') }}</span>
+                        class="inline-flex items-center gap-1.5">
+                        <span>{{ __('Bookings') }}</span>
                         @if ($globalPendingBookings > 0)
                             <span class="inline-flex items-center justify-center px-1.5 py-0.5 text-[10px] font-bold leading-none text-white bg-amber-500 rounded-full" title="{{ $globalPendingBookings }} pending booking requests">
                                 {{ $globalPendingBookings }}
                             </span>
                         @endif
                     </x-nav-link>
-                    <x-nav-link :href="route('admin.photographer-profile.edit')" :active="request()->routeIs('admin.photographer-profile.*')"
-                        class="text-gray-600 dark:text-gray-300
-                               hover:text-green-600 dark:hover:text-green-400">
+                    <x-nav-link :href="route('admin.photographer-profile.edit')" :active="request()->routeIs('admin.photographer-profile.*')">
                         {{ __('Public Profile') }}
                     </x-nav-link>
                 </div>
@@ -62,8 +53,8 @@
                     <x-slot name="trigger">
                         <button
                             class="inline-flex items-center px-3 py-2 rounded-md text-sm
-                                   text-gray-600 dark:text-gray-300
-                                   hover:text-green-600 dark:hover:text-green-400
+                                   text-zinc-700 dark:text-zinc-300 font-medium
+                                   hover:text-zinc-900 dark:hover:text-white
                                    transition">
                             {{ Auth::user()->name }}
                             <svg class="ms-1 h-4 w-4 fill-current" viewBox="0 0 20 20">
@@ -103,9 +94,9 @@
                 <button @click="open = !open"
                     aria-label="Toggle navigation menu"
                     :aria-expanded="open.toString()"
-                    class="p-2 rounded-md text-gray-500 dark:text-gray-400
-                           hover:text-green-600 dark:hover:text-green-400
-                           hover:bg-green-50 dark:hover:bg-gray-800 transition">
+                    class="p-2 rounded-md text-zinc-500 dark:text-zinc-400
+                           hover:text-zinc-900 dark:hover:text-zinc-100
+                           hover:bg-stone-100 dark:hover:bg-zinc-800 transition">
                     <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path :class="{ 'hidden': open, 'inline-flex': !open }" class="inline-flex"
                             stroke-linecap="round" stroke-linejoin="round" stroke-width="2"

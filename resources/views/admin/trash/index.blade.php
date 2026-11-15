@@ -61,7 +61,7 @@
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit"
-                                            class="px-3 py-1.5 bg-rose-600 hover:bg-rose-700 text-white text-xs font-semibold rounded-lg transition shadow-sm">
+                                            class="px-3 py-1.5 border border-stone-200 dark:border-zinc-700 text-zinc-600 dark:text-zinc-400 hover:text-red-600 dark:hover:text-red-400 hover:border-red-200 dark:hover:border-red-900/60 hover:bg-red-50/50 dark:hover:bg-red-950/20 text-xs font-medium rounded-lg transition shadow-sm">
                                             Delete Permanently
                                         </button>
                                     </form>
@@ -99,7 +99,7 @@
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit"
-                                            class="px-3 py-1.5 bg-rose-600 hover:bg-rose-700 text-white text-xs font-semibold rounded-lg transition shadow-sm">
+                                            class="px-3 py-1.5 border border-stone-200 dark:border-zinc-700 text-zinc-600 dark:text-zinc-400 hover:text-red-600 dark:hover:text-red-400 hover:border-red-200 dark:hover:border-red-900/60 hover:bg-red-50/50 dark:hover:bg-red-950/20 text-xs font-medium rounded-lg transition shadow-sm">
                                             Delete Permanently
                                         </button>
                                     </form>
@@ -137,7 +137,7 @@
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit"
-                                            class="px-3 py-1.5 bg-rose-600 hover:bg-rose-700 text-white text-xs font-semibold rounded-lg transition shadow-sm">
+                                            class="px-3 py-1.5 border border-stone-200 dark:border-zinc-700 text-zinc-600 dark:text-zinc-400 hover:text-red-600 dark:hover:text-red-400 hover:border-red-200 dark:hover:border-red-900/60 hover:bg-red-50/50 dark:hover:bg-red-950/20 text-xs font-medium rounded-lg transition shadow-sm">
                                             Delete Permanently
                                         </button>
                                     </form>

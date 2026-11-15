@@ -32,7 +32,7 @@
                         class="inline-flex items-center gap-1.5">
                         <span>{{ __('Bookings') }}</span>
                         @if ($globalPendingBookings > 0)
-                            <span class="inline-flex items-center justify-center px-1.5 py-0.5 text-[10px] font-bold leading-none text-white bg-amber-500 rounded-full" title="{{ $globalPendingBookings }} pending booking requests">
+                            <span class="inline-flex items-center justify-center px-1.5 py-0.5 text-[10px] font-mono font-medium leading-none text-white bg-zinc-900 dark:bg-zinc-100 dark:text-zinc-900 rounded-full" title="{{ $globalPendingBookings }} pending booking requests">
                                 {{ $globalPendingBookings }}
                             </span>
                         @endif
@@ -124,7 +124,7 @@
             <x-responsive-nav-link :href="route('admin.bookings.index')" :active="request()->routeIs('admin.bookings.*')" class="flex items-center justify-between">
                 <span>{{ __('Booking') }}</span>
                 @if ($globalPendingBookings > 0)
-                    <span class="inline-flex items-center justify-center px-2 py-0.5 text-xs font-bold leading-none text-white bg-amber-500 rounded-full">
+                    <span class="inline-flex items-center justify-center px-2 py-0.5 text-[11px] font-mono font-medium leading-none text-white bg-zinc-900 dark:bg-zinc-100 dark:text-zinc-900 rounded-full">
                         {{ $globalPendingBookings }} pending
                     </span>
                 @endif

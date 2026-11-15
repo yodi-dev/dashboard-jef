@@ -67,7 +67,7 @@
                                 <input type="hidden" name="field" value="is_published">
                                 <label class="relative inline-flex items-center cursor-pointer">
                                     <input type="checkbox" class="sr-only peer" onchange="this.form.submit()" {{ $portfolio->is_published ? 'checked' : '' }}>
-                                    <div class="w-9 h-5 bg-stone-200 peer-focus:outline-none rounded-full peer dark:bg-zinc-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-stone-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-zinc-600 peer-checked:bg-emerald-500"></div>
+                                    <div class="w-9 h-5 bg-stone-200 peer-focus:outline-none rounded-full peer dark:bg-zinc-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-stone-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-zinc-600 peer-checked:bg-zinc-900 dark:peer-checked:bg-zinc-100 dark:peer-checked:after:bg-zinc-900"></div>
                                     <span class="ml-2 text-xs font-medium text-zinc-700 dark:text-zinc-300">
                                         {{ $portfolio->is_published ? 'Published' : 'Draft' }}
                                     </span>
@@ -81,7 +81,7 @@
                                 <input type="hidden" name="field" value="is_highlight">
                                 <label class="relative inline-flex items-center cursor-pointer">
                                     <input type="checkbox" class="sr-only peer" onchange="this.form.submit()" {{ $portfolio->is_highlight ? 'checked' : '' }}>
-                                    <div class="w-9 h-5 bg-stone-200 peer-focus:outline-none rounded-full peer dark:bg-zinc-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-stone-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-zinc-600 peer-checked:bg-purple-500"></div>
+                                    <div class="w-9 h-5 bg-stone-200 peer-focus:outline-none rounded-full peer dark:bg-zinc-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-stone-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-zinc-600 peer-checked:bg-zinc-900 dark:peer-checked:bg-zinc-100 dark:peer-checked:after:bg-zinc-900"></div>
                                     <span class="ml-2 text-xs font-medium text-zinc-700 dark:text-zinc-300">
                                         Highlight
                                     </span>
@@ -105,13 +105,7 @@
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit"
-                                    class="px-2.5 py-1.5 rounded-lg bg-rose-50 dark:bg-rose-950/40 text-rose-600 dark:text-rose-400 hover:bg-rose-100 dark:hover:bg-rose-900/50 transition">
-                                    Trash
-                                </button>
-                            </form>
-                        </div>
-                    </div>
-                                    class="px-3 py-1.5 rounded-lg bg-red-50 dark:bg-red-950/40 text-red-600 dark:text-red-400 hover:bg-red-100 dark:hover:bg-red-900/50 transition">
+                                    class="px-2.5 py-1.5 rounded-lg text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 hover:bg-stone-100 dark:hover:bg-zinc-800 transition">
                                     Trash
                                 </button>
                             </form>
@@ -133,17 +127,17 @@
 
             {{-- 2. DESKTOP DATA TABLE (Visible on screen >= md) --}}
             <div class="hidden md:block overflow-x-auto">
-                <table class="w-full whitespace-nowrap text-left text-sm text-gray-500 dark:text-gray-400">
-                    <thead class="bg-gray-50 dark:bg-gray-700/50 text-gray-700 dark:text-gray-300">
+                <table class="w-full whitespace-nowrap text-left text-sm text-zinc-500 dark:text-zinc-400">
+                    <thead class="bg-stone-50 dark:bg-zinc-800/60 text-zinc-700 dark:text-zinc-300">
                         <tr>
-                            <th scope="col" class="px-6 py-4 font-semibold">Thumbnail</th>
-                            <th scope="col" class="px-6 py-4 font-semibold">Title</th>
-                            <th scope="col" class="px-6 py-4 font-semibold">Category</th>
-                            <th scope="col" class="px-6 py-4 font-semibold">Status</th>
-                            <th scope="col" class="px-6 py-4 font-semibold text-right">Actions</th>
+                            <th scope="col" class="px-6 py-3.5 text-xs uppercase tracking-wider font-semibold">Thumbnail</th>
+                            <th scope="col" class="px-6 py-3.5 text-xs uppercase tracking-wider font-semibold">Title</th>
+                            <th scope="col" class="px-6 py-3.5 text-xs uppercase tracking-wider font-semibold">Category</th>
+                            <th scope="col" class="px-6 py-3.5 text-xs uppercase tracking-wider font-semibold">Status</th>
+                            <th scope="col" class="px-6 py-3.5 text-xs uppercase tracking-wider font-semibold text-right">Actions</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
+                    <tbody class="divide-y divide-stone-200 dark:divide-zinc-800">
                         @forelse($portfolios as $portfolio)
                             <tr class="hover:bg-gray-50 dark:hover:bg-gray-800/50 transition duration-150">
 
@@ -192,7 +186,7 @@
                                                     onchange="this.form.submit()"
                                                     {{ $portfolio->is_published ? 'checked' : '' }}>
                                                 <div
-                                                    class="w-9 h-5 bg-stone-200 peer-focus:outline-none rounded-full peer dark:bg-zinc-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-stone-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-zinc-600 peer-checked:bg-emerald-500">
+                                                    class="w-9 h-5 bg-stone-200 peer-focus:outline-none rounded-full peer dark:bg-zinc-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-stone-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-zinc-600 peer-checked:bg-zinc-900 dark:peer-checked:bg-zinc-100 dark:peer-checked:after:bg-zinc-900">
                                                 </div>
                                                 <span class="ml-2 text-xs font-medium text-zinc-700 dark:text-zinc-300">
                                                     {{ $portfolio->is_published ? 'Published' : 'Draft' }}
@@ -211,7 +205,7 @@
                                                     onchange="this.form.submit()"
                                                     {{ $portfolio->is_highlight ? 'checked' : '' }}>
                                                 <div
-                                                    class="w-9 h-5 bg-stone-200 peer-focus:outline-none rounded-full peer dark:bg-zinc-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-stone-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-zinc-600 peer-checked:bg-purple-500">
+                                                    class="w-9 h-5 bg-stone-200 peer-focus:outline-none rounded-full peer dark:bg-zinc-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-stone-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-zinc-600 peer-checked:bg-zinc-900 dark:peer-checked:bg-zinc-100 dark:peer-checked:after:bg-zinc-900">
                                                 </div>
                                                 <span class="ml-2 text-xs font-medium text-zinc-700 dark:text-zinc-300">
                                                     Highlight
@@ -237,7 +231,7 @@
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit"
-                                            class="inline-flex items-center text-xs font-semibold px-2.5 py-1.5 rounded-lg bg-rose-50 dark:bg-rose-950/40 text-rose-600 dark:text-rose-400 hover:bg-rose-100 dark:hover:bg-rose-900/50 transition">
+                                            class="inline-flex items-center text-xs font-semibold px-2.5 py-1.5 rounded-lg text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 hover:bg-stone-100 dark:hover:bg-zinc-800 transition">
                                             Trash
                                         </button>
                                     </form>

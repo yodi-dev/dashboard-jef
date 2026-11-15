@@ -64,9 +64,9 @@
         <input type="checkbox" name="is_published" value="1" class="sr-only peer"
             {{ old('is_published', $article->is_published ?? false) ? 'checked' : '' }}>
         <div
-            class="w-9 h-5 bg-stone-200 peer-focus:outline-none rounded-full peer dark:bg-zinc-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-500 peer-checked:bg-emerald-500">
+            class="w-9 h-5 bg-stone-200 peer-focus:outline-none rounded-full peer dark:bg-zinc-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-stone-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-zinc-600 peer-checked:bg-zinc-900 dark:peer-checked:bg-zinc-100 dark:peer-checked:after:bg-zinc-900">
         </div>
-        <span class="ml-3 text-sm font-medium text-gray-700 dark:text-gray-300">Publish Immediately</span>
+        <span class="ml-3 text-sm font-medium text-zinc-700 dark:text-zinc-300">Publish Immediately</span>
     </label>
 
     {{-- Toggle Highlight --}}
@@ -74,7 +74,7 @@
         <input type="checkbox" name="is_highlight" value="1" class="sr-only peer"
             {{ old('is_highlight', $article->is_highlight ?? false) ? 'checked' : '' }}>
         <div
-            class="w-9 h-5 bg-stone-200 peer-focus:outline-none rounded-full peer dark:bg-zinc-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-500 peer-checked:bg-purple-500">
+            class="w-9 h-5 bg-stone-200 peer-focus:outline-none rounded-full peer dark:bg-zinc-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-stone-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-zinc-600 peer-checked:bg-zinc-900 dark:peer-checked:bg-zinc-100 dark:peer-checked:after:bg-zinc-900">
         </div>
         <span class="ml-3 text-sm font-medium text-gray-700 dark:text-gray-300">Set as Highlight</span>
     </label>

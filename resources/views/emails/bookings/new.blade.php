@@ -1,6 +1,6 @@
 {{-- blade-formatter-disable --}}
 <x-mail::message>
-# Hello Admin, you have a new booking request! 🎉
+# Hello Admin, you have a new booking request
 
 Someone just requested a photography booking through your portfolio website. Here are the details:
 
@@ -10,7 +10,7 @@ Someone just requested a photography booking through your portfolio website. Her
 **Phone / WA:** {{ $booking->phone }}<br>
 **Package:** {{ $booking->package }}<br>
 **Location:** {{ $booking->location }}<br>
-**Date & Time:** {{ $booking->booking_date->format('l, d F Y - H:i') }} WIB
+**Date & Time:** {{ $booking->booking_date->format('l, d F Y - H:i') }}
 </x-mail::panel>
 
 **Message from Client:**

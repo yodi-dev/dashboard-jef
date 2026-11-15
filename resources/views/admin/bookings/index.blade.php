@@ -18,12 +18,11 @@
                 @forelse($bookings as $booking)
                     <div class="p-4 space-y-3">
                         @php
-                            $badgeClass = match ($booking->status) {
-                                'pending' => 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/40 dark:text-yellow-300 border border-yellow-200 dark:border-yellow-800/50',
-                                'confirmed' => 'bg-blue-100 text-blue-800 dark:bg-blue-900/40 dark:text-blue-300 border border-blue-200 dark:border-blue-800/50',
-                                'completed' => 'bg-green-100 text-green-800 dark:bg-green-900/40 dark:text-green-300 border border-green-200 dark:border-green-800/50',
-                                'canceled' => 'bg-red-100 text-red-800 dark:bg-red-900/40 dark:text-red-300 border border-red-200 dark:border-red-800/50',
-                                default => 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300',
+                            $dotColor = match ($booking->status) {
+                                'pending' => 'bg-amber-500',
+                                'confirmed' => 'bg-sky-500',
+                                'completed' => 'bg-emerald-500',
+                                default => 'bg-zinc-400',
                             };
                         @endphp
 
@@ -37,8 +36,9 @@
                                     {{ $booking->phone }}
                                 </p>
                             </div>
-                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold {{ $badgeClass }}">
-                                {{ strtoupper($booking->status) }}
+                            <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium bg-stone-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 border border-stone-200 dark:border-zinc-700">
+                                <span class="w-1.5 h-1.5 rounded-full {{ $dotColor }}"></span>
+                                <span>{{ ucfirst($booking->status) }}</span>
                             </span>
                         </div>
 
@@ -55,7 +55,10 @@
                             <div class="col-span-2 pt-1 border-t border-gray-100 dark:border-gray-700/60">
                                 <span class="text-gray-400">Date: </span>
                                 <span class="font-medium text-gray-800 dark:text-gray-200">
-                                    {{ $booking->booking_date->format('l, d M Y - H:i') }}
+                                    {{ $booking->booking_date->format('l, d M Y') }}
+                                    @if ($booking->booking_date->format('H:i') !== '00:00')
+                                        - <span class="font-mono">{{ $booking->booking_date->format('H:i') }}</span>
+                                    @endif
                                 </span>
                             </div>
                         </div>
@@ -73,7 +76,7 @@
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit"
-                                    class="px-3 py-1.5 rounded-lg bg-red-50 dark:bg-red-950/40 text-red-600 dark:text-red-400 hover:bg-red-100 dark:hover:bg-red-900/50 transition">
+                                    class="px-3 py-1.5 rounded-lg text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 hover:bg-stone-100 dark:hover:bg-zinc-800 transition">
                                     Trash
                                 </button>
                             </form>
@@ -124,30 +127,33 @@
                                     <div class="text-gray-900 dark:text-gray-100 font-medium">
                                         {{ $booking->booking_date->format('d M Y') }}
                                     </div>
-                                    <div class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
-                                        {{ $booking->booking_date->format('H:i') }}
+                                    <div class="text-xs text-zinc-500 dark:text-zinc-400 mt-0.5">
+                                        @if ($booking->booking_date->format('H:i') !== '00:00')
+                                            <span class="font-mono">{{ $booking->booking_date->format('H:i') }}</span>
+                                        @else
+                                            <span class="text-zinc-400">Flexible</span>
+                                        @endif
                                     </div>
                                 </td>
                                 <td class="px-6 py-4">
                                     @php
-                                        $badgeClass = match ($booking->status) {
-                                            'pending' => 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/40 dark:text-yellow-300 border border-yellow-200 dark:border-yellow-800/50',
-                                            'confirmed' => 'bg-blue-100 text-blue-800 dark:bg-blue-900/40 dark:text-blue-300 border border-blue-200 dark:border-blue-800/50',
-                                            'completed' => 'bg-green-100 text-green-800 dark:bg-green-900/40 dark:text-green-300 border border-green-200 dark:border-green-800/50',
-                                            'canceled' => 'bg-red-100 text-red-800 dark:bg-red-900/40 dark:text-red-300 border border-red-200 dark:border-red-800/50',
-                                            default => 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300',
+                                        $dotColor = match ($booking->status) {
+                                            'pending' => 'bg-amber-500',
+                                            'confirmed' => 'bg-sky-500',
+                                            'completed' => 'bg-emerald-500',
+                                            default => 'bg-zinc-400',
                                         };
                                     @endphp
-                                    <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold {{ $badgeClass }}">
-                                        {{ strtoupper($booking->status) }}
+                                    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-stone-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 border border-stone-200 dark:border-zinc-700">
+                                        <span class="w-1.5 h-1.5 rounded-full {{ $dotColor }}"></span>
+                                        <span>{{ ucfirst($booking->status) }}</span>
                                     </span>
                                 </td>
-                                <td class="px-6 py-4 text-right space-x-2">
+                                <td class="px-6 py-4 text-right space-x-1.5">
                                     <a href="{{ route('admin.bookings.edit', $booking->id) }}"
-                                        class="inline-flex items-center text-sm font-medium text-zinc-900 dark:text-zinc-100 hover:underline">
+                                        class="inline-flex items-center text-xs font-semibold px-2.5 py-1.5 rounded-lg bg-stone-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-200 hover:bg-stone-200 dark:hover:bg-zinc-700 transition">
                                         Manage
                                     </a>
-                                    <span class="text-gray-300 dark:text-gray-600">|</span>
                                     <form action="{{ route('admin.bookings.destroy', $booking->id) }}"
                                         method="POST"
                                         onsubmit="return confirm('Move this booking to trash?');"
@@ -155,7 +161,7 @@
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit"
-                                            class="inline-flex items-center text-sm font-medium text-red-600 hover:text-red-800 dark:text-red-400 dark:hover:text-red-300">
+                                            class="inline-flex items-center text-xs font-semibold px-2.5 py-1.5 rounded-lg text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 hover:bg-stone-100 dark:hover:bg-zinc-800 transition">
                                             Trash
                                         </button>
                                     </form>

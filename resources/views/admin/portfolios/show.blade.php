@@ -5,7 +5,7 @@
 
         {{-- Header & Actions --}}
         <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-            <h1 class="text-2xl font-semibold text-gray-900 dark:text-gray-100">
+            <h1 class="text-2xl font-semibold text-zinc-900 dark:text-zinc-100">
                 Detail Portfolio
             </h1>
             <div class="flex items-center gap-3">
@@ -14,27 +14,27 @@
                     Edit Portfolio
                 </a>
                 <a href="{{ route('admin.portfolios.index') }}"
-                    class="px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition duration-150 font-medium text-sm">
+                    class="px-4 py-2 bg-stone-100 hover:bg-stone-200 text-stone-700 dark:bg-zinc-800 dark:hover:bg-zinc-700 dark:text-zinc-200 rounded-lg border border-stone-200 dark:border-zinc-700 transition duration-150 font-medium text-sm">
                     &larr; Back to List
                 </a>
             </div>
         </div>
 
-        <div class="bg-white dark:bg-gray-800 shadow-sm rounded-xl p-6 sm:p-8 border border-gray-200 dark:border-gray-700">
+        <div class="bg-white dark:bg-zinc-900 shadow-sm rounded-xl p-6 sm:p-8 border border-stone-200 dark:border-zinc-800">
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
 
                 {{-- Bagian Kiri: Thumbnail --}}
                 <div class="md:col-span-1 space-y-4">
                     <div>
-                        <h3 class="text-sm font-semibold text-gray-500 dark:text-gray-400 mb-2">Thumbnail</h3>
+                        <h3 class="text-sm font-semibold text-zinc-500 dark:text-zinc-400 mb-2">Thumbnail</h3>
                         @if ($portfolio->thumbnail_url)
                             <img src="{{ $portfolio->thumbnail_url }}"
-                                class="w-full h-auto object-cover rounded-lg border border-gray-200 dark:border-gray-700 shadow-sm"
+                                class="w-full h-auto object-cover rounded-lg border border-stone-200 dark:border-zinc-800 shadow-sm"
                                 alt="Thumbnail">
                         @else
                             <div
-                                class="w-full h-48 bg-gray-100 dark:bg-gray-700 rounded-lg flex items-center justify-center text-gray-400 border border-dashed border-gray-300 dark:border-gray-600">
+                                class="w-full h-48 bg-stone-100 dark:bg-zinc-800 rounded-lg flex items-center justify-center text-zinc-400 border border-dashed border-stone-300 dark:border-zinc-700">
                                 No Thumbnail
                             </div>
                         @endif
@@ -45,9 +45,9 @@
                 <div class="md:col-span-2 space-y-6">
                     {{-- Judul & Slug --}}
                     <div>
-                        <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">{{ $portfolio->title }}</h2>
-                        <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Slug: <span
-                                class="font-mono bg-gray-100 dark:bg-gray-700 px-1.5 py-0.5 rounded text-xs">{{ $portfolio->slug }}</span>
+                        <h2 class="text-2xl sm:text-3xl font-bold text-zinc-900 dark:text-white">{{ $portfolio->title }}</h2>
+                        <p class="text-sm text-zinc-500 dark:text-zinc-400 mt-1">Slug: <span
+                                class="font-mono bg-stone-100 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200 px-1.5 py-0.5 rounded text-xs border border-stone-200 dark:border-zinc-700">{{ $portfolio->slug }}</span>
                         </p>
                     </div>
 
@@ -87,9 +87,9 @@
 
                     {{-- Deskripsi --}}
                     <div>
-                        <h3 class="text-sm font-semibold text-gray-500 dark:text-gray-400 mb-2">Description</h3>
+                        <h3 class="text-sm font-semibold text-zinc-500 dark:text-zinc-400 mb-2">Description</h3>
                         <div
-                            class="p-4 bg-gray-50 dark:bg-gray-900/50 rounded-lg text-gray-800 dark:text-gray-200 whitespace-pre-line border border-gray-200 dark:border-gray-700 text-sm leading-relaxed">
+                            class="p-4 bg-stone-50 dark:bg-zinc-800/40 rounded-lg text-zinc-800 dark:text-zinc-200 whitespace-pre-line border border-stone-200 dark:border-zinc-800 text-sm leading-relaxed">
                             {{ $portfolio->description ?: 'No description added.' }}
                         </div>
                     </div>
@@ -97,23 +97,23 @@
             </div>
 
             {{-- Bagian Bawah: Gallery --}}
-            <div class="mt-8 pt-6 border-t border-gray-200 dark:border-gray-700">
-                <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Photo Gallery</h3>
+            <div class="mt-8 pt-6 border-t border-stone-200 dark:border-zinc-800">
+                <h3 class="text-lg font-semibold text-zinc-900 dark:text-white mb-4">Photo Gallery</h3>
 
                 @if (!empty($portfolio->gallery_urls))
                     <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
                         @foreach ($portfolio->gallery_urls as $image_url)
                             <div class="relative group aspect-square">
                                 <img src="{{ $image_url }}"
-                                    class="w-full h-full object-cover rounded-lg border border-gray-200 dark:border-gray-700 shadow-sm transition-transform duration-300 group-hover:scale-105"
+                                    class="w-full h-full object-cover rounded-lg border border-stone-200 dark:border-zinc-800 shadow-sm transition-transform duration-300 group-hover:scale-105"
                                     alt="Gallery Image">
                             </div>
                         @endforeach
                     </div>
                 @else
                     <div
-                        class="w-full p-8 text-center bg-gray-50 dark:bg-gray-900/50 rounded-lg border border-dashed border-gray-300 dark:border-gray-700">
-                        <p class="text-gray-500 dark:text-gray-400 italic">There are no gallery photos for this
+                        class="w-full p-8 text-center bg-stone-50 dark:bg-zinc-800/40 rounded-lg border border-dashed border-stone-300 dark:border-zinc-800">
+                        <p class="text-zinc-500 dark:text-zinc-400 italic">There are no gallery photos for this
                             portfolio.
                         </p>
                     </div>

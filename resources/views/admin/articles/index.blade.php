@@ -106,9 +106,9 @@
                         </div>
                     </div>
                 @empty
-                    <div class="px-6 py-12 text-center text-gray-500 dark:text-gray-400">
+                    <div class="px-6 py-12 text-center text-zinc-500 dark:text-zinc-400">
                         <svg xmlns="http://www.w3.org/2000/svg"
-                            class="mx-auto h-12 w-12 text-gray-300 dark:text-gray-600 mb-3" fill="none"
+                            class="mx-auto h-12 w-12 text-zinc-300 dark:text-zinc-600 mb-3" fill="none"
                             viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
@@ -132,27 +132,27 @@
                     </thead>
                     <tbody class="divide-y divide-stone-200 dark:divide-zinc-800">
                         @forelse($articles as $article)
-                            <tr class="hover:bg-gray-50 dark:hover:bg-gray-800/50 transition duration-150">
+                            <tr class="hover:bg-stone-50 dark:hover:bg-zinc-800/40 transition duration-150">
 
                                 {{-- Cover Image --}}
                                 <td class="px-6 py-4">
                                     @if ($article->cover_image_url)
                                         <img src="{{ $article->cover_image_url }}" alt="Cover"
-                                            class="w-16 h-12 object-cover rounded shadow-sm border border-gray-200 dark:border-gray-600">
+                                            class="w-16 h-12 object-cover rounded shadow-sm border border-stone-200 dark:border-zinc-700">
                                     @else
                                         <div
-                                            class="w-16 h-12 bg-gray-100 dark:bg-gray-700 rounded flex items-center justify-center border border-dashed border-gray-300 dark:border-gray-600">
-                                            <span class="text-xs text-gray-400">No Image</span>
+                                            class="w-16 h-12 bg-stone-100 dark:bg-zinc-800 rounded flex items-center justify-center border border-dashed border-stone-300 dark:border-zinc-700">
+                                            <span class="text-xs text-zinc-400">No Image</span>
                                         </div>
                                     @endif
                                 </td>
 
                                 {{-- Title & Slug --}}
                                 <td class="px-6 py-4">
-                                    <div class="font-medium text-gray-900 dark:text-white text-base mb-1">
+                                    <div class="font-medium text-zinc-900 dark:text-white text-base mb-1">
                                         {{ Str::limit($article->title, 40) }}
                                     </div>
-                                    <div class="mt-1 text-xs text-gray-400">
+                                    <div class="mt-1 text-xs text-zinc-400">
                                         Created: {{ $article->created_at->format('d M Y') }}
                                     </div>
                                 </td>
@@ -223,9 +223,9 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="4" class="px-6 py-12 text-center text-gray-500 dark:text-gray-400">
+                                <td colspan="4" class="px-6 py-12 text-center text-zinc-500 dark:text-zinc-400">
                                     <svg xmlns="http://www.w3.org/2000/svg"
-                                        class="mx-auto h-12 w-12 text-gray-300 dark:text-gray-600 mb-3" fill="none"
+                                        class="mx-auto h-12 w-12 text-zinc-300 dark:text-zinc-600 mb-3" fill="none"
                                         viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                             d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
@@ -241,7 +241,7 @@
 
             {{-- Pagination --}}
             @if ($articles->hasPages())
-                <div class="px-6 py-4 border-t border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
+                <div class="px-6 py-4 border-t border-stone-200 dark:border-zinc-800 bg-white dark:bg-zinc-900">
                     {{ $articles->links() }}
                 </div>
             @endif

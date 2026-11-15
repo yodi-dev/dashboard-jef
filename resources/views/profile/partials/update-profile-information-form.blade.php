@@ -1,10 +1,10 @@
 <section class="space-y-6">
     <header class="space-y-1">
-        <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-100">
+        <h2 class="text-lg font-semibold text-zinc-900 dark:text-zinc-100">
             {{ __('Profile Information') }}
         </h2>
 
-        <p class="text-sm text-gray-600 dark:text-gray-400">
+        <p class="text-sm text-zinc-500 dark:text-zinc-400">
             {{ __("Update your account's profile information and email address.") }}
         </p>
     </header>
@@ -34,19 +34,19 @@
 
             @if ($user instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && !$user->hasVerifiedEmail())
                 <div class="mt-3 space-y-2">
-                    <p class="text-sm text-gray-700 dark:text-gray-300">
+                    <p class="text-sm text-zinc-700 dark:text-zinc-300">
                         {{ __('Your email address is unverified.') }}
                     </p>
 
                     <button form="send-verification"
-                        class="text-sm font-medium text-green-600 dark:text-green-400
-                               hover:text-green-700 dark:hover:text-green-300
+                        class="text-sm font-medium text-emerald-600 dark:text-emerald-400
+                               hover:text-emerald-700 dark:hover:text-emerald-300
                                underline transition">
                         {{ __('Click here to re-send the verification email.') }}
                     </button>
 
                     @if (session('status') === 'verification-link-sent')
-                        <p class="text-sm font-medium text-green-600 dark:text-green-400">
+                        <p class="text-sm font-medium text-emerald-600 dark:text-emerald-400">
                             {{ __('A new verification link has been sent to your email address.') }}
                         </p>
                     @endif
@@ -62,7 +62,7 @@
 
             @if (session('status') === 'profile-updated')
                 <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 2000)"
-                    class="text-sm text-gray-600 dark:text-gray-400">
+                    class="text-sm text-zinc-500 dark:text-zinc-400">
                     {{ __('Saved.') }}
                 </p>
             @endif

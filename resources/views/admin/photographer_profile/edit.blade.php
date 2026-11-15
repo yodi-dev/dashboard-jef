@@ -6,16 +6,16 @@
         {{-- Header Section --}}
         <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
-                <h1 class="text-2xl font-bold text-gray-900 dark:text-gray-100">
+                <h1 class="text-2xl font-bold text-zinc-900 dark:text-zinc-100">
                     Photographer Public Profile Settings
                 </h1>
-                <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                <p class="text-sm text-zinc-500 dark:text-zinc-400 mt-1">
                     Manage your portrait photo, biography story, philosophy pillars, and contact information.
                 </p>
             </div>
 
             <a href="{{ rtrim(config('app.frontend_url', env('FRONTEND_URL', 'http://localhost:3000')), '/') . '/about' }}" target="_blank" rel="noopener noreferrer"
-                class="px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded-lg text-sm font-medium hover:bg-gray-300 dark:hover:bg-gray-600 transition duration-150 inline-flex items-center gap-1.5 self-start sm:self-auto">
+                class="px-4 py-2 bg-stone-100 hover:bg-stone-200 text-stone-700 dark:bg-zinc-800 dark:hover:bg-zinc-700 dark:text-zinc-200 rounded-lg text-sm font-medium border border-stone-200 dark:border-zinc-700 transition duration-150 inline-flex items-center gap-1.5 self-start sm:self-auto">
                 <span>View Live Profile</span>
                 <span>&rarr;</span>
             </a>
@@ -34,18 +34,18 @@
         @endif
 
         {{-- Main Form Card (Single Cohesive Container matching Dashboard Jef Design System) --}}
-        <div class="bg-white dark:bg-gray-800 shadow-sm rounded-xl p-6 sm:p-8 border border-gray-200 dark:border-gray-700">
+        <div class="bg-white dark:bg-zinc-900 shadow-sm rounded-xl p-6 sm:p-8 border border-stone-200 dark:border-zinc-800">
             <form x-data="{ submitting: false }" @submit="submitting = true" action="{{ route('admin.photographer-profile.update') }}" method="POST" enctype="multipart/form-data" class="space-y-8">
                 @csrf
                 @method('PUT')
 
                 {{-- Section 1: Identity & Portrait Photo --}}
                 <div class="space-y-5">
-                    <div class="border-b border-gray-200 dark:border-gray-700 pb-3">
-                        <h3 class="text-base font-semibold text-gray-900 dark:text-gray-100">
+                    <div class="border-b border-stone-200 dark:border-zinc-800 pb-3">
+                        <h3 class="text-base font-semibold text-zinc-900 dark:text-zinc-100">
                             1. Identity & Portrait Photo
                         </h3>
-                        <p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
+                        <p class="text-xs text-zinc-500 dark:text-zinc-400 mt-0.5">
                             Displayed on the About hero section, homepage biography teaser, and article author cards.
                         </p>
                     </div>
@@ -53,12 +53,12 @@
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
                         {{-- Photo Preview & Upload --}}
                         <div class="space-y-3">
-                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                            <label class="block text-sm font-medium text-zinc-700 dark:text-zinc-300">
                                 Portrait Photo
                             </label>
 
                             <div class="space-y-2">
-                                <div class="w-36 h-44 rounded-lg overflow-hidden bg-gray-100 dark:bg-gray-900 border border-gray-300 dark:border-gray-700">
+                                <div class="w-36 h-44 rounded-lg overflow-hidden bg-stone-100 dark:bg-zinc-950 border border-stone-300 dark:border-zinc-800">
                                     <img id="avatar-preview"
                                         src="{{ $profile->avatar_url ?: asset('images/jeff-portrait.jpeg') }}"
                                         alt="Portrait Preview"
@@ -67,13 +67,13 @@
                                 </div>
 
                                 <input type="file" id="avatar" name="avatar" accept="image/*"
-                                    class="w-full px-3 py-1.5 text-xs border rounded-lg bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100 border-zinc-300 dark:border-zinc-700 file:mr-3 file:py-1.5 file:px-3 file:rounded-md file:border-0 file:text-xs file:font-semibold file:bg-stone-100 file:text-zinc-800 hover:file:bg-stone-200 dark:file:bg-zinc-800 dark:file:text-zinc-200 transition duration-150">
+                                    class="w-full px-3 py-1.5 text-xs border rounded-lg bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100 border-stone-300 dark:border-zinc-700 file:mr-3 file:py-1.5 file:px-3 file:rounded-md file:border-0 file:text-xs file:font-semibold file:bg-stone-100 file:text-zinc-800 hover:file:bg-stone-200 dark:file:bg-zinc-800 dark:file:text-zinc-200 transition duration-150">
 
-                                <p class="text-[11px] text-gray-500 dark:text-gray-400">JPG, PNG, WEBP (max 5MB)</p>
+                                <p class="text-[11px] text-zinc-500 dark:text-zinc-400">JPG, PNG, WEBP (max 5MB)</p>
 
                                 @if ($profile->avatar)
                                     <label class="inline-flex items-center gap-2 text-xs text-red-600 dark:text-red-400 cursor-pointer pt-1">
-                                        <input type="checkbox" name="remove_avatar" value="1" class="rounded border-gray-300 text-red-600 focus:ring-red-500">
+                                        <input type="checkbox" name="remove_avatar" value="1" class="rounded border-stone-300 dark:border-zinc-700 text-red-600 focus:ring-red-500">
                                         <span>Revert to default photo</span>
                                     </label>
                                 @endif
@@ -83,220 +83,220 @@
                         {{-- Identity Fields --}}
                         <div class="md:col-span-2 space-y-4">
                             <div>
-                                <label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                                <label for="name" class="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1">
                                     Full Name <span class="text-red-500">*</span>
                                 </label>
                                 <input type="text" id="name" name="name" value="{{ old('name', $profile->name) }}" required
-                                    class="w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-zinc-800 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100 border-zinc-300 dark:border-zinc-700 focus:border-zinc-800 dark:focus:border-zinc-200 dark:focus:ring-zinc-200 transition duration-150">
+                                    class="w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-zinc-800 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100 border-stone-300 dark:border-zinc-700 focus:border-zinc-800 dark:focus:border-zinc-200 dark:focus:ring-zinc-200 transition duration-150">
                             </div>
 
                             <div>
-                                <label for="tagline" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                                <label for="tagline" class="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1">
                                     Professional Tagline
                                 </label>
                                 <input type="text" id="tagline" name="tagline" value="{{ old('tagline', $profile->tagline) }}"
                                     placeholder="e.g. Portrait & Documentary Photographer"
-                                    class="w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-zinc-800 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100 border-zinc-300 dark:border-zinc-700 focus:border-zinc-800 dark:focus:border-zinc-200 dark:focus:ring-zinc-200 transition duration-150">
+                                    class="w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-zinc-800 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100 border-stone-300 dark:border-zinc-700 focus:border-zinc-800 dark:focus:border-zinc-200 dark:focus:ring-zinc-200 transition duration-150">
                             </div>
 
                             <div>
-                                <label for="location" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                                <label for="location" class="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1">
                                     Studio Base & Location
                                 </label>
                                 <input type="text" id="location" name="location" value="{{ old('location', $profile->location) }}"
                                     placeholder="e.g. Australia / Kyoto, Japan"
-                                    class="w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-zinc-800 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100 border-zinc-300 dark:border-zinc-700 focus:border-zinc-800 dark:focus:border-zinc-200 dark:focus:ring-zinc-200 transition duration-150">
+                                    class="w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-zinc-800 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100 border-stone-300 dark:border-zinc-700 focus:border-zinc-800 dark:focus:border-zinc-200 dark:focus:ring-zinc-200 transition duration-150">
                             </div>
                         </div>
                     </div>
                 </div>
 
                 {{-- Section 2: Homepage Hero Statements & Quote --}}
-                <div class="space-y-4 pt-4 border-t border-gray-200 dark:border-gray-700">
+                <div class="space-y-4 pt-4 border-t border-stone-200 dark:border-zinc-800">
                     <div class="pb-2">
-                        <h3 class="text-base font-semibold text-gray-900 dark:text-gray-100">
+                        <h3 class="text-base font-semibold text-zinc-900 dark:text-zinc-100">
                             2. Homepage Statements & Art Philosophy
                         </h3>
-                        <p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
+                        <p class="text-xs text-zinc-500 dark:text-zinc-400 mt-0.5">
                             Statements displayed prominently on the portfolio homepage.
                         </p>
                     </div>
 
                     <div>
-                        <label for="headline" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                        <label for="headline" class="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1">
                             Main Headline (Homepage H1)
                         </label>
                         <input type="text" id="headline" name="headline" value="{{ old('headline', $profile->headline) }}"
                             placeholder="e.g. Telling honest stories through natural light and quiet moments."
-                            class="w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-zinc-800 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100 border-zinc-300 dark:border-zinc-700 focus:border-zinc-800 dark:focus:border-zinc-200 dark:focus:ring-zinc-200 transition duration-150">
+                            class="w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-zinc-800 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100 border-stone-300 dark:border-zinc-700 focus:border-zinc-800 dark:focus:border-zinc-200 dark:focus:ring-zinc-200 transition duration-150">
                     </div>
 
                     <div>
-                        <label for="sub_headline" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                        <label for="sub_headline" class="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1">
                             Sub-Headline / Hero Brief
                         </label>
                         <textarea id="sub_headline" name="sub_headline" rows="2"
-                            class="w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-zinc-800 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100 border-zinc-300 dark:border-zinc-700 focus:border-zinc-800 dark:focus:border-zinc-200 dark:focus:ring-zinc-200 transition duration-150">{{ old('sub_headline', $profile->sub_headline) }}</textarea>
+                            class="w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-zinc-800 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100 border-stone-300 dark:border-zinc-700 focus:border-zinc-800 dark:focus:border-zinc-200 dark:focus:ring-zinc-200 transition duration-150">{{ old('sub_headline', $profile->sub_headline) }}</textarea>
                     </div>
 
                     <div>
-                        <label for="quote" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                        <label for="quote" class="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1">
                             Photographer Philosophy Quote
                         </label>
                         <textarea id="quote" name="quote" rows="2"
-                            class="w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-zinc-800 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100 border-zinc-300 dark:border-zinc-700 focus:border-zinc-800 dark:focus:border-zinc-200 dark:focus:ring-zinc-200 transition duration-150">{{ old('quote', $profile->quote) }}</textarea>
+                            class="w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-zinc-800 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100 border-stone-300 dark:border-zinc-700 focus:border-zinc-800 dark:focus:border-zinc-200 dark:focus:ring-zinc-200 transition duration-150">{{ old('quote', $profile->quote) }}</textarea>
                     </div>
                 </div>
 
                 {{-- Section 3: About Page Biography --}}
-                <div class="space-y-4 pt-4 border-t border-gray-200 dark:border-gray-700">
+                <div class="space-y-4 pt-4 border-t border-stone-200 dark:border-zinc-800">
                     <div class="pb-2">
-                        <h3 class="text-base font-semibold text-gray-900 dark:text-gray-100">
+                        <h3 class="text-base font-semibold text-zinc-900 dark:text-zinc-100">
                             3. Biography & Vision (About Page)
                         </h3>
-                        <p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
+                        <p class="text-xs text-zinc-500 dark:text-zinc-400 mt-0.5">
                             Personal narrative detailing your background and photographic approach.
                         </p>
                     </div>
 
                     <div>
-                        <label for="about_title" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                        <label for="about_title" class="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1">
                             Biography Title (About Header)
                         </label>
                         <input type="text" id="about_title" name="about_title" value="{{ old('about_title', $profile->about_title) }}"
                             placeholder="e.g. Documenting the quiet cadence of ordinary life."
-                            class="w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-zinc-800 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100 border-zinc-300 dark:border-zinc-700 focus:border-zinc-800 dark:focus:border-zinc-200 dark:focus:ring-zinc-200 transition duration-150">
+                            class="w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-zinc-800 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100 border-stone-300 dark:border-zinc-700 focus:border-zinc-800 dark:focus:border-zinc-200 dark:focus:ring-zinc-200 transition duration-150">
                     </div>
 
                     <div>
-                        <label for="about_journey" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                        <label for="about_journey" class="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1">
                             Journey Behind The Lens (Story Paragraphs)
                         </label>
                         <textarea id="about_journey" name="about_journey" rows="5"
-                            class="w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-zinc-800 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100 border-zinc-300 dark:border-zinc-700 focus:border-zinc-800 dark:focus:border-zinc-200 dark:focus:ring-zinc-200 transition duration-150 leading-relaxed">{{ old('about_journey', $profile->about_journey) }}</textarea>
-                        <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Use an empty line to separate paragraphs.</p>
+                            class="w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-zinc-800 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100 border-stone-300 dark:border-zinc-700 focus:border-zinc-800 dark:focus:border-zinc-200 dark:focus:ring-zinc-200 transition duration-150 leading-relaxed">{{ old('about_journey', $profile->about_journey) }}</textarea>
+                        <p class="text-xs text-zinc-500 dark:text-zinc-400 mt-1">Use an empty line to separate paragraphs.</p>
                     </div>
 
                     <div>
-                        <label for="about_philosophy" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                        <label for="about_philosophy" class="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1">
                             Working Approach & Philosophy Overview
                         </label>
                         <textarea id="about_philosophy" name="about_philosophy" rows="3"
-                            class="w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-zinc-800 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100 border-zinc-300 dark:border-zinc-700 focus:border-zinc-800 dark:focus:border-zinc-200 dark:focus:ring-zinc-200 transition duration-150 leading-relaxed">{{ old('about_philosophy', $profile->about_philosophy) }}</textarea>
+                            class="w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-zinc-800 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100 border-stone-300 dark:border-zinc-700 focus:border-zinc-800 dark:focus:border-zinc-200 dark:focus:ring-zinc-200 transition duration-150 leading-relaxed">{{ old('about_philosophy', $profile->about_philosophy) }}</textarea>
                     </div>
                 </div>
 
                 {{-- Section 4: Three Working Philosophy Pillars --}}
-                <div class="space-y-4 pt-4 border-t border-gray-200 dark:border-gray-700">
+                <div class="space-y-4 pt-4 border-t border-stone-200 dark:border-zinc-800">
                     <div class="pb-2">
-                        <h3 class="text-base font-semibold text-gray-900 dark:text-gray-100">
+                        <h3 class="text-base font-semibold text-zinc-900 dark:text-zinc-100">
                             4. Three Working Philosophy Pillars
                         </h3>
-                        <p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
+                        <p class="text-xs text-zinc-500 dark:text-zinc-400 mt-0.5">
                             Showcased side-by-side in a 3-column grid on the About page.
                         </p>
                     </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
                         {{-- Pillar 1 --}}
-                        <div class="space-y-3 p-4 rounded-lg bg-gray-50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700">
+                        <div class="space-y-3 p-4 rounded-lg bg-stone-50 dark:bg-zinc-800/40 border border-stone-200 dark:border-zinc-800">
                             <span class="text-xs font-mono font-bold text-zinc-800 dark:text-zinc-200 uppercase">Pillar 01</span>
                             <div>
-                                <label for="philosophy_1_title" class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Title</label>
+                                <label for="philosophy_1_title" class="block text-xs font-medium text-zinc-700 dark:text-zinc-300 mb-1">Title</label>
                                 <input type="text" id="philosophy_1_title" name="philosophy_1_title" value="{{ old('philosophy_1_title', $profile->philosophy_1_title) }}"
-                                    class="w-full px-3 py-2 text-sm border rounded-lg focus:outline-none focus:ring-2 focus:ring-zinc-800 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100 border-zinc-300 dark:border-zinc-700 focus:border-zinc-800 dark:focus:border-zinc-200 dark:focus:ring-zinc-200">
+                                    class="w-full px-3 py-2 text-sm border rounded-lg focus:outline-none focus:ring-2 focus:ring-zinc-800 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100 border-stone-300 dark:border-zinc-700 focus:border-zinc-800 dark:focus:border-zinc-200 dark:focus:ring-zinc-200">
                             </div>
                             <div>
-                                <label for="philosophy_1_desc" class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Description</label>
+                                <label for="philosophy_1_desc" class="block text-xs font-medium text-zinc-700 dark:text-zinc-300 mb-1">Description</label>
                                 <textarea id="philosophy_1_desc" name="philosophy_1_desc" rows="4"
-                                    class="w-full px-3 py-2 text-sm border rounded-lg focus:outline-none focus:ring-2 focus:ring-zinc-800 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100 border-zinc-300 dark:border-zinc-700 focus:border-zinc-800 dark:focus:border-zinc-200 dark:focus:ring-zinc-200 leading-relaxed">{{ old('philosophy_1_desc', $profile->philosophy_1_desc) }}</textarea>
+                                    class="w-full px-3 py-2 text-sm border rounded-lg focus:outline-none focus:ring-2 focus:ring-zinc-800 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100 border-stone-300 dark:border-zinc-700 focus:border-zinc-800 dark:focus:border-zinc-200 dark:focus:ring-zinc-200 leading-relaxed">{{ old('philosophy_1_desc', $profile->philosophy_1_desc) }}</textarea>
                             </div>
                         </div>
 
                         {{-- Pillar 2 --}}
-                        <div class="space-y-3 p-4 rounded-lg bg-gray-50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700">
+                        <div class="space-y-3 p-4 rounded-lg bg-stone-50 dark:bg-zinc-800/40 border border-stone-200 dark:border-zinc-800">
                             <span class="text-xs font-mono font-bold text-zinc-800 dark:text-zinc-200 uppercase">Pillar 02</span>
                             <div>
-                                <label for="philosophy_2_title" class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Title</label>
+                                <label for="philosophy_2_title" class="block text-xs font-medium text-zinc-700 dark:text-zinc-300 mb-1">Title</label>
                                 <input type="text" id="philosophy_2_title" name="philosophy_2_title" value="{{ old('philosophy_2_title', $profile->philosophy_2_title) }}"
-                                    class="w-full px-3 py-2 text-sm border rounded-lg focus:outline-none focus:ring-2 focus:ring-zinc-800 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100 border-zinc-300 dark:border-zinc-700 focus:border-zinc-800 dark:focus:border-zinc-200 dark:focus:ring-zinc-200">
+                                    class="w-full px-3 py-2 text-sm border rounded-lg focus:outline-none focus:ring-2 focus:ring-zinc-800 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100 border-stone-300 dark:border-zinc-700 focus:border-zinc-800 dark:focus:border-zinc-200 dark:focus:ring-zinc-200">
                             </div>
                             <div>
-                                <label for="philosophy_2_desc" class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Description</label>
+                                <label for="philosophy_2_desc" class="block text-xs font-medium text-zinc-700 dark:text-zinc-300 mb-1">Description</label>
                                 <textarea id="philosophy_2_desc" name="philosophy_2_desc" rows="4"
-                                    class="w-full px-3 py-2 text-sm border rounded-lg focus:outline-none focus:ring-2 focus:ring-zinc-800 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100 border-zinc-300 dark:border-zinc-700 focus:border-zinc-800 dark:focus:border-zinc-200 dark:focus:ring-zinc-200 leading-relaxed">{{ old('philosophy_2_desc', $profile->philosophy_2_desc) }}</textarea>
+                                    class="w-full px-3 py-2 text-sm border rounded-lg focus:outline-none focus:ring-2 focus:ring-zinc-800 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100 border-stone-300 dark:border-zinc-700 focus:border-zinc-800 dark:focus:border-zinc-200 dark:focus:ring-zinc-200 leading-relaxed">{{ old('philosophy_2_desc', $profile->philosophy_2_desc) }}</textarea>
                             </div>
                         </div>
 
                         {{-- Pillar 3 --}}
-                        <div class="space-y-3 p-4 rounded-lg bg-gray-50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700">
+                        <div class="space-y-3 p-4 rounded-lg bg-stone-50 dark:bg-zinc-800/40 border border-stone-200 dark:border-zinc-800">
                             <span class="text-xs font-mono font-bold text-zinc-800 dark:text-zinc-200 uppercase">Pillar 03</span>
                             <div>
-                                <label for="philosophy_3_title" class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Title</label>
+                                <label for="philosophy_3_title" class="block text-xs font-medium text-zinc-700 dark:text-zinc-300 mb-1">Title</label>
                                 <input type="text" id="philosophy_3_title" name="philosophy_3_title" value="{{ old('philosophy_3_title', $profile->philosophy_3_title) }}"
-                                    class="w-full px-3 py-2 text-sm border rounded-lg focus:outline-none focus:ring-2 focus:ring-zinc-800 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100 border-zinc-300 dark:border-zinc-700 focus:border-zinc-800 dark:focus:border-zinc-200 dark:focus:ring-zinc-200">
+                                    class="w-full px-3 py-2 text-sm border rounded-lg focus:outline-none focus:ring-2 focus:ring-zinc-800 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100 border-stone-300 dark:border-zinc-700 focus:border-zinc-800 dark:focus:border-zinc-200 dark:focus:ring-zinc-200">
                             </div>
                             <div>
-                                <label for="philosophy_3_desc" class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Description</label>
+                                <label for="philosophy_3_desc" class="block text-xs font-medium text-zinc-700 dark:text-zinc-300 mb-1">Description</label>
                                 <textarea id="philosophy_3_desc" name="philosophy_3_desc" rows="4"
-                                    class="w-full px-3 py-2 text-sm border rounded-lg focus:outline-none focus:ring-2 focus:ring-zinc-800 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100 border-zinc-300 dark:border-zinc-700 focus:border-zinc-800 dark:focus:border-zinc-200 dark:focus:ring-zinc-200 leading-relaxed">{{ old('philosophy_3_desc', $profile->philosophy_3_desc) }}</textarea>
+                                    class="w-full px-3 py-2 text-sm border rounded-lg focus:outline-none focus:ring-2 focus:ring-zinc-800 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100 border-stone-300 dark:border-zinc-700 focus:border-zinc-800 dark:focus:border-zinc-200 dark:focus:ring-zinc-200 leading-relaxed">{{ old('philosophy_3_desc', $profile->philosophy_3_desc) }}</textarea>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 {{-- Section 5: Public Contact & Social Channels --}}
-                <div class="space-y-4 pt-4 border-t border-gray-200 dark:border-gray-700">
+                <div class="space-y-4 pt-4 border-t border-stone-200 dark:border-zinc-800">
                     <div class="pb-2">
-                        <h3 class="text-base font-semibold text-gray-900 dark:text-gray-100">
+                        <h3 class="text-base font-semibold text-zinc-900 dark:text-zinc-100">
                             5. Public Contact & Social Channels
                         </h3>
-                        <p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
+                        <p class="text-xs text-zinc-500 dark:text-zinc-400 mt-0.5">
                             Displayed on the Contact page, communication directory, and website footer.
                         </p>
                     </div>
 
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
-                            <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                            <label for="email" class="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1">
                                 Public Email
                             </label>
                             <input type="email" id="email" name="email" value="{{ old('email', $profile->email) }}"
                                 placeholder="jef@example.com"
-                                class="w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-zinc-800 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100 border-zinc-300 dark:border-zinc-700 focus:border-zinc-800 dark:focus:border-zinc-200 dark:focus:ring-zinc-200 transition duration-150">
+                                class="w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-zinc-800 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100 border-stone-300 dark:border-zinc-700 focus:border-zinc-800 dark:focus:border-zinc-200 dark:focus:ring-zinc-200 transition duration-150">
                         </div>
 
                         <div>
-                            <label for="phone" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                            <label for="phone" class="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1">
                                 WhatsApp / Direct Line
                             </label>
                             <input type="text" id="phone" name="phone" value="{{ old('phone', $profile->phone) }}"
                                 placeholder="+61 400 123 456"
-                                class="w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-zinc-800 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100 border-zinc-300 dark:border-zinc-700 focus:border-zinc-800 dark:focus:border-zinc-200 dark:focus:ring-zinc-200 transition duration-150">
+                                class="w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-zinc-800 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100 border-stone-300 dark:border-zinc-700 focus:border-zinc-800 dark:focus:border-zinc-200 dark:focus:ring-zinc-200 transition duration-150">
                         </div>
 
                         <div>
-                            <label for="instagram" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                            <label for="instagram" class="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1">
                                 Instagram Handle
                             </label>
                             <input type="text" id="instagram" name="instagram" value="{{ old('instagram', $profile->instagram) }}"
                                 placeholder="@jeflee"
-                                class="w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-zinc-800 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100 border-zinc-300 dark:border-zinc-700 focus:border-zinc-800 dark:focus:border-zinc-200 dark:focus:ring-zinc-200 transition duration-150">
+                                class="w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-zinc-800 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100 border-stone-300 dark:border-zinc-700 focus:border-zinc-800 dark:focus:border-zinc-200 dark:focus:ring-zinc-200 transition duration-150">
                         </div>
 
                         <div>
-                            <label for="instagram_url" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                            <label for="instagram_url" class="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1">
                                 Instagram Profile URL
                             </label>
                             <input type="url" id="instagram_url" name="instagram_url" value="{{ old('instagram_url', $profile->instagram_url) }}"
                                 placeholder="https://instagram.com/jeflee"
-                                class="w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-zinc-800 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100 border-zinc-300 dark:border-zinc-700 focus:border-zinc-800 dark:focus:border-zinc-200 dark:focus:ring-zinc-200 transition duration-150">
+                                class="w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-zinc-800 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100 border-stone-300 dark:border-zinc-700 focus:border-zinc-800 dark:focus:border-zinc-200 dark:focus:ring-zinc-200 transition duration-150">
                         </div>
                     </div>
                 </div>
 
                 {{-- Submit Button (Standard Dashboard Jef Style) --}}
-                <div class="mt-8 pt-6 border-t border-gray-200 dark:border-gray-700 flex justify-end">
+                <div class="mt-8 pt-6 border-t border-stone-200 dark:border-zinc-800 flex justify-end">
                     <button type="submit"
                         :disabled="submitting"
                         :class="submitting ? 'opacity-70 cursor-not-allowed' : ''"

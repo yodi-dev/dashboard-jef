@@ -5,7 +5,7 @@
 
         {{-- Header --}}
         <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-            <h1 class="text-2xl font-semibold text-gray-900 dark:text-gray-100">
+            <h1 class="text-2xl font-semibold text-zinc-900 dark:text-zinc-100">
                 Article Details
             </h1>
 
@@ -15,14 +15,14 @@
                     Edit Article
                 </a>
                 <a href="{{ route('admin.articles.index') }}"
-                    class="px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded-lg text-sm font-medium hover:bg-gray-300 dark:hover:bg-gray-600 transition duration-150">
+                    class="px-4 py-2 bg-stone-100 hover:bg-stone-200 text-stone-700 dark:bg-zinc-800 dark:hover:bg-zinc-700 dark:text-zinc-200 rounded-lg text-sm font-medium border border-stone-200 dark:border-zinc-700 transition duration-150">
                     &larr; Back to List
                 </a>
             </div>
         </div>
 
         {{-- Content Card --}}
-        <div class="bg-white dark:bg-gray-800 shadow-sm rounded-xl p-6 sm:p-8 border border-gray-200 dark:border-gray-700">
+        <div class="bg-white dark:bg-zinc-900 shadow-sm rounded-xl p-6 sm:p-8 border border-stone-200 dark:border-zinc-800">
 
             {{-- Status Badge --}}
             <div class="mb-6 flex flex-wrap items-center gap-2.5">
@@ -57,18 +57,18 @@
             @if ($article->cover_image_url)
                 <div class="mb-8">
                     <img src="{{ $article->cover_image_url }}" alt="{{ $article->title }}"
-                        class="w-full max-h-[420px] object-cover rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+                        class="w-full max-h-[420px] object-cover rounded-xl shadow-sm border border-stone-200 dark:border-zinc-800">
                 </div>
             @endif
 
             {{-- Title --}}
-            <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-4">
+            <h2 class="text-2xl sm:text-3xl font-bold text-zinc-900 dark:text-white mb-4">
                 {{ $article->title }}
             </h2>
 
             {{-- Article Content --}}
             <div
-                class="prose max-w-none dark:prose-invert text-gray-700 dark:text-gray-300 mt-6 border-t border-gray-200 dark:border-gray-700 pt-6">
+                class="prose max-w-none dark:prose-invert text-zinc-700 dark:text-zinc-300 mt-6 border-t border-stone-200 dark:border-zinc-800 pt-6">
                 {!! $article->content !!}
             </div>
 

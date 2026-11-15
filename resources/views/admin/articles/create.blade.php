@@ -4,19 +4,19 @@
     <div class="space-y-6 max-w-4xl mx-auto">
 
         <div class="flex justify-between items-center mb-6">
-            <h1 class="text-2xl font-bold text-gray-900 dark:text-gray-100">Create New Article</h1>
+            <h1 class="text-2xl font-bold text-zinc-900 dark:text-zinc-100">Create New Article</h1>
             <a href="{{ route('admin.articles.index') }}"
-                class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 transition flex items-center gap-1 text-sm font-medium">
+                class="px-4 py-2 bg-stone-100 hover:bg-stone-200 text-stone-700 dark:bg-zinc-800 dark:hover:bg-zinc-700 dark:text-zinc-200 rounded-lg text-sm font-medium border border-stone-200 dark:border-zinc-700 transition duration-150">
                 &larr; Back to List
             </a>
         </div>
 
         <div
-            class="bg-white dark:bg-gray-800 shadow-sm rounded-xl overflow-hidden border border-gray-200 dark:border-gray-700">
+            class="bg-white dark:bg-zinc-900 shadow-sm rounded-xl overflow-hidden border border-stone-200 dark:border-zinc-800">
             @if ($errors->any())
-                <div class="mb-4 px-4 py-3 bg-red-100 border border-red-400 text-red-700 rounded-lg">
+                <div class="m-6 sm:m-8 p-4 bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-300 rounded-lg text-sm">
                     <strong>Please correct the following errors:</strong>
-                    <ul class="list-disc list-inside mt-2">
+                    <ul class="list-disc list-inside mt-2 space-y-1">
                         @foreach ($errors->all() as $error)
                             <li>{{ $error }}</li>
                         @endforeach

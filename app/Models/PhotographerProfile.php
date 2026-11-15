@@ -73,7 +73,7 @@ class PhotographerProfile extends Model
             'philosophy_3_title' => 'Archival Craftsmanship',
             'philosophy_3_desc' => 'Each photograph is individually graded with timeless, film-inspired tone curves suited for fine art print collections.',
             'avatar' => null,
-            'location' => 'Australia / Kyoto, Japan',
+            'location' => 'Australia',
             'email' => 'jef@example.com',
             'phone' => '+61 400 123 456',
             'instagram' => '@jeflee',

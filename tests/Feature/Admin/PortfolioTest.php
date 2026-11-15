@@ -145,4 +145,54 @@ class PortfolioTest extends TestCase
         $response->assertRedirect(route('admin.portfolios.index'));
         $this->assertSoftDeleted('portfolios', ['id' => $portfolio->id]);
     }
+
+    public function test_user_can_filter_and_search_portfolios(): void
+    {
+        Portfolio::create([
+            'title' => 'Kyoto Street Story',
+            'category' => 'Street',
+            'is_published' => true,
+        ]);
+        Portfolio::create([
+            'title' => 'Sydney Coast Editorial',
+            'category' => 'Portrait',
+            'is_published' => false,
+        ]);
+
+        // Search test
+        $response = $this->actingAs($this->user)->get(route('admin.portfolios.index', ['search' => 'Kyoto']));
+        $response->assertOk()
+            ->assertSee('Kyoto Street Story')
+            ->assertDontSee('Sydney Coast Editorial');
+
+        // Status filter test
+        $response = $this->actingAs($this->user)->get(route('admin.portfolios.index', ['status' => 'draft']));
+        $response->assertOk()
+            ->assertSee('Sydney Coast Editorial')
+            ->assertDontSee('Kyoto Street Story');
+    }
+
+    public function test_user_can_toggle_portfolio_via_ajax_json(): void
+    {
+        $portfolio = Portfolio::create([
+            'title' => 'Ajax Toggle Test',
+            'category' => 'Portrait',
+            'is_published' => false,
+            'is_highlight' => false,
+        ]);
+
+        $response = $this->actingAs($this->user)
+            ->withHeaders(['Accept' => 'application/json'])
+            ->patchJson(route('admin.portfolios.toggle', $portfolio), [
+                'field' => 'is_published',
+            ]);
+
+        $response->assertOk()
+            ->assertJson([
+                'success' => true,
+                'is_published' => true,
+            ]);
+
+        $this->assertTrue($portfolio->fresh()->is_published);
+    }
 }

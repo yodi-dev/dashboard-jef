@@ -81,6 +81,28 @@
             {{ $slot }}
         </main>
     </div>
+
+    {{-- Reusable Delete Confirmation Modal --}}
+    <x-delete-confirmation-modal />
+
+    {{-- Global Toast Notification Stack (Alpine.js) --}}
+    <div x-data="{ toasts: [] }"
+         @notify.window="toasts.push({ id: Date.now() + Math.random(), message: $event.detail.message, type: $event.detail.type || 'success' }); setTimeout(() => toasts.shift(), 3500)"
+         class="fixed bottom-5 right-5 z-50 flex flex-col gap-2.5 pointer-events-none"
+         aria-live="polite">
+        <template x-for="toast in toasts" :key="toast.id">
+            <div x-transition:enter="transition ease-out duration-200"
+                 x-transition:enter-start="opacity-0 translate-y-2 scale-95"
+                 x-transition:enter-end="opacity-100 translate-y-0 scale-100"
+                 x-transition:leave="transition ease-in duration-150"
+                 x-transition:leave-start="opacity-100 translate-y-0 scale-100"
+                 x-transition:leave-end="opacity-0 translate-y-2 scale-95"
+                 class="pointer-events-auto px-4 py-2.5 rounded-xl shadow-xl text-sm font-medium border flex items-center gap-2.5 bg-zinc-900 text-white border-zinc-800 dark:bg-zinc-100 dark:text-zinc-900 dark:border-zinc-200">
+                <span class="w-2 h-2 rounded-full flex-shrink-0" :class="toast.type === 'error' ? 'bg-rose-500' : 'bg-emerald-400'"></span>
+                <span x-text="toast.message"></span>
+            </div>
+        </template>
+    </div>
 </body>
 
 </html>

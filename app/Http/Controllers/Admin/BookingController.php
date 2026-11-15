@@ -5,13 +5,44 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UpdateBookingRequest;
 use App\Models\Booking;
+use Illuminate\Http\Request;
 
 class BookingController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $bookings = Booking::latest()->paginate(10);
-        return view('admin.bookings.index', compact('bookings'));
+        $query = Booking::query();
+
+        // Search query
+        if ($search = $request->input('search')) {
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                  ->orWhere('email', 'like', "%{$search}%")
+                  ->orWhere('phone', 'like', "%{$search}%")
+                  ->orWhere('location', 'like', "%{$search}%")
+                  ->orWhere('package', 'like', "%{$search}%")
+                  ->orWhere('message', 'like', "%{$search}%");
+            });
+        }
+
+        // Status tab filter
+        $status = $request->input('status', 'all');
+        if (in_array($status, ['pending', 'confirmed', 'completed', 'canceled'])) {
+            $query->where('status', $status);
+        }
+
+        // Counts for filter tabs
+        $counts = [
+            'all' => Booking::count(),
+            'pending' => Booking::where('status', 'pending')->count(),
+            'confirmed' => Booking::where('status', 'confirmed')->count(),
+            'completed' => Booking::where('status', 'completed')->count(),
+            'canceled' => Booking::where('status', 'canceled')->count(),
+        ];
+
+        $bookings = $query->latest()->paginate(10)->withQueryString();
+
+        return view('admin.bookings.index', compact('bookings', 'counts', 'status'));
     }
 
     public function show(Booking $booking)

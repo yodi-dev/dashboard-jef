@@ -13,10 +13,39 @@ use Illuminate\Support\Str;
 
 class ArticleController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $articles = Article::latest()->paginate(10);
-        return view('admin.articles.index', compact('articles'));
+        $query = Article::query();
+
+        // Search query
+        if ($search = $request->input('search')) {
+            $query->where(function ($q) use ($search) {
+                $q->where('title', 'like', "%{$search}%")
+                  ->orWhere('content', 'like', "%{$search}%");
+            });
+        }
+
+        // Status tab filter
+        $status = $request->input('status', 'all');
+        if ($status === 'published') {
+            $query->where('is_published', true);
+        } elseif ($status === 'draft') {
+            $query->where('is_published', false);
+        } elseif ($status === 'highlight') {
+            $query->where('is_highlight', true);
+        }
+
+        // Counts for filter tabs
+        $counts = [
+            'all' => Article::count(),
+            'published' => Article::where('is_published', true)->count(),
+            'draft' => Article::where('is_published', false)->count(),
+            'highlight' => Article::where('is_highlight', true)->count(),
+        ];
+
+        $articles = $query->latest()->paginate(10)->withQueryString();
+
+        return view('admin.articles.index', compact('articles', 'counts', 'status'));
     }
 
     public function create()
@@ -103,6 +132,16 @@ class ArticleController extends Controller
             }
 
             $article->save();
+
+            if ($request->wantsJson() || $request->ajax()) {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Article status successfully changed!',
+                    'is_published' => (bool)$article->is_published,
+                    'is_highlight' => (bool)$article->is_highlight,
+                    'published_at' => $article->published_at ? $article->published_at->format('d M Y, H:i') : null,
+                ]);
+            }
         }
 
         return back()->with('success', 'Article status successfully changed!');

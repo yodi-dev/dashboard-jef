@@ -25,7 +25,7 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
 
                 {{-- Pending Bookings Card --}}
-                <a href="{{ route('admin.bookings.index') }}"
+                <a href="{{ route('admin.bookings.index', ['status' => 'pending']) }}"
                     class="group bg-white dark:bg-zinc-900 overflow-hidden shadow-sm rounded-xl border border-stone-200 dark:border-zinc-800 p-5 hover:border-zinc-400 dark:hover:border-zinc-600 hover:-translate-y-0.5 transition-all duration-150 block">
                     <div class="flex items-center justify-between">
                         <div class="text-[11px] font-mono uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
@@ -42,7 +42,7 @@
                 </a>
 
                 {{-- Confirmed Bookings Card --}}
-                <a href="{{ route('admin.bookings.index') }}"
+                <a href="{{ route('admin.bookings.index', ['status' => 'confirmed']) }}"
                     class="group bg-white dark:bg-zinc-900 overflow-hidden shadow-sm rounded-xl border border-stone-200 dark:border-zinc-800 p-5 hover:border-zinc-400 dark:hover:border-zinc-600 hover:-translate-y-0.5 transition-all duration-150 block">
                     <div class="flex items-center justify-between">
                         <div class="text-[11px] font-mono uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
@@ -59,7 +59,7 @@
                 </a>
 
                 {{-- Completed Bookings Card --}}
-                <a href="{{ route('admin.bookings.index') }}"
+                <a href="{{ route('admin.bookings.index', ['status' => 'completed']) }}"
                     class="group bg-white dark:bg-zinc-900 overflow-hidden shadow-sm rounded-xl border border-stone-200 dark:border-zinc-800 p-5 hover:border-zinc-400 dark:hover:border-zinc-600 hover:-translate-y-0.5 transition-all duration-150 block">
                     <div class="flex items-center justify-between">
                         <div class="text-[11px] font-mono uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
@@ -76,7 +76,7 @@
                 </a>
 
                 {{-- Published Portfolios Card --}}
-                <a href="{{ route('admin.portfolios.index') }}"
+                <a href="{{ route('admin.portfolios.index', ['status' => 'published']) }}"
                     class="group bg-white dark:bg-zinc-900 overflow-hidden shadow-sm rounded-xl border border-stone-200 dark:border-zinc-800 p-5 hover:border-zinc-400 dark:hover:border-zinc-600 hover:-translate-y-0.5 transition-all duration-150 block">
                     <div class="flex items-center justify-between">
                         <div class="text-[11px] font-mono uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
@@ -93,7 +93,7 @@
                 </a>
 
                 {{-- Published Articles Card --}}
-                <a href="{{ route('admin.articles.index') }}"
+                <a href="{{ route('admin.articles.index', ['status' => 'published']) }}"
                     class="group bg-white dark:bg-zinc-900 overflow-hidden shadow-sm rounded-xl border border-stone-200 dark:border-zinc-800 p-5 hover:border-zinc-400 dark:hover:border-zinc-600 hover:-translate-y-0.5 transition-all duration-150 block">
                     <div class="flex items-center justify-between">
                         <div class="text-[11px] font-mono uppercase tracking-wider text-zinc-500 dark:text-zinc-400">

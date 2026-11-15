@@ -13,11 +13,47 @@ use Illuminate\Support\Str;
 
 class PortfolioController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $portfolios = Portfolio::latest()->paginate(10);
+        $query = Portfolio::query();
 
-        return view('admin.portfolios.index', compact('portfolios'));
+        // Search query
+        if ($search = $request->input('search')) {
+            $query->where(function ($q) use ($search) {
+                $q->where('title', 'like', "%{$search}%")
+                  ->orWhere('description', 'like', "%{$search}%")
+                  ->orWhere('category', 'like', "%{$search}%");
+            });
+        }
+
+        // Category filter
+        if ($category = $request->input('category')) {
+            if ($category !== 'all') {
+                $query->where('category', $category);
+            }
+        }
+
+        // Status tab filter
+        $status = $request->input('status', 'all');
+        if ($status === 'published') {
+            $query->where('is_published', true);
+        } elseif ($status === 'draft') {
+            $query->where('is_published', false);
+        } elseif ($status === 'highlight') {
+            $query->where('is_highlight', true);
+        }
+
+        // Counts for filter tabs
+        $counts = [
+            'all' => Portfolio::count(),
+            'published' => Portfolio::where('is_published', true)->count(),
+            'draft' => Portfolio::where('is_published', false)->count(),
+            'highlight' => Portfolio::where('is_highlight', true)->count(),
+        ];
+
+        $portfolios = $query->latest()->paginate(10)->withQueryString();
+
+        return view('admin.portfolios.index', compact('portfolios', 'counts', 'status'));
     }
 
     public function create()
@@ -75,6 +111,16 @@ class PortfolioController extends Controller
 
             // Save to database
             $portfolio->save();
+
+            if ($request->wantsJson() || $request->ajax()) {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Portfolio status successfully updated!',
+                    'is_published' => (bool)$portfolio->is_published,
+                    'is_highlight' => (bool)$portfolio->is_highlight,
+                    'published_at' => $portfolio->published_at ? $portfolio->published_at->format('d M Y, H:i') : null,
+                ]);
+            }
         }
 
         return back()->with('success', 'Status successfully updated!');

@@ -112,4 +112,54 @@ class ArticleTest extends TestCase
         $response->assertRedirect(route('admin.articles.index'));
         $this->assertSoftDeleted('articles', ['id' => $article->id]);
     }
+
+    public function test_user_can_filter_and_search_articles(): void
+    {
+        Article::create([
+            'title' => 'The Essence of Natural Light',
+            'content' => 'Exploring shadow and contrast in portraiture.',
+            'is_published' => true,
+        ]);
+        Article::create([
+            'title' => 'Drafting Visual Narratives',
+            'content' => 'Work in progress essay draft.',
+            'is_published' => false,
+        ]);
+
+        // Search test
+        $response = $this->actingAs($this->user)->get(route('admin.articles.index', ['search' => 'Natural Light']));
+        $response->assertOk()
+            ->assertSee('The Essence of Natural Light')
+            ->assertDontSee('Drafting Visual Narratives');
+
+        // Status filter test
+        $response = $this->actingAs($this->user)->get(route('admin.articles.index', ['status' => 'draft']));
+        $response->assertOk()
+            ->assertSee('Drafting Visual Narratives')
+            ->assertDontSee('The Essence of Natural Light');
+    }
+
+    public function test_user_can_toggle_article_via_ajax_json(): void
+    {
+        $article = Article::create([
+            'title' => 'Ajax Toggle Article',
+            'content' => 'Content here',
+            'is_published' => false,
+            'is_highlight' => false,
+        ]);
+
+        $response = $this->actingAs($this->user)
+            ->withHeaders(['Accept' => 'application/json'])
+            ->patchJson(route('admin.articles.toggle', $article), [
+                'field' => 'is_published',
+            ]);
+
+        $response->assertOk()
+            ->assertJson([
+                'success' => true,
+                'is_published' => true,
+            ]);
+
+        $this->assertTrue($article->fresh()->is_published);
+    }
 }

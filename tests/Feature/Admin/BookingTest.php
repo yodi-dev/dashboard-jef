@@ -99,4 +99,38 @@ class BookingTest extends TestCase
         $response->assertRedirect(route('admin.bookings.index'));
         $this->assertSoftDeleted('bookings', ['id' => $booking->id]);
     }
+
+    public function test_user_can_filter_and_search_bookings(): void
+    {
+        Booking::create([
+            'name' => 'Sophia Taylor',
+            'email' => 'sophia@example.com',
+            'phone' => '+61411223344',
+            'package' => 'Editorial Portrait',
+            'location' => 'Sydney CBD',
+            'booking_date' => now()->addDays(4),
+            'status' => 'pending',
+        ]);
+        Booking::create([
+            'name' => 'Lucas Wang',
+            'email' => 'lucas@example.com',
+            'phone' => '+61499887766',
+            'package' => 'Wedding Story',
+            'location' => 'Melbourne',
+            'booking_date' => now()->addDays(12),
+            'status' => 'confirmed',
+        ]);
+
+        // Search test
+        $response = $this->actingAs($this->user)->get(route('admin.bookings.index', ['search' => 'Sophia']));
+        $response->assertOk()
+            ->assertSee('Sophia Taylor')
+            ->assertDontSee('Lucas Wang');
+
+        // Status filter test
+        $response = $this->actingAs($this->user)->get(route('admin.bookings.index', ['status' => 'confirmed']));
+        $response->assertOk()
+            ->assertSee('Lucas Wang')
+            ->assertDontSee('Sophia Taylor');
+    }
 }

@@ -28,7 +28,7 @@ class UpdatePortfolioRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'title.required' => 'Title wajib diisi',
+            'title.required' => 'Portfolio title is required.',
         ];
     }
 }

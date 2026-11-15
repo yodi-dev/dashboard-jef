@@ -11,7 +11,7 @@
 
         <div
             class="bg-white dark:bg-gray-800 shadow-sm rounded-xl overflow-hidden border border-gray-200 dark:border-gray-700">
-            <form action="{{ route('admin.articles.update', $article->id) }}" method="POST" enctype="multipart/form-data"
+            <form x-data="{ submitting: false }" @submit="submitting = true" action="{{ route('admin.articles.update', $article->id) }}" method="POST" enctype="multipart/form-data"
                 class="p-6 sm:p-8">
                 @csrf
                 @method('PUT')

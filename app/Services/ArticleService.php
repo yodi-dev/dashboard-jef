@@ -12,6 +12,11 @@ class ArticleService
     {
         $data = $request->validated();
 
+        // Sanitize rich HTML content against Stored XSS
+        if (!empty($data['content'])) {
+            $data['content'] = $this->sanitizeHtml($data['content']);
+        }
+
         // Auto generate excerpt dari konten jika excerpt kosong
         if (empty($data['excerpt'])) {
             $data['excerpt'] = Str::limit(strip_tags($data['content']), 150);
@@ -36,6 +41,11 @@ class ArticleService
     public function updateArticle(Article $article, $request)
     {
         $data = $request->validated();
+
+        // Sanitize rich HTML content against Stored XSS
+        if (!empty($data['content'])) {
+            $data['content'] = $this->sanitizeHtml($data['content']);
+        }
 
         // Auto generate excerpt jika kosong
         if (empty($data['excerpt']) && !empty($data['content'])) {
@@ -66,5 +76,22 @@ class ArticleService
         $article->update($data);
 
         return $article;
+    }
+
+    /**
+     * Sanitize rich article HTML to prevent Stored XSS while allowing safe editorial formatting.
+     */
+    protected function sanitizeHtml(string $html): string
+    {
+        // 1. Strip script, iframe, object, embed tags and their contents
+        $sanitized = preg_replace('/<(script|iframe|object|embed)\b[^>]*>(.*?)<\/\1>/is', '', $html);
+
+        // 2. Strip inline event handlers like onclick, onerror, onload, etc.
+        $sanitized = preg_replace('/\s+on[a-z]+\s*=\s*("[^"]*"|\'[^\']*\'|[^\s>]+)/i', '', $sanitized);
+
+        // 3. Strip javascript: pseudo-protocols
+        $sanitized = preg_replace('/href\s*=\s*["\']\s*javascript:[^"\']*["\']/i', 'href="#"', $sanitized);
+
+        return $sanitized;
     }
 }

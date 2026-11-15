@@ -12,7 +12,7 @@
                 </p>
             </div>
 
-            <a href="http://localhost:3000/about" target="_blank" rel="noopener noreferrer"
+            <a href="{{ rtrim(config('app.frontend_url', env('FRONTEND_URL', 'http://localhost:3000')), '/') . '/about' }}" target="_blank" rel="noopener noreferrer"
                 class="px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded-lg text-sm font-medium hover:bg-gray-300 dark:hover:bg-gray-600 transition duration-150 inline-flex items-center gap-1.5 self-start sm:self-auto">
                 <span>View Live Profile</span>
                 <span>&rarr;</span>
@@ -55,7 +55,7 @@
 
         {{-- Main Form Card (Single Cohesive Container matching Dashboard Jef Design System) --}}
         <div class="bg-white dark:bg-gray-800 shadow-sm rounded-xl p-6 sm:p-8 border border-gray-200 dark:border-gray-700">
-            <form action="{{ route('admin.photographer-profile.update') }}" method="POST" enctype="multipart/form-data" class="space-y-8">
+            <form x-data="{ submitting: false }" @submit="submitting = true" action="{{ route('admin.photographer-profile.update') }}" method="POST" enctype="multipart/form-data" class="space-y-8">
                 @csrf
                 @method('PUT')
 
@@ -318,8 +318,14 @@
                 {{-- Submit Button (Standard Dashboard Jef Style) --}}
                 <div class="mt-8 pt-6 border-t border-gray-200 dark:border-gray-700 flex justify-end">
                     <button type="submit"
-                        class="px-6 py-2.5 bg-green-600 text-white font-medium rounded-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition duration-150 shadow-sm cursor-pointer">
-                        Save Profile Changes
+                        :disabled="submitting"
+                        :class="submitting ? 'opacity-70 cursor-not-allowed' : ''"
+                        class="px-6 py-2.5 bg-green-600 text-white font-medium rounded-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition duration-150 shadow-sm cursor-pointer inline-flex items-center gap-2">
+                        <svg x-show="submitting" class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                        <span x-text="submitting ? 'Saving Profile...' : 'Save Profile Changes'">Save Profile Changes</span>
                     </button>
                 </div>
             </form>

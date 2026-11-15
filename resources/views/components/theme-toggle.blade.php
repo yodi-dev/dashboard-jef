@@ -1,4 +1,5 @@
 <button
+    aria-label="Toggle dark/light theme"
     @click="
                         darkMode = !darkMode;
                         document.documentElement.classList.toggle('dark', darkMode);

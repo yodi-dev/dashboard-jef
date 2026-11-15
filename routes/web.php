@@ -23,6 +23,8 @@ Route::prefix('admin')
         Route::post('/portfolios/{id}/restore', [PortfolioController::class, 'restore'])->name('portfolios.restore');
         Route::delete('/portfolios/{id}/force-delete', [PortfolioController::class, 'forceDestroy'])->name('portfolios.forceDestroy');
         Route::resource('portfolios', PortfolioController::class);
+        Route::delete('portfolios/{portfolio}/gallery-image', [PortfolioController::class, 'destroyGalleryImage'])
+            ->name('portfolios.destroyGalleryImage');
         // Route khusus untuk toggle status
         Route::patch('portfolios/{portfolio}/toggle', [PortfolioController::class, 'toggle'])
             ->name('portfolios.toggle');

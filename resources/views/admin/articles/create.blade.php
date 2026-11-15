@@ -13,7 +13,7 @@
             class="bg-white dark:bg-gray-800 shadow-sm rounded-xl overflow-hidden border border-gray-200 dark:border-gray-700">
             @if ($errors->any())
                 <div class="mb-4 px-4 py-3 bg-red-100 border border-red-400 text-red-700 rounded-lg">
-                    <strong>Oops! Ada yang salah:</strong>
+                    <strong>Please correct the following errors:</strong>
                     <ul class="list-disc list-inside mt-2">
                         @foreach ($errors->all() as $error)
                             <li>{{ $error }}</li>
@@ -21,7 +21,7 @@
                     </ul>
                 </div>
             @endif
-            <form action="{{ route('admin.articles.store') }}" method="POST" enctype="multipart/form-data"
+            <form x-data="{ submitting: false }" @submit="submitting = true" action="{{ route('admin.articles.store') }}" method="POST" enctype="multipart/form-data"
                 class="p-6 sm:p-8">
                 @csrf
 

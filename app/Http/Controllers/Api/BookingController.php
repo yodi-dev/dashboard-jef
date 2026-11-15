@@ -20,7 +20,7 @@ class BookingController extends Controller
         $adminEmail = config('mail.admin_address', 'admin@jef.com');
 
         try {
-            Mail::to($adminEmail)->send(new NewBookingNotification($booking));
+            Mail::to($adminEmail)->queue(new NewBookingNotification($booking));
         } catch (\Throwable $e) {
             Log::warning('Failed to send booking notification email: ' . $e->getMessage(), [
                 'booking_id' => $booking->id,

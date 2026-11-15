@@ -31,10 +31,18 @@
                                hover:text-green-600 dark:hover:text-green-400">
                         {{ __('Article') }}
                     </x-nav-link>
+                    @php
+                        $globalPendingBookings = \App\Models\Booking::where('status', 'pending')->count();
+                    @endphp
                     <x-nav-link :href="route('admin.bookings.index')" :active="request()->routeIs('admin.bookings.*')"
                         class="text-gray-600 dark:text-gray-300
-                               hover:text-green-600 dark:hover:text-green-400">
-                        {{ __('Booking') }}
+                               hover:text-green-600 dark:hover:text-green-400 inline-flex items-center gap-1.5">
+                        <span>{{ __('Booking') }}</span>
+                        @if ($globalPendingBookings > 0)
+                            <span class="inline-flex items-center justify-center px-1.5 py-0.5 text-[10px] font-bold leading-none text-white bg-amber-500 rounded-full" title="{{ $globalPendingBookings }} pending booking requests">
+                                {{ $globalPendingBookings }}
+                            </span>
+                        @endif
                     </x-nav-link>
                     <x-nav-link :href="route('admin.photographer-profile.edit')" :active="request()->routeIs('admin.photographer-profile.*')"
                         class="text-gray-600 dark:text-gray-300
@@ -93,6 +101,8 @@
             <!-- Hamburger -->
             <div class="flex items-center sm:hidden">
                 <button @click="open = !open"
+                    aria-label="Toggle navigation menu"
+                    :aria-expanded="open.toString()"
                     class="p-2 rounded-md text-gray-500 dark:text-gray-400
                            hover:text-green-600 dark:hover:text-green-400
                            hover:bg-green-50 dark:hover:bg-gray-800 transition">
@@ -120,8 +130,13 @@
             <x-responsive-nav-link :href="route('admin.articles.index')" :active="request()->routeIs('admin.articles.*')">
                 {{ __('Article') }}
             </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('admin.bookings.index')" :active="request()->routeIs('admin.bookings.*')">
-                {{ __('Booking') }}
+            <x-responsive-nav-link :href="route('admin.bookings.index')" :active="request()->routeIs('admin.bookings.*')" class="flex items-center justify-between">
+                <span>{{ __('Booking') }}</span>
+                @if ($globalPendingBookings > 0)
+                    <span class="inline-flex items-center justify-center px-2 py-0.5 text-xs font-bold leading-none text-white bg-amber-500 rounded-full">
+                        {{ $globalPendingBookings }} pending
+                    </span>
+                @endif
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('admin.photographer-profile.edit')" :active="request()->routeIs('admin.photographer-profile.*')">
                 {{ __('Public Profile') }}

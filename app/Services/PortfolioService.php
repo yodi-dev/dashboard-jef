@@ -70,27 +70,37 @@ class PortfolioService
             $data['thumbnail'] = $request->file('thumbnail')->store('portfolios/thumbnails');
         }
 
-        // Handle Update Gallery
+        // Handle Append Gallery (Safe non-destructive upload)
         if ($request->hasFile('gallery')) {
-            // Hapus gambar gallery lama secara fisik jika ada dan bukan link eksternal
-            if (!empty($portfolio->gallery)) {
-                foreach ($portfolio->gallery as $oldImage) {
-                    if (! Str::startsWith($oldImage, ['http://', 'https://'])) {
-                        Storage::delete($oldImage);
-                    }
-                }
-            }
-
-            // Upload gambar gallery baru
-            $galleryPaths = [];
+            $galleryPaths = is_array($portfolio->gallery) ? $portfolio->gallery : [];
             foreach ($request->file('gallery') as $image) {
                 $galleryPaths[] = $image->store('portfolios/galleries');
             }
-            $data['gallery'] = $galleryPaths;
+            $data['gallery'] = array_values($galleryPaths);
         }
 
         // Eksekusi update ke database
         $portfolio->update($data);
+
+        return $portfolio;
+    }
+
+    /**
+     * Remove a single image from portfolio gallery safely.
+     */
+    public function removeGalleryImage(Portfolio $portfolio, string $imagePath): Portfolio
+    {
+        $gallery = is_array($portfolio->gallery) ? $portfolio->gallery : [];
+
+        if (($key = array_search($imagePath, $gallery, true)) !== false) {
+            unset($gallery[$key]);
+            $portfolio->gallery = array_values($gallery);
+            $portfolio->save();
+
+            if (! Str::startsWith($imagePath, ['http://', 'https://'])) {
+                Storage::delete($imagePath);
+            }
+        }
 
         return $portfolio;
     }

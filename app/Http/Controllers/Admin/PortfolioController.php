@@ -94,6 +94,17 @@ class PortfolioController extends Controller
             ->with('success', 'Portfolio successfully updated!');
     }
 
+    public function destroyGalleryImage(Request $request, Portfolio $portfolio, PortfolioService $portfolioService)
+    {
+        $request->validate([
+            'image' => 'required|string',
+        ]);
+
+        $portfolioService->removeGalleryImage($portfolio, $request->input('image'));
+
+        return back()->with('success', 'Gallery photo successfully removed!');
+    }
+
     public function trash()
     {
         $portfolios = Portfolio::onlyTrashed()->paginate(10);

@@ -11,12 +11,19 @@
 </div>
 
 {{-- Cover Image --}}
-<div class="mb-6">
+<div class="mb-6" x-data="{ preview: null }">
     <label for="cover_image" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Cover Image</label>
+
+    {{-- Live Client Preview --}}
+    <div x-show="preview" class="mb-3 relative inline-block">
+        <img :src="preview" alt="New Cover Preview"
+            class="h-32 object-cover rounded-md border-2 border-green-500 shadow-sm">
+        <span class="absolute top-2 right-2 bg-green-600 text-white text-xs px-2 py-1 rounded font-medium">New Selected</span>
+    </div>
 
     {{-- Preview Gambar Lama (Hanya muncul saat Edit & gambar ada) --}}
     @if (isset($article) && $article->cover_image_url)
-        <div class="mb-3 relative inline-block">
+        <div x-show="!preview" class="mb-3 relative inline-block">
             <img src="{{ $article->cover_image_url }}" alt="Current Cover"
                 class="h-32 object-cover rounded-md border border-gray-200 dark:border-gray-600 shadow-sm">
             <span class="absolute top-2 right-2 bg-gray-900/70 text-white text-xs px-2 py-1 rounded">Current</span>
@@ -24,9 +31,10 @@
     @endif
 
     <input type="file" name="cover_image" id="cover_image" accept="image/*"
+        @change="preview = $event.target.files[0] ? URL.createObjectURL($event.target.files[0]) : null"
         class="block w-full text-sm text-gray-500 dark:text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-green-50 file:text-green-700 hover:file:bg-green-100 dark:file:bg-gray-700 dark:file:text-gray-300 dark:hover:file:bg-gray-600 transition">
     <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">
-        Recommended size: 1200x630px. Max size: 2MB.
+        Recommended size: 1200x630px. Max size: 5MB.
         @if (isset($article))
             <em>Leave blank if you don't want to change the image.</em>
         @endif
@@ -74,9 +82,15 @@
 </div>
 
 {{-- Submit Button --}}
-<div class="flex justify-end pt-4  dark:border-gray-700 mt-6">
+<div class="flex justify-end pt-4 dark:border-gray-700 mt-6">
     <button type="submit"
-        class="bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-6 rounded-lg shadow-sm transition duration-150 ease-in-out">
-        {{ isset($article) ? 'Update Article' : 'Save Article' }}
+        :disabled="submitting"
+        :class="submitting ? 'opacity-70 cursor-not-allowed' : ''"
+        class="bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-6 rounded-lg shadow-sm transition duration-150 ease-in-out inline-flex items-center gap-2">
+        <svg x-show="submitting" class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+        </svg>
+        <span x-text="submitting ? 'Saving Article...' : '{{ isset($article) ? 'Update Article' : 'Save Article' }}'">{{ isset($article) ? 'Update Article' : 'Save Article' }}</span>
     </button>
 </div>

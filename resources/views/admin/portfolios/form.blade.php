@@ -49,14 +49,21 @@
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
         {{-- Thumbnail --}}
-        <div>
+        <div x-data="{ preview: null }">
             <label for="thumbnail" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                 Thumbnail <span class="text-xs text-gray-500">(Formats: JPG, PNG, WEBP)</span>
             </label>
 
+            {{-- LIVE CLIENT PREVIEW --}}
+            <div x-show="preview" class="mb-3">
+                <p class="text-xs text-green-600 dark:text-green-400 font-medium mb-1">New Thumbnail Selected (Preview):</p>
+                <img :src="preview" alt="New Thumbnail Preview"
+                    class="h-32 object-cover rounded-md border-2 border-green-500 shadow-sm">
+            </div>
+
             {{-- OLD IMAGE PREVIEW --}}
             @if (isset($portfolio) && $portfolio->thumbnail_url)
-                <div class="mb-3">
+                <div x-show="!preview" class="mb-3">
                     <p class="text-xs text-gray-500 dark:text-gray-400 mb-1">Current Thumbnail:</p>
                     <img src="{{ $portfolio->thumbnail_url }}" alt="Thumbnail"
                         class="h-32 object-cover rounded-md border border-gray-300 dark:border-gray-700">
@@ -64,6 +71,7 @@
             @endif
 
             <input type="file" id="thumbnail" name="thumbnail" accept="image/*"
+                @change="preview = $event.target.files[0] ? URL.createObjectURL($event.target.files[0]) : null"
                 class="w-full px-3 py-2 border rounded-lg bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 border-gray-300 dark:border-gray-700 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-green-50 file:text-green-700 hover:file:bg-green-100 dark:file:bg-gray-700 dark:file:text-gray-300 transition duration-150">
 
             @error('thumbnail')
@@ -72,26 +80,44 @@
         </div>
 
         {{-- Gallery (Multiple) --}}
-        <div>
+        <div x-data="{ count: 0 }">
             <label for="gallery" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                Gallery <span class="text-xs text-gray-500">(You can select multiple images)</span>
+                Gallery <span class="text-xs text-gray-500">(Select multiple images to add to gallery)</span>
             </label>
 
             {{-- OLD IMAGE PREVIEW --}}
-            @if (isset($portfolio) && !empty($portfolio->gallery_urls))
+            @if (isset($portfolio) && !empty($portfolio->gallery) && is_array($portfolio->gallery))
                 <div class="mb-3">
-                    <p class="text-xs text-gray-500 dark:text-gray-400 mb-1">Current Gallery:</p>
-                    <div class="flex flex-wrap gap-2">
-                        @foreach ($portfolio->gallery_urls as $image_url)
-                            <img src="{{ $image_url }}" alt="Gallery"
-                                class="h-16 w-16 object-cover rounded-md border border-gray-300 dark:border-gray-700">
+                    <p class="text-xs text-gray-500 dark:text-gray-400 mb-1">Current Gallery ({{ count($portfolio->gallery) }} photos):</p>
+                    <div class="flex flex-wrap gap-2.5">
+                        @foreach ($portfolio->gallery as $idx => $rawPath)
+                            @php
+                                $displayUrl = \Illuminate\Support\Str::startsWith($rawPath, ['http://', 'https://']) ? $rawPath : \Illuminate\Support\Facades\Storage::url($rawPath);
+                            @endphp
+                            <div class="relative group/photo inline-block">
+                                <img src="{{ $displayUrl }}" alt="Gallery photo {{ $idx + 1 }}"
+                                    class="h-16 w-16 object-cover rounded-md border border-gray-300 dark:border-gray-700">
+                                
+                                <button type="button"
+                                    onclick="if(confirm('Are you sure you want to delete this photo from the gallery?')) { document.getElementById('delete-gallery-form-{{ $idx }}').submit(); }"
+                                    class="absolute -top-1.5 -right-1.5 bg-red-600 hover:bg-red-700 text-white rounded-full p-1 shadow transition-transform opacity-90 group-hover/photo:opacity-100"
+                                    title="Delete photo">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" viewBox="0 0 20 20" fill="currentColor">
+                                        <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+                                    </svg>
+                                </button>
+                            </div>
                         @endforeach
                     </div>
                 </div>
             @endif
 
             <input type="file" id="gallery" name="gallery[]" multiple accept="image/*"
+                @change="count = $event.target.files.length"
                 class="w-full px-3 py-2 border rounded-lg bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 border-gray-300 dark:border-gray-700 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-green-50 file:text-green-700 hover:file:bg-green-100 dark:file:bg-gray-700 dark:file:text-gray-300 transition duration-150">
+            <p x-show="count > 0" class="mt-1 text-xs text-green-600 dark:text-green-400 font-medium">
+                <span x-text="count"></span> new photo(s) selected to add.
+            </p>
 
             @error('gallery')
                 <p class="mt-1.5 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>

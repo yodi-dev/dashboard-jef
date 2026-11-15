@@ -16,7 +16,7 @@ class BookingController extends Controller
 
     public function show(Booking $booking)
     {
-        return view('admin.bookings.show', compact('booking'));
+        return redirect()->route('admin.bookings.edit', $booking);
     }
 
     public function edit(Booking $booking)

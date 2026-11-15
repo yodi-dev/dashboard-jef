@@ -2,7 +2,7 @@
     open: false,
     darkMode: localStorage.getItem('theme') === 'dark'
 }" x-init="if (darkMode) document.documentElement.classList.add('dark')"
-    class="bg-gradient-to-br from-green-50 to-green-100 dark:from-gray-900 dark:to-gray-800 border-b border-green-100 dark:border-gray-700">
+    class="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
             <!-- Left -->
@@ -119,7 +119,7 @@
     </div>
 
     <!-- Mobile Menu -->
-    <div x-show="open" class="sm:hidden border-t border-green-100 dark:border-gray-700 bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm">
+    <div x-show="open" class="sm:hidden border-t border-gray-200 dark:border-gray-800 bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm">
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.dashboard')">
                 {{ __('Dashboard') }}
@@ -144,7 +144,7 @@
         </div>
 
         <!-- Mobile User & Actions Menu -->
-        <div class="pt-3 pb-3 border-t border-green-100 dark:border-gray-700">
+        <div class="pt-3 pb-3 border-t border-gray-200 dark:border-gray-800">
             <div class="px-4 mb-3">
                 <div class="font-medium text-base text-gray-800 dark:text-gray-200">{{ Auth::user()->name }}</div>
                 <div class="font-medium text-sm text-gray-500 dark:text-gray-400">{{ Auth::user()->email }}</div>
@@ -167,8 +167,8 @@
                             localStorage.setItem('theme', darkMode ? 'dark' : 'light');
                         "
                         class="w-full flex items-center justify-between px-3 py-2 rounded-lg
-                               bg-green-50 dark:bg-gray-800 border border-green-200 dark:border-gray-700
-                               text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-green-100 dark:hover:bg-gray-700 transition">
+                               bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700
+                               text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 transition">
                         <span>Dark Mode</span>
                         <span class="text-xs px-2 py-0.5 rounded bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-600 font-mono"
                               x-text="darkMode ? 'On' : 'Off'"></span>

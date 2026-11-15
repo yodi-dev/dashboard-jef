@@ -2,14 +2,6 @@
     <div class="space-y-6">
         <h1 class="text-2xl font-bold text-gray-900 dark:text-gray-100">Recycle Bin</h1>
 
-        {{-- Flash Message --}}
-        @if (session('success'))
-            <div
-                class="p-4 bg-green-100 dark:bg-green-900/40 text-green-800 dark:text-green-300 border border-green-200 dark:border-green-800/50 rounded-lg transition">
-                {{ session('success') }}
-            </div>
-        @endif
-
         {{-- Alpine.js Component for Tabs --}}
         <div x-data="{ activeTab: 'portfolios' }" class="bg-white dark:bg-gray-800 shadow-sm rounded-xl overflow-hidden border border-gray-200 dark:border-gray-700">
 

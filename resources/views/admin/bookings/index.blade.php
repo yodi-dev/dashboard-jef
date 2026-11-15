@@ -8,30 +8,6 @@
             </h1>
         </div>
 
-        {{-- Flash Message with Close Button --}}
-        @if (session('success'))
-            <div x-data="{ show: true }" x-show="show" x-transition
-                class="px-4 py-3 bg-green-100 border border-green-400 text-green-700 rounded-lg relative flex items-center justify-between shadow-sm"
-                role="alert">
-                <div class="flex items-center gap-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd"
-                            d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                            clip-rule="evenodd" />
-                    </svg>
-                    <span class="block sm:inline font-medium">{{ session('success') }}</span>
-                </div>
-                <button @click="show = false"
-                    class="text-green-700 hover:text-green-900 focus:outline-none transition-colors">
-                    <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                        stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                </button>
-            </div>
-        @endif
-
         {{-- Main Container Card --}}
         <div class="bg-white dark:bg-gray-800 shadow-sm rounded-xl overflow-hidden border border-gray-200 dark:border-gray-700">
 

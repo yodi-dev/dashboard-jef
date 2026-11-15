@@ -8,15 +8,15 @@
     <div class="space-y-6">
 
             {{-- 1. TOP SUMMARY CARDS --}}
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
 
                 {{-- Pending Bookings Card --}}
                 <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm rounded-lg border-l-4 border-yellow-500">
-                    <div class="p-6">
-                        <div class="text-sm font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                    <div class="p-5">
+                        <div class="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                             Pending Requests
                         </div>
-                        <div class="mt-2 text-3xl font-bold text-gray-900 dark:text-white">
+                        <div class="mt-2 text-2xl font-bold text-gray-900 dark:text-white">
                             {{ $pendingBookingsCount }}
                         </div>
                     </div>
@@ -24,11 +24,11 @@
 
                 {{-- Confirmed Bookings Card --}}
                 <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm rounded-lg border-l-4 border-blue-500">
-                    <div class="p-6">
-                        <div class="text-sm font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                    <div class="p-5">
+                        <div class="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                             Confirmed Sessions
                         </div>
-                        <div class="mt-2 text-3xl font-bold text-gray-900 dark:text-white">
+                        <div class="mt-2 text-2xl font-bold text-gray-900 dark:text-white">
                             {{ $confirmedBookingsCount }}
                         </div>
                     </div>
@@ -36,25 +36,48 @@
 
                 {{-- Completed Bookings Card --}}
                 <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm rounded-lg border-l-4 border-green-500">
-                    <div class="p-6">
-                        <div class="text-sm font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                    <div class="p-5">
+                        <div class="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                             Completed Sessions
                         </div>
-                        <div class="mt-2 text-3xl font-bold text-gray-900 dark:text-white">
+                        <div class="mt-2 text-2xl font-bold text-gray-900 dark:text-white">
                             {{ $completedBookingsCount }}
                         </div>
                     </div>
                 </div>
 
                 {{-- Published Portfolios Card --}}
-                <div
-                    class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm rounded-lg border-l-4 border-purple-500">
-                    <div class="p-6">
-                        <div class="text-sm font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                            Published Portfolios
+                <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm rounded-lg border-l-4 border-purple-500">
+                    <div class="p-5">
+                        <div class="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                            Published Works
                         </div>
-                        <div class="mt-2 text-3xl font-bold text-gray-900 dark:text-white">
+                        <div class="mt-2 text-2xl font-bold text-gray-900 dark:text-white">
                             {{ $publishedPortfoliosCount }}
+                        </div>
+                    </div>
+                </div>
+
+                {{-- Published Articles Card --}}
+                <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm rounded-lg border-l-4 border-emerald-500">
+                    <div class="p-5">
+                        <div class="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                            Published Stories
+                        </div>
+                        <div class="mt-2 text-2xl font-bold text-gray-900 dark:text-white">
+                            {{ $publishedArticlesCount }}
+                        </div>
+                    </div>
+                </div>
+
+                {{-- Total Gallery Photos Card --}}
+                <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm rounded-lg border-l-4 border-indigo-500">
+                    <div class="p-5">
+                        <div class="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                            Gallery Photos
+                        </div>
+                        <div class="mt-2 text-2xl font-bold text-gray-900 dark:text-white">
+                            {{ $totalGalleryPhotosCount }}
                         </div>
                     </div>
                 </div>

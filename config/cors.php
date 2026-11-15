@@ -19,9 +19,17 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => ['*'],
+    'allowed_origins' => array_values(array_filter([
+        env('FRONTEND_URL', 'http://localhost:3000'),
+        'http://localhost:3000',
+        'http://127.0.0.1:3000',
+        env('APP_ENV') === 'local' ? '*' : null,
+    ])),
 
-    'allowed_origins_patterns' => [],
+    'allowed_origins_patterns' => [
+        '#^https?://.*\.jeflee\.photography$#',
+        '#^https?://.*\.vercel\.app$#',
+    ],
 
     'allowed_headers' => ['*'],
 

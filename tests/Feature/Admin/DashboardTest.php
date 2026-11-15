@@ -36,6 +36,8 @@ it('passes all required data to the dashboard view', function () {
             'confirmedBookingsCount',
             'completedBookingsCount',
             'publishedPortfoliosCount',
+            'publishedArticlesCount',
+            'totalGalleryPhotosCount',
             'recentBookings'
         ]);
 });

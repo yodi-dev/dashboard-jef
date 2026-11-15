@@ -42,18 +42,16 @@ class BookingController extends Controller
             ->with('success', 'Booking data moved to Trash!');
     }
 
-    public function restore($id)
+    public function restore(Booking $booking)
     {
-        $booking = Booking::onlyTrashed()->findOrFail($id);
         $booking->restore();
 
         return back()->with('success', 'Booking successfully restored!');
     }
 
     // Hapus permanen
-    public function forceDestroy($id)
+    public function forceDestroy(Booking $booking)
     {
-        $booking = Booking::onlyTrashed()->findOrFail($id);
         $booking->forceDelete();
 
         return back()->with('success', 'Booking permanently deleted!');

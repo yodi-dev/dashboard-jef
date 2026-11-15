@@ -43,9 +43,6 @@ class PhotographerProfile extends Model
         }
 
         if (str_starts_with($this->avatar, 'http://') || str_starts_with($this->avatar, 'https://')) {
-            if (str_contains($this->avatar, 'dashboard-jef.test')) {
-                return str_replace('http://dashboard-jef.test', config('app.url'), $this->avatar);
-            }
             return $this->avatar;
         }
 

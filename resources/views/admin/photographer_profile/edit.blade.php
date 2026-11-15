@@ -19,28 +19,6 @@
             </a>
         </div>
 
-        {{-- Flash Message (Alpine.js Dismissible) --}}
-        @if (session('success'))
-            <div x-data="{ show: true }" x-show="show" x-transition
-                class="px-4 py-3 bg-green-100 border border-green-400 text-green-700 rounded-lg relative flex items-center justify-between shadow-sm"
-                role="alert">
-                <div class="flex items-center gap-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd"
-                            d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                            clip-rule="evenodd" />
-                    </svg>
-                    <span class="block sm:inline font-medium">{{ session('success') }}</span>
-                </div>
-                <button type="button" @click="show = false"
-                    class="text-green-700 hover:text-green-900 focus:outline-none transition-colors">
-                    <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                </button>
-            </div>
-        @endif
-
         {{-- Errors Alert --}}
         @if ($errors->any())
             <div class="p-4 bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-800 text-red-800 dark:text-red-300 rounded-xl text-sm space-y-1">

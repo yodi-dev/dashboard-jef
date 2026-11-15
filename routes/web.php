@@ -20,8 +20,8 @@ Route::prefix('admin')
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
         Route::get('trash', TrashController::class)->name('trash');
 
-        Route::post('/portfolios/{id}/restore', [PortfolioController::class, 'restore'])->name('portfolios.restore');
-        Route::delete('/portfolios/{id}/force-delete', [PortfolioController::class, 'forceDestroy'])->name('portfolios.forceDestroy');
+        Route::post('/portfolios/{portfolio}/restore', [PortfolioController::class, 'restore'])->withTrashed()->name('portfolios.restore');
+        Route::delete('/portfolios/{portfolio}/force-delete', [PortfolioController::class, 'forceDestroy'])->withTrashed()->name('portfolios.forceDestroy');
         Route::resource('portfolios', PortfolioController::class);
         Route::delete('portfolios/{portfolio}/gallery-image', [PortfolioController::class, 'destroyGalleryImage'])
             ->name('portfolios.destroyGalleryImage');
@@ -29,15 +29,15 @@ Route::prefix('admin')
         Route::patch('portfolios/{portfolio}/toggle', [PortfolioController::class, 'toggle'])
             ->name('portfolios.toggle');
 
-        Route::post('articles/{id}/restore', [ArticleController::class, 'restore'])->name('articles.restore');
-        Route::delete('articles/{id}/force-delete', [ArticleController::class, 'forceDestroy'])->name('articles.forceDestroy');
+        Route::post('articles/{article}/restore', [ArticleController::class, 'restore'])->withTrashed()->name('articles.restore');
+        Route::delete('articles/{article}/force-delete', [ArticleController::class, 'forceDestroy'])->withTrashed()->name('articles.forceDestroy');
         Route::resource('articles', ArticleController::class);
         Route::patch('articles/{article}/toggle', [ArticleController::class, 'toggle'])
             ->name('articles.toggle');
 
         Route::resource('bookings', BookingController::class)->except(['create', 'store']);
-        Route::post('bookings/{id}/restore', [BookingController::class, 'restore'])->name('bookings.restore');
-        Route::delete('bookings/{id}/force-delete', [BookingController::class, 'forceDestroy'])->name('bookings.forceDestroy');
+        Route::post('bookings/{booking}/restore', [BookingController::class, 'restore'])->withTrashed()->name('bookings.restore');
+        Route::delete('bookings/{booking}/force-delete', [BookingController::class, 'forceDestroy'])->withTrashed()->name('bookings.forceDestroy');
 
         Route::controller(PhotographerProfileController::class)->group(function () {
             Route::get('/photographer-profile', 'edit')->name('photographer-profile.edit');

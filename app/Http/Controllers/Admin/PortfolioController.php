@@ -112,18 +112,15 @@ class PortfolioController extends Controller
         return view('admin.portfolios.trash', compact('portfolios'));
     }
 
-    public function restore($id)
+    public function restore(Portfolio $portfolio)
     {
-        $portfolio = Portfolio::withTrashed()->findOrFail($id);
         $portfolio->restore();
 
         return back()->with('success', 'Portfolio successfully restored!');
     }
 
-    public function forceDestroy($id)
+    public function forceDestroy(Portfolio $portfolio)
     {
-        $portfolio = Portfolio::onlyTrashed()->findOrFail($id);
-
         if ($portfolio->thumbnail && ! Str::startsWith($portfolio->thumbnail, ['http://', 'https://'])) {
             Storage::delete($portfolio->thumbnail);
         }

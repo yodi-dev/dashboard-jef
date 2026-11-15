@@ -62,18 +62,15 @@ class ArticleController extends Controller
         return view('admin.articles.trash', compact('articles'));
     }
 
-    public function restore($id)
+    public function restore(Article $article)
     {
-        $article = Article::onlyTrashed()->findOrFail($id);
         $article->restore();
 
         return redirect()->back()->with('success', 'Article successfully recovered!');
     }
 
-    public function forceDestroy($id)
+    public function forceDestroy(Article $article)
     {
-        $article = Article::onlyTrashed()->findOrFail($id);
-
         if ($article->cover_image && ! Str::startsWith($article->cover_image, ['http://', 'https://'])) {
             Storage::delete($article->cover_image);
         }

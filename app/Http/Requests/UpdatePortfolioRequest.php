@@ -17,9 +17,9 @@ class UpdatePortfolioRequest extends FormRequest
             'title' => 'required|string|max:255',
             'category' => 'nullable|string|max:255',
             'description' => 'nullable|string',
-            'thumbnail' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
+            'thumbnail' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:10240',
             'gallery' => 'nullable|array',
-            'gallery.*' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
+            'gallery.*' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:10240',
             'is_published' => 'boolean',
             'is_highlight' => 'boolean',
         ];

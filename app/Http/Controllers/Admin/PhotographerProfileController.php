@@ -43,21 +43,22 @@ class PhotographerProfileController extends Controller
         ]);
 
         $profile = PhotographerProfile::current();
+        $disk = config('filesystems.default', 'public');
 
         // Handle Avatar Removal
         if ($request->boolean('remove_avatar')) {
-            if ($profile->avatar && !str_starts_with($profile->avatar, 'http') && Storage::disk('public')->exists($profile->avatar)) {
-                Storage::disk('public')->delete($profile->avatar);
+            if ($profile->avatar && !str_starts_with($profile->avatar, 'http') && Storage::disk($disk)->exists($profile->avatar)) {
+                Storage::disk($disk)->delete($profile->avatar);
             }
             $validated['avatar'] = null;
         }
 
         // Handle New Avatar Upload
         if ($request->hasFile('avatar')) {
-            if ($profile->avatar && !str_starts_with($profile->avatar, 'http') && Storage::disk('public')->exists($profile->avatar)) {
-                Storage::disk('public')->delete($profile->avatar);
+            if ($profile->avatar && !str_starts_with($profile->avatar, 'http') && Storage::disk($disk)->exists($profile->avatar)) {
+                Storage::disk($disk)->delete($profile->avatar);
             }
-            $validated['avatar'] = $request->file('avatar')->store('profiles', 'public');
+            $validated['avatar'] = $request->file('avatar')->store('profiles', $disk);
         }
 
         $profile->update($validated);

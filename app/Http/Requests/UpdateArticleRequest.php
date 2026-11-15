@@ -19,7 +19,7 @@ class UpdateArticleRequest extends FormRequest
             'title'       => 'required|string|max:255',
             'excerpt'     => 'nullable|string',
             'content'     => 'required|string',
-            'cover_image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
+            'cover_image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:10240',
         ];
     }
 }

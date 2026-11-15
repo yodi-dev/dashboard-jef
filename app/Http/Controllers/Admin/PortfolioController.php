@@ -106,8 +106,7 @@ class PortfolioController extends Controller
         $portfolio = Portfolio::withTrashed()->findOrFail($id);
         $portfolio->restore();
 
-        return redirect()->route('admin.portfolios.index')
-            ->with('success', 'Portfolio successfully restored!');
+        return back()->with('success', 'Portfolio successfully restored!');
     }
 
     public function forceDestroy($id)

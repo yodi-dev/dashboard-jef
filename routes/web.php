@@ -20,7 +20,7 @@ Route::prefix('admin')
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
         Route::get('trash', TrashController::class)->name('trash');
 
-        Route::patch('/portfolios/{id}/restore', [PortfolioController::class, 'restore'])->name('portfolios.restore');
+        Route::post('/portfolios/{id}/restore', [PortfolioController::class, 'restore'])->name('portfolios.restore');
         Route::delete('/portfolios/{id}/force-delete', [PortfolioController::class, 'forceDestroy'])->name('portfolios.forceDestroy');
         Route::resource('portfolios', PortfolioController::class);
         // Route khusus untuk toggle status
@@ -35,7 +35,7 @@ Route::prefix('admin')
 
         Route::resource('bookings', BookingController::class)->except(['create', 'store']);
         Route::post('bookings/{id}/restore', [BookingController::class, 'restore'])->name('bookings.restore');
-        Route::delete('bookings/{id}/force-destroy', [BookingController::class, 'forceDestroy'])->name('bookings.forceDestroy');
+        Route::delete('bookings/{id}/force-delete', [BookingController::class, 'forceDestroy'])->name('bookings.forceDestroy');
 
         Route::controller(PhotographerProfileController::class)->group(function () {
             Route::get('/photographer-profile', 'edit')->name('photographer-profile.edit');

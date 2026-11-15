@@ -22,6 +22,10 @@ class DashboardController extends Controller
         // 2. Data untuk Tabel Recent Bookings (Ambil 5 terbaru)
         $recentBookings = Booking::latest()->take(5)->get();
 
+        // 3. Activity Feed: Latest Portfolios & Articles
+        $latestPortfolios = Portfolio::latest()->take(4)->get();
+        $latestArticles = Article::latest()->take(4)->get();
+
         return view('dashboard', compact(
             'pendingBookingsCount',
             'confirmedBookingsCount',
@@ -29,7 +33,9 @@ class DashboardController extends Controller
             'publishedPortfoliosCount',
             'publishedArticlesCount',
             'totalGalleryPhotosCount',
-            'recentBookings'
+            'recentBookings',
+            'latestPortfolios',
+            'latestArticles'
         ));
     }
 }

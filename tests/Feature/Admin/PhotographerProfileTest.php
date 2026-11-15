@@ -30,7 +30,8 @@ class PhotographerProfileTest extends TestCase
 
     public function test_authenticated_user_can_update_photographer_profile()
     {
-        Storage::fake('public');
+        $disk = config('filesystems.default', 'public');
+        Storage::fake($disk);
         $user = User::factory()->create();
 
         $file = UploadedFile::fake()->image('jef-new-avatar.jpg', 600, 600);
@@ -72,7 +73,7 @@ class PhotographerProfileTest extends TestCase
 
         $profile = PhotographerProfile::current();
         $this->assertNotNull($profile->avatar);
-        Storage::disk('public')->assertExists($profile->avatar);
+        Storage::disk($disk)->assertExists($profile->avatar);
     }
 
     public function test_public_api_returns_photographer_profile()

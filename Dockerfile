@@ -35,16 +35,27 @@ COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 COPY . .
 COPY --from=frontend /app/public/build ./public/build
 
+# Configure PHP upload limits (32M) and memory
+RUN cp $PHP_INI_DIR/php.ini-production $PHP_INI_DIR/php.ini && \
+    echo "upload_max_filesize = 32M" >> $PHP_INI_DIR/conf.d/uploads.ini && \
+    echo "post_max_size = 32M" >> $PHP_INI_DIR/conf.d/uploads.ini && \
+    echo "memory_limit = 256M" >> $PHP_INI_DIR/conf.d/uploads.ini
+
 # Install production PHP dependencies
 RUN composer install --no-dev --optimize-autoloader --no-interaction
 
-# Prepare storage & cache directories with proper permissions
-RUN mkdir -p storage/framework/cache/data \
+# Prepare storage & cache directories with proper permissions for unprivileged runtime
+RUN mkdir -p storage/app/public/heroes \
+    storage/app/public/profiles \
+    storage/app/public/portfolios/thumbnails \
+    storage/app/public/portfolios/galleries \
+    storage/app/public/articles/covers \
+    storage/framework/cache/data \
     storage/framework/sessions \
     storage/framework/views \
     storage/logs \
     bootstrap/cache && \
-    chmod -R 775 storage bootstrap/cache
+    chmod -R 777 storage bootstrap/cache
 
 # Copy custom Caddyfile and entrypoint script
 COPY Caddyfile /etc/caddy/Caddyfile

@@ -21,7 +21,7 @@ class UpdatePhotographerProfileRequest extends FormRequest
             'quote'               => 'nullable|string',
             'hero_image'          => 'nullable|image|mimes:jpeg,png,jpg,webp|max:10240',
             'remove_hero_image'   => 'nullable|boolean',
-            'hero_position'       => 'nullable|string|in:top,center,bottom',
+            'hero_position'       => 'nullable|string|max:50',
             'hero_portfolio_id'   => 'nullable|exists:portfolios,id',
             'about_title'         => 'nullable|string|max:255',
             'about_journey'       => 'nullable|string',

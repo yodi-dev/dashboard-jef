@@ -1,13 +1,31 @@
 <x-app-layout>
     @section('title', 'Photographer Public Profile')
 
+    @php
+        $rawPos = old('hero_position', $profile->hero_position ?? '50%');
+        $cleanPos = str_replace('%', '', $rawPos);
+        if (is_numeric($cleanPos)) {
+            $initPositionY = (int) $cleanPos;
+        } elseif ($rawPos === 'top') {
+            $initPositionY = 15;
+        } elseif ($rawPos === 'bottom') {
+            $initPositionY = 85;
+        } else {
+            $initPositionY = 50;
+        }
+    @endphp
+
     <div x-data="{
         submitting: false,
         isDirty: false,
         activeSection: 'identity',
         previewUrl: '{{ $profile->avatar_url ?: asset('images/jeff-portrait.jpeg') }}',
         heroPreviewUrl: '{{ $profile->hero_image_url ?: '' }}',
-        heroPosition: '{{ old('hero_position', $profile->hero_position ?? 'center') }}',
+        heroPositionY: {{ $initPositionY }},
+        isDraggingFrame: false,
+        dragStartY: 0,
+        initialDragPos: {{ $initPositionY }},
+        showRuleOfThirds: false,
         selectedPortfolioId: '{{ old('hero_portfolio_id', $profile->hero_portfolio_id ?? '') }}',
         highlightPortfolios: {{ json_encode($highlightPortfolios->map(fn($p) => [
             'id' => $p->id,
@@ -22,6 +40,34 @@
             }
             this.removeHeroImage = true;
             this.isDirty = true;
+        },
+        get heroPositionString() {
+            return this.heroPositionY + '%';
+        },
+        startFrameDrag(e) {
+            if (!this.activeBannerUrl) return;
+            this.isDraggingFrame = true;
+            this.showRuleOfThirds = true;
+            this.dragStartY = e.touches ? e.touches[0].clientY : e.clientY;
+            this.initialDragPos = this.heroPositionY;
+        },
+        onFrameDrag(e) {
+            if (!this.isDraggingFrame) return;
+            const currentY = e.touches ? e.touches[0].clientY : e.clientY;
+            const deltaY = currentY - this.dragStartY;
+            const box = this.$refs.bannerBox;
+            const height = box ? box.clientHeight : 250;
+            // Dragging down moves photo down (revealing more top -> lower percentage)
+            const changePercent = (deltaY / height) * 80;
+            let newPos = Math.round(this.initialDragPos - changePercent);
+            this.heroPositionY = Math.max(0, Math.min(100, newPos));
+            this.isDirty = true;
+        },
+        stopFrameDrag() {
+            if (this.isDraggingFrame) {
+                this.isDraggingFrame = false;
+                setTimeout(() => { this.showRuleOfThirds = false; }, 800);
+            }
         },
         get activeBannerUrl() {
             if (this.heroPreviewUrl) {
@@ -119,7 +165,7 @@
             };
             reader.readAsDataURL(file);
         }
-    }" class="space-y-6 max-w-5xl mx-auto pb-12">
+    }" @mousemove.window="onFrameDrag($event)" @mouseup.window="stopFrameDrag()" @touchmove.window="onFrameDrag($event)" @touchend.window="stopFrameDrag()" class="space-y-6 max-w-5xl mx-auto pb-12">
 
         {{-- Header Section --}}
         <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
@@ -382,9 +428,12 @@
                             </p>
                         </div>
 
-                        {{-- 21:9 Aspect Ratio Live Preview Box --}}
-                        <div class="relative overflow-hidden rounded-xl border-2 border-dashed transition-all duration-200 aspect-[21/9] bg-stone-100 dark:bg-zinc-800/60"
-                            :class="isHeroDragging ? 'border-zinc-900 bg-stone-200 dark:border-zinc-100 dark:bg-zinc-800' : 'border-stone-300 dark:border-zinc-700'"
+                        {{-- 21:9 Aspect Ratio Live Preview Box (Interactive Drag-to-Frame) --}}
+                        <div x-ref="bannerBox"
+                            class="relative overflow-hidden rounded-xl border-2 transition-all duration-200 aspect-[21/9] bg-stone-100 dark:bg-zinc-800/60 select-none cursor-grab active:cursor-grabbing"
+                            :class="isDraggingFrame ? 'ring-2 ring-zinc-900 dark:ring-zinc-100 border-zinc-900 dark:border-zinc-100' : (isHeroDragging ? 'border-zinc-900 bg-stone-200 dark:border-zinc-100 dark:bg-zinc-800' : 'border-stone-300 dark:border-zinc-700')"
+                            @mousedown="startFrameDrag($event)"
+                            @touchstart="startFrameDrag($event)"
                             @dragover.prevent="isHeroDragging = true"
                             @dragleave.prevent="isHeroDragging = false"
                             @drop.prevent="handleHeroDrop($event)">
@@ -393,28 +442,52 @@
                                 <div class="relative w-full h-full group">
                                     <img :src="activeBannerUrl"
                                         alt="Hero Banner Preview"
-                                        class="w-full h-full object-cover transition-all duration-300"
-                                        :class="{
-                                            'object-top': heroPosition === 'top',
-                                            'object-center': heroPosition === 'center',
-                                            'object-bottom': heroPosition === 'bottom'
-                                        }">
+                                        class="w-full h-full object-cover select-none pointer-events-none"
+                                        :class="isDraggingFrame ? 'transition-none' : 'transition-all duration-300'"
+                                        :style="{ objectPosition: '50% ' + heroPositionY + '%' }">
                                     
+                                    {{-- Rule of Thirds Golden Composition Grid --}}
+                                    <div x-show="showRuleOfThirds || isDraggingFrame" x-transition.opacity.duration.200ms
+                                         class="absolute inset-0 pointer-events-none grid grid-cols-3 grid-rows-3 border border-white/20 shadow-[inset_0_0_12px_rgba(0,0,0,0.25)]">
+                                        <div class="border-r border-b border-white/25"></div>
+                                        <div class="border-r border-b border-white/25"></div>
+                                        <div class="border-b border-white/25"></div>
+                                        <div class="border-r border-b border-white/25"></div>
+                                        <div class="border-r border-b border-white/25"></div>
+                                        <div class="border-b border-white/25"></div>
+                                        <div class="border-r border-b border-white/25"></div>
+                                        <div class="border-r border-b border-white/25"></div>
+                                        <div></div>
+                                    </div>
+
                                     {{-- Status Pill on Preview --}}
                                     <div class="absolute top-3 left-3 bg-black/75 backdrop-blur-md text-white px-2.5 py-1 rounded-md text-[11px] font-mono flex items-center gap-2 shadow-sm pointer-events-none">
                                         <span class="w-2 h-2 rounded-full" :class="heroPreviewUrl ? 'bg-amber-400' : 'bg-emerald-400'"></span>
                                         <span x-text="activeBannerTitle"></span>
                                     </div>
 
-                                    <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-3">
-                                        <button type="button" @click="$refs.heroInput.click()"
-                                            class="px-3.5 py-2 bg-white/95 hover:bg-white text-zinc-900 rounded-lg text-xs font-mono font-medium shadow-sm transition">
-                                            <span x-text="heroPreviewUrl ? 'Replace Custom Image' : 'Upload Custom Banner'"></span>
+                                    {{-- Crop Anchor Badge on Preview --}}
+                                    <div class="absolute bottom-3 left-3 bg-black/75 backdrop-blur-md text-white px-2.5 py-1 rounded-md text-[10px] font-mono flex items-center gap-1.5 shadow pointer-events-none">
+                                        <svg class="w-3 h-3 text-white/70" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4"/></svg>
+                                        <span>Vertical Anchor: <strong class="text-white" x-text="heroPositionY + '%'"></strong></span>
+                                    </div>
+
+                                    {{-- Drag Hint on Hover --}}
+                                    <div x-show="!isDraggingFrame"
+                                         class="absolute bottom-3 right-3 bg-black/60 backdrop-blur-md text-white/90 px-2.5 py-1 rounded-md text-[10px] font-mono tracking-wider opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1.5 pointer-events-none">
+                                        <span>Click & drag vertically to frame ↕</span>
+                                    </div>
+
+                                    {{-- Action Buttons Hover Bar (Top Right) --}}
+                                    <div class="absolute top-3 right-3 flex items-center gap-2">
+                                        <button type="button" @click.stop="$refs.heroInput.click()"
+                                            class="px-2.5 py-1 bg-white/95 hover:bg-white text-zinc-900 rounded-md text-[11px] font-mono font-medium shadow-sm transition">
+                                            <span x-text="heroPreviewUrl ? 'Replace Photo' : 'Upload Custom'"></span>
                                         </button>
                                         <template x-if="heroPreviewUrl">
-                                            <button type="button" @click="revertHero()"
-                                                class="px-3.5 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg text-xs font-mono font-medium shadow-sm transition">
-                                                Revert to Highlight
+                                            <button type="button" @click.stop="revertHero()"
+                                                class="px-2.5 py-1 bg-red-600 hover:bg-red-700 text-white rounded-md text-[11px] font-mono font-medium shadow-sm transition">
+                                                Revert
                                             </button>
                                         </template>
                                     </div>
@@ -458,52 +531,63 @@
                             </div>
                         </template>
 
-                        {{-- Framing Focal Point Selector --}}
-                        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pt-1">
-                            <div class="flex flex-wrap items-center gap-2">
-                                <span class="text-[11px] font-mono text-zinc-600 dark:text-zinc-400 uppercase tracking-wider font-medium">Framing Focal Point (Crop):</span>
-                                <div class="inline-flex rounded-lg p-0.5 bg-stone-100 dark:bg-zinc-800 border border-stone-200 dark:border-zinc-700">
-                                    <button type="button" @click="heroPosition = 'top'; isDirty = true"
-                                        :class="heroPosition === 'top' ? 'bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-900 font-medium shadow-sm' : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-200'"
-                                        class="px-2.5 py-1 text-[11px] font-mono rounded-md transition-all">
-                                        Top (Sky / Head)
-                                    </button>
-                                    <button type="button" @click="heroPosition = 'center'; isDirty = true"
-                                        :class="heroPosition === 'center' ? 'bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-900 font-medium shadow-sm' : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-200'"
-                                        class="px-2.5 py-1 text-[11px] font-mono rounded-md transition-all">
-                                        Center (Balanced)
-                                    </button>
-                                    <button type="button" @click="heroPosition = 'bottom'; isDirty = true"
-                                        :class="heroPosition === 'bottom' ? 'bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-900 font-medium shadow-sm' : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-200'"
-                                        class="px-2.5 py-1 text-[11px] font-mono rounded-md transition-all">
-                                        Bottom (Foreground)
-                                    </button>
+                        {{-- Precision Framing & Slider Control Panel --}}
+                        <div class="p-4 bg-stone-50 dark:bg-zinc-800/40 rounded-xl border border-stone-200 dark:border-zinc-800 space-y-3">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center gap-2">
+                                    <span class="text-xs font-mono font-medium text-zinc-800 dark:text-zinc-200 uppercase tracking-wider flex items-center gap-1.5">
+                                        <svg class="w-3.5 h-3.5 text-zinc-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4"/></svg>
+                                        Vertical Crop Positioning:
+                                    </span>
+                                    <span class="px-2 py-0.5 rounded-md bg-white dark:bg-zinc-900 border border-stone-200 dark:border-zinc-700 text-zinc-900 dark:text-zinc-100 text-xs font-mono font-semibold" x-text="heroPositionY + '%'"></span>
                                 </div>
-                                <input type="hidden" name="hero_position" :value="heroPosition">
+                                <button type="button" @click="showRuleOfThirds = !showRuleOfThirds"
+                                    :class="showRuleOfThirds ? 'bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-900' : 'text-zinc-500 hover:text-zinc-800 dark:hover:text-zinc-200 bg-stone-200/60 dark:bg-zinc-700/60'"
+                                    class="px-2.5 py-1 rounded text-[10px] font-mono transition-all inline-flex items-center gap-1">
+                                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16M6 4v16M12 4v16M18 4v16"/></svg>
+                                    <span x-text="showRuleOfThirds ? 'Hide Grid' : 'Show Grid'"></span>
+                                </button>
                             </div>
 
-                            {{-- Revert / Remove Custom Photo Button --}}
-                            <div>
-                                <input type="hidden" name="remove_hero_image" :value="removeHeroImage ? '1' : '0'">
-                                <template x-if="heroPreviewUrl">
-                                    <button type="button" @click="revertHero()"
-                                        class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-mono font-medium text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 bg-red-50 dark:bg-red-950/40 hover:bg-red-100 dark:hover:bg-red-900/60 rounded-lg transition duration-150">
-                                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                        </svg>
-                                        <span>Remove Custom & Revert to Highlight</span>
+                            <input type="range" min="0" max="100" step="1"
+                                x-model.number="heroPositionY"
+                                @focus="showRuleOfThirds = true"
+                                @blur="showRuleOfThirds = false"
+                                @input="isDirty = true"
+                                class="w-full h-2 bg-stone-200 dark:bg-zinc-700 rounded-lg appearance-none cursor-pointer accent-zinc-900 dark:accent-zinc-100">
+
+                            <div class="flex flex-wrap items-center justify-between gap-1.5 pt-1 border-t border-stone-200/80 dark:border-zinc-700/60 text-xs font-mono">
+                                <span class="text-[11px] text-zinc-500 dark:text-zinc-400">Quick Framing:</span>
+                                <div class="flex flex-wrap items-center gap-1">
+                                    <button type="button" @click="heroPositionY = 15; isDirty = true"
+                                        :class="heroPositionY === 15 ? 'bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-900 font-semibold' : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white bg-white dark:bg-zinc-900 border border-stone-200 dark:border-zinc-700'"
+                                        class="px-2.5 py-1 text-[11px] font-mono rounded-md transition-all shadow-sm">
+                                        Top (15%)
                                     </button>
-                                </template>
-                                <template x-if="!heroPreviewUrl">
-                                    <button type="button" @click="$refs.heroInput.click()"
-                                        class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-mono font-medium text-zinc-700 dark:text-zinc-300 hover:text-zinc-900 dark:hover:text-white bg-stone-100 hover:bg-stone-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 rounded-lg border border-stone-200 dark:border-zinc-700 transition duration-150">
-                                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/>
-                                        </svg>
-                                        <span>Upload Custom Banner</span>
+                                    <button type="button" @click="heroPositionY = 33; isDirty = true"
+                                        :class="heroPositionY === 33 ? 'bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-900 font-semibold' : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white bg-white dark:bg-zinc-900 border border-stone-200 dark:border-zinc-700'"
+                                        class="px-2.5 py-1 text-[11px] font-mono rounded-md transition-all shadow-sm">
+                                        Upper 1/3 (33%)
                                     </button>
-                                </template>
+                                    <button type="button" @click="heroPositionY = 50; isDirty = true"
+                                        :class="heroPositionY === 50 ? 'bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-900 font-semibold' : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white bg-white dark:bg-zinc-900 border border-stone-200 dark:border-zinc-700'"
+                                        class="px-2.5 py-1 text-[11px] font-mono rounded-md transition-all shadow-sm">
+                                        Center (50%)
+                                    </button>
+                                    <button type="button" @click="heroPositionY = 66; isDirty = true"
+                                        :class="heroPositionY === 66 ? 'bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-900 font-semibold' : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white bg-white dark:bg-zinc-900 border border-stone-200 dark:border-zinc-700'"
+                                        class="px-2.5 py-1 text-[11px] font-mono rounded-md transition-all shadow-sm">
+                                        Lower 1/3 (66%)
+                                    </button>
+                                    <button type="button" @click="heroPositionY = 85; isDirty = true"
+                                        :class="heroPositionY === 85 ? 'bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-900 font-semibold' : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white bg-white dark:bg-zinc-900 border border-stone-200 dark:border-zinc-700'"
+                                        class="px-2.5 py-1 text-[11px] font-mono rounded-md transition-all shadow-sm">
+                                        Bottom (85%)
+                                    </button>
+                                </div>
                             </div>
+                            <input type="hidden" name="hero_position" :value="heroPositionString">
+                            <input type="hidden" name="remove_hero_image" :value="removeHeroImage ? '1' : '0'">
                         </div>
                     </div>
                 </div>

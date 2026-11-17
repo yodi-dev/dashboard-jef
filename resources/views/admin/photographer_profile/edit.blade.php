@@ -8,6 +8,15 @@
         previewUrl: '{{ $profile->avatar_url ?: asset('images/jeff-portrait.jpeg') }}',
         heroPreviewUrl: '{{ $profile->hero_image_url ?: '' }}',
         heroPosition: '{{ old('hero_position', $profile->hero_position ?? 'center') }}',
+        removeHeroImage: false,
+        revertHero() {
+            this.heroPreviewUrl = '';
+            if (this.$refs.heroInput) {
+                this.$refs.heroInput.value = '';
+            }
+            this.removeHeroImage = true;
+            this.isDirty = true;
+        },
         isDragging: false,
         isHeroDragging: false,
         init() {
@@ -407,12 +416,25 @@
                                 <input type="hidden" name="hero_position" :value="heroPosition">
                             </div>
 
-                            @if ($profile->hero_image)
-                                <label class="inline-flex items-center gap-2 text-xs text-red-600 dark:text-red-400 cursor-pointer">
-                                    <input type="checkbox" name="remove_hero_image" value="1" @change="isDirty = true" class="rounded border-stone-300 dark:border-zinc-700 text-red-600 focus:ring-red-500">
-                                    <span>Revert to Highlight Portfolio banner</span>
-                                </label>
-                            @endif
+                            {{-- Revert / Remove Custom Photo Button --}}
+                            <div>
+                                <input type="hidden" name="remove_hero_image" :value="removeHeroImage ? '1' : '0'">
+                                <template x-if="heroPreviewUrl">
+                                    <button type="button" @click="revertHero()"
+                                        class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-mono font-medium text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 bg-red-50 dark:bg-red-950/40 hover:bg-red-100 dark:hover:bg-red-900/60 rounded-lg transition duration-150">
+                                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                        </svg>
+                                        <span>Hapus Custom & Revert ke Highlight</span>
+                                    </button>
+                                </template>
+                                <template x-if="!heroPreviewUrl">
+                                    <span class="inline-flex items-center gap-1.5 text-xs font-mono text-emerald-600 dark:text-emerald-400">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                                        <span>Aktif: Menggunakan Karya Highlight</span>
+                                    </span>
+                                </template>
+                            </div>
                         </div>
                     </div>
                 </div>

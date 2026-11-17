@@ -16,7 +16,9 @@ FROM dunglas/frankenphp:1-php8.3-alpine AS runner
 WORKDIR /app
 
 # Install system dependencies & CA certificates for secure TLS connections
-RUN apk add --no-cache ca-certificates curl
+# Note: libcap-utils & setcap -r is required for unprivileged container runtimes like Render
+RUN apk add --no-cache ca-certificates curl libcap-utils && \
+    setcap -r /usr/local/bin/frankenphp
 
 # Install PHP extensions required by Laravel
 RUN install-php-extensions \

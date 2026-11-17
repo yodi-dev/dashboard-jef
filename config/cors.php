@@ -29,6 +29,7 @@ return [
     'allowed_origins_patterns' => [
         '#^https?://.*\.jeflee\.photography$#',
         '#^https?://.*\.vercel\.app$#',
+        '#^https?://.*\.pages\.dev$#',
     ],
 
     'allowed_headers' => ['*'],

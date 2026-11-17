@@ -14,9 +14,19 @@ class ArticleResource extends JsonResource
             return null;
         }
         if (str_starts_with($path, 'http://') || str_starts_with($path, 'https://')) {
-            return $path;
+            $url = $path;
+        } else {
+            $url = Storage::disk('public')->url($path);
         }
-        return url(Storage::url($path));
+
+        if (!app()->runningInConsole() && (str_contains($url, 'localhost') || str_contains($url, '127.0.0.1'))) {
+            $host = request()->getSchemeAndHttpHost();
+            if (!str_contains($host, 'localhost') && !str_contains($host, '127.0.0.1')) {
+                $url = preg_replace('#^https?://[^/]+#', $host, $url);
+            }
+        }
+
+        return $url;
     }
 
     public function toArray(Request $request): array

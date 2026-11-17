@@ -24,5 +24,11 @@ class AppServiceProvider extends ServiceProvider
         if ($this->app->environment('production') || str_starts_with(config('app.url', ''), 'https://')) {
             URL::forceScheme('https');
         }
+
+        // Dynamically configure public disk storage URL to use the incoming request host when behind proxies
+        if (!app()->runningInConsole() && request()->getHost() && !in_array(request()->getHost(), ['localhost', '127.0.0.1'])) {
+            $schemeAndHttpHost = request()->getSchemeAndHttpHost();
+            config(['filesystems.disks.public.url' => $schemeAndHttpHost . '/storage']);
+        }
     }
 }

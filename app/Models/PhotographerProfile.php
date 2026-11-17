@@ -45,10 +45,19 @@ class PhotographerProfile extends Model
         }
 
         if (str_starts_with($this->avatar, 'http://') || str_starts_with($this->avatar, 'https://')) {
-            return $this->avatar;
+            $url = $this->avatar;
+        } else {
+            $url = Storage::disk('public')->url($this->avatar);
         }
 
-        return url(Storage::url($this->avatar));
+        if (!app()->runningInConsole() && (str_contains($url, 'localhost') || str_contains($url, '127.0.0.1'))) {
+            $host = request()->getSchemeAndHttpHost();
+            if (!str_contains($host, 'localhost') && !str_contains($host, '127.0.0.1')) {
+                $url = preg_replace('#^https?://[^/]+#', $host, $url);
+            }
+        }
+
+        return $url;
     }
 
     /**
@@ -61,10 +70,19 @@ class PhotographerProfile extends Model
         }
 
         if (str_starts_with($this->hero_image, 'http://') || str_starts_with($this->hero_image, 'https://')) {
-            return $this->hero_image;
+            $url = $this->hero_image;
+        } else {
+            $url = Storage::disk('public')->url($this->hero_image);
         }
 
-        return url(Storage::url($this->hero_image));
+        if (!app()->runningInConsole() && (str_contains($url, 'localhost') || str_contains($url, '127.0.0.1'))) {
+            $host = request()->getSchemeAndHttpHost();
+            if (!str_contains($host, 'localhost') && !str_contains($host, '127.0.0.1')) {
+                $url = preg_replace('#^https?://[^/]+#', $host, $url);
+            }
+        }
+
+        return $url;
     }
 
     /**

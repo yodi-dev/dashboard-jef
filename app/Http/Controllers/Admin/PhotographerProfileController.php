@@ -13,7 +13,12 @@ class PhotographerProfileController extends Controller
     {
         $profile = PhotographerProfile::current();
 
-        return view('admin.photographer_profile.edit', compact('profile'));
+        $highlightPortfolios = \App\Models\Portfolio::where('is_published', true)
+            ->where('is_highlight', true)
+            ->latest()
+            ->get(['id', 'title', 'slug', 'thumbnail']);
+
+        return view('admin.photographer_profile.edit', compact('profile', 'highlightPortfolios'));
     }
 
     public function update(UpdatePhotographerProfileRequest $request)
@@ -53,6 +58,10 @@ class PhotographerProfileController extends Controller
             }
 
             unset($validated['remove_avatar'], $validated['remove_hero_image']);
+
+            if (empty($validated['hero_portfolio_id'])) {
+                $validated['hero_portfolio_id'] = null;
+            }
 
             $profile->update($validated);
 

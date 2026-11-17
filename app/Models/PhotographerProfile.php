@@ -18,6 +18,7 @@ class PhotographerProfile extends Model
         'quote',
         'hero_image',
         'hero_position',
+        'hero_portfolio_id',
         'about_title',
         'about_journey',
         'about_philosophy',
@@ -34,6 +35,14 @@ class PhotographerProfile extends Model
         'instagram',
         'instagram_url',
     ];
+
+    /**
+     * Get the explicitly selected hero portfolio (if using highlight mode).
+     */
+    public function heroPortfolio()
+    {
+        return $this->belongsTo(Portfolio::class, 'hero_portfolio_id');
+    }
 
     /**
      * Get the resolved public URL of the avatar.

@@ -8,6 +8,12 @@
         previewUrl: '{{ $profile->avatar_url ?: asset('images/jeff-portrait.jpeg') }}',
         heroPreviewUrl: '{{ $profile->hero_image_url ?: '' }}',
         heroPosition: '{{ old('hero_position', $profile->hero_position ?? 'center') }}',
+        selectedPortfolioId: '{{ old('hero_portfolio_id', $profile->hero_portfolio_id ?? '') }}',
+        highlightPortfolios: {{ json_encode($highlightPortfolios->map(fn($p) => [
+            'id' => $p->id,
+            'title' => $p->title,
+            'thumbnail_url' => $p->thumbnail_url,
+        ])) }},
         removeHeroImage: false,
         revertHero() {
             this.heroPreviewUrl = '';
@@ -16,6 +22,32 @@
             }
             this.removeHeroImage = true;
             this.isDirty = true;
+        },
+        get activeBannerUrl() {
+            if (this.heroPreviewUrl) {
+                return this.heroPreviewUrl;
+            }
+            if (this.selectedPortfolioId) {
+                const found = this.highlightPortfolios.find(p => String(p.id) === String(this.selectedPortfolioId));
+                if (found && found.thumbnail_url) return found.thumbnail_url;
+            }
+            if (this.highlightPortfolios.length > 0) {
+                return this.highlightPortfolios[0].thumbnail_url;
+            }
+            return '';
+        },
+        get activeBannerTitle() {
+            if (this.heroPreviewUrl) {
+                return 'Custom Uploaded Banner';
+            }
+            if (this.selectedPortfolioId) {
+                const found = this.highlightPortfolios.find(p => String(p.id) === String(this.selectedPortfolioId));
+                if (found) return 'Highlight Work: ' + found.title;
+            }
+            if (this.highlightPortfolios.length > 0) {
+                return 'Highlight Work: ' + this.highlightPortfolios[0].title + ' (Latest)';
+            }
+            return 'No Highlight Portfolio Available';
         },
         isDragging: false,
         isHeroDragging: false,
@@ -357,9 +389,9 @@
                             @dragleave.prevent="isHeroDragging = false"
                             @drop.prevent="handleHeroDrop($event)">
                             
-                            <template x-if="heroPreviewUrl">
+                            <template x-if="activeBannerUrl">
                                 <div class="relative w-full h-full group">
-                                    <img :src="heroPreviewUrl"
+                                    <img :src="activeBannerUrl"
                                         alt="Hero Banner Preview"
                                         class="w-full h-full object-cover transition-all duration-300"
                                         :class="{
@@ -367,16 +399,29 @@
                                             'object-center': heroPosition === 'center',
                                             'object-bottom': heroPosition === 'bottom'
                                         }">
+                                    
+                                    {{-- Status Pill on Preview --}}
+                                    <div class="absolute top-3 left-3 bg-black/75 backdrop-blur-md text-white px-2.5 py-1 rounded-md text-[11px] font-mono flex items-center gap-2 shadow-sm pointer-events-none">
+                                        <span class="w-2 h-2 rounded-full" :class="heroPreviewUrl ? 'bg-amber-400' : 'bg-emerald-400'"></span>
+                                        <span x-text="activeBannerTitle"></span>
+                                    </div>
+
                                     <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-3">
                                         <button type="button" @click="$refs.heroInput.click()"
-                                            class="px-3 py-1.5 bg-white/95 hover:bg-white text-zinc-900 rounded-lg text-xs font-mono font-medium shadow-sm transition">
-                                            Replace Image
+                                            class="px-3.5 py-2 bg-white/95 hover:bg-white text-zinc-900 rounded-lg text-xs font-mono font-medium shadow-sm transition">
+                                            <span x-text="heroPreviewUrl ? 'Replace Custom Image' : 'Upload Custom Banner'"></span>
                                         </button>
+                                        <template x-if="heroPreviewUrl">
+                                            <button type="button" @click="revertHero()"
+                                                class="px-3.5 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg text-xs font-mono font-medium shadow-sm transition">
+                                                Revert to Highlight
+                                            </button>
+                                        </template>
                                     </div>
                                 </div>
                             </template>
 
-                            <template x-if="!heroPreviewUrl">
+                            <template x-if="!activeBannerUrl">
                                 <div class="w-full h-full flex flex-col items-center justify-center p-6 text-center cursor-pointer"
                                     @click="$refs.heroInput.click()">
                                     <svg class="w-8 h-8 text-zinc-400 dark:text-zinc-500 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -392,10 +437,31 @@
                             @change="handleHeroChange($event)"
                             class="hidden">
 
-                        {{-- Framing Focal Point Selector (Pilihan 1) --}}
+                        {{-- Highlighted Portfolio Picker (When using Highlight Mode) --}}
+                        <template x-if="!heroPreviewUrl && highlightPortfolios.length > 0">
+                            <div class="p-3 bg-stone-50 dark:bg-zinc-800/50 rounded-xl border border-stone-200 dark:border-zinc-700/80 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                                <div>
+                                    <label for="hero_portfolio_id" class="block text-xs font-mono font-medium text-zinc-800 dark:text-zinc-200">
+                                        Featured Highlight Work for Hero:
+                                    </label>
+                                    <p class="text-[11px] text-zinc-500 dark:text-zinc-400 mt-0.5">
+                                        Choose which highlighted series appears as the cinematic banner on the home page.
+                                    </p>
+                                </div>
+                                <select id="hero_portfolio_id" name="hero_portfolio_id" x-model="selectedPortfolioId" @change="isDirty = true"
+                                    class="py-1.5 px-3 text-xs font-mono rounded-lg border-stone-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100 focus:outline-none focus:ring-1 focus:ring-zinc-800 dark:focus:ring-zinc-200 min-w-[220px]">
+                                    <option value="">(Auto) Latest Highlight Work</option>
+                                    <template x-for="p in highlightPortfolios" :key="p.id">
+                                        <option :value="p.id" x-text="p.title" :selected="String(p.id) === String(selectedPortfolioId)"></option>
+                                    </template>
+                                </select>
+                            </div>
+                        </template>
+
+                        {{-- Framing Focal Point Selector --}}
                         <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pt-1">
-                            <div class="flex items-center gap-2">
-                                <span class="text-[11px] font-mono text-zinc-600 dark:text-zinc-400 uppercase tracking-wider">Framing Focal Point:</span>
+                            <div class="flex flex-wrap items-center gap-2">
+                                <span class="text-[11px] font-mono text-zinc-600 dark:text-zinc-400 uppercase tracking-wider font-medium">Framing Focal Point (Crop):</span>
                                 <div class="inline-flex rounded-lg p-0.5 bg-stone-100 dark:bg-zinc-800 border border-stone-200 dark:border-zinc-700">
                                     <button type="button" @click="heroPosition = 'top'; isDirty = true"
                                         :class="heroPosition === 'top' ? 'bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-900 font-medium shadow-sm' : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-200'"
@@ -429,10 +495,13 @@
                                     </button>
                                 </template>
                                 <template x-if="!heroPreviewUrl">
-                                    <span class="inline-flex items-center gap-1.5 text-xs font-mono text-emerald-600 dark:text-emerald-400">
-                                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
-                                        <span>Active: Highlight Portfolio Banner</span>
-                                    </span>
+                                    <button type="button" @click="$refs.heroInput.click()"
+                                        class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-mono font-medium text-zinc-700 dark:text-zinc-300 hover:text-zinc-900 dark:hover:text-white bg-stone-100 hover:bg-stone-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 rounded-lg border border-stone-200 dark:border-zinc-700 transition duration-150">
+                                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/>
+                                        </svg>
+                                        <span>Upload Custom Banner</span>
+                                    </button>
                                 </template>
                             </div>
                         </div>

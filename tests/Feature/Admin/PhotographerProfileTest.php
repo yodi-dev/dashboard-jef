@@ -88,6 +88,9 @@ class PhotographerProfileTest extends TestCase
                 'headline',
                 'sub_headline',
                 'quote',
+                'hero_image',
+                'hero_position',
+                'hero_portfolio_id',
                 'about_title',
                 'about_journey',
                 'about_philosophy',
@@ -99,6 +102,31 @@ class PhotographerProfileTest extends TestCase
                 'instagram',
                 'instagram_url',
             ],
+        ]);
+    }
+
+    public function test_authenticated_user_can_set_hero_crop_position_and_portfolio()
+    {
+        $user = User::factory()->create();
+        $portfolio = \App\Models\Portfolio::create([
+            'title'        => 'Manly Beach Session',
+            'category'     => 'Family',
+            'is_published' => true,
+            'is_highlight' => true,
+        ]);
+
+        $payload = [
+            'name'              => 'Jef Lee',
+            'hero_position'     => 'top',
+            'hero_portfolio_id' => $portfolio->id,
+        ];
+
+        $response = $this->actingAs($user)->put(route('admin.photographer-profile.update'), $payload);
+        $response->assertRedirect(route('admin.photographer-profile.edit'));
+
+        $this->assertDatabaseHas('photographer_profiles', [
+            'hero_position'     => 'top',
+            'hero_portfolio_id' => $portfolio->id,
         ]);
     }
 }

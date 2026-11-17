@@ -113,12 +113,20 @@ class PortfolioController extends Controller
             $portfolio->save();
 
             if ($request->wantsJson() || $request->ajax()) {
+                $counts = [
+                    'all' => Portfolio::count(),
+                    'published' => Portfolio::where('is_published', true)->count(),
+                    'draft' => Portfolio::where('is_published', false)->count(),
+                    'highlight' => Portfolio::where('is_highlight', true)->count(),
+                ];
+
                 return response()->json([
                     'success' => true,
                     'message' => 'Portfolio status successfully updated!',
                     'is_published' => (bool)$portfolio->is_published,
                     'is_highlight' => (bool)$portfolio->is_highlight,
                     'published_at' => $portfolio->published_at ? $portfolio->published_at->format('d M Y, H:i') : null,
+                    'counts' => $counts,
                 ]);
             }
         }

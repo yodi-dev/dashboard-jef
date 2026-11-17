@@ -27,14 +27,17 @@
         {{-- Filter & Search Toolbar --}}
         <div class="space-y-4">
             {{-- Status Tabs --}}
-            <div class="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none border-b border-stone-200 dark:border-zinc-800">
+            <div class="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none border-b border-stone-200 dark:border-zinc-800"
+                 x-data="{ counts: {{ json_encode($counts) }} }"
+                 @article-counts-updated.window="counts = $event.detail">
                 @php
                     $activeStatus = request('status', 'all');
                 @endphp
                 <a href="{{ route('admin.articles.index', array_merge(request()->except('page', 'status'), ['status' => 'all'])) }}"
                     class="inline-flex items-center gap-2 px-3 py-2 text-xs font-medium rounded-t-lg border-b-2 transition-all whitespace-nowrap {{ $activeStatus === 'all' ? 'border-zinc-900 text-zinc-900 dark:border-zinc-100 dark:text-zinc-100 font-semibold' : 'border-transparent text-zinc-500 hover:text-zinc-800 dark:text-zinc-400 dark:hover:text-zinc-200' }}">
                     <span>All Stories</span>
-                    <span class="px-1.5 py-0.5 text-[10px] rounded-full {{ $activeStatus === 'all' ? 'bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-900' : 'bg-stone-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400' }}">
+                    <span class="px-1.5 py-0.5 text-[10px] rounded-full {{ $activeStatus === 'all' ? 'bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-900' : 'bg-stone-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400' }}"
+                          x-text="counts.all">
                         {{ $counts['all'] ?? 0 }}
                     </span>
                 </a>
@@ -42,7 +45,8 @@
                     class="inline-flex items-center gap-2 px-3 py-2 text-xs font-medium rounded-t-lg border-b-2 transition-all whitespace-nowrap {{ $activeStatus === 'published' ? 'border-zinc-900 text-zinc-900 dark:border-zinc-100 dark:text-zinc-100 font-semibold' : 'border-transparent text-zinc-500 hover:text-zinc-800 dark:text-zinc-400 dark:hover:text-zinc-200' }}">
                     <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
                     <span>Published</span>
-                    <span class="px-1.5 py-0.5 text-[10px] rounded-full {{ $activeStatus === 'published' ? 'bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-900' : 'bg-stone-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400' }}">
+                    <span class="px-1.5 py-0.5 text-[10px] rounded-full {{ $activeStatus === 'published' ? 'bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-900' : 'bg-stone-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400' }}"
+                          x-text="counts.published">
                         {{ $counts['published'] ?? 0 }}
                     </span>
                 </a>
@@ -50,7 +54,8 @@
                     class="inline-flex items-center gap-2 px-3 py-2 text-xs font-medium rounded-t-lg border-b-2 transition-all whitespace-nowrap {{ $activeStatus === 'draft' ? 'border-zinc-900 text-zinc-900 dark:border-zinc-100 dark:text-zinc-100 font-semibold' : 'border-transparent text-zinc-500 hover:text-zinc-800 dark:text-zinc-400 dark:hover:text-zinc-200' }}">
                     <span class="w-1.5 h-1.5 rounded-full bg-zinc-400"></span>
                     <span>Drafts</span>
-                    <span class="px-1.5 py-0.5 text-[10px] rounded-full {{ $activeStatus === 'draft' ? 'bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-900' : 'bg-stone-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400' }}">
+                    <span class="px-1.5 py-0.5 text-[10px] rounded-full {{ $activeStatus === 'draft' ? 'bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-900' : 'bg-stone-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400' }}"
+                          x-text="counts.draft">
                         {{ $counts['draft'] ?? 0 }}
                     </span>
                 </a>
@@ -60,7 +65,8 @@
                         <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
                     </svg>
                     <span>Featured</span>
-                    <span class="px-1.5 py-0.5 text-[10px] rounded-full {{ $activeStatus === 'highlight' ? 'bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-900' : 'bg-stone-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400' }}">
+                    <span class="px-1.5 py-0.5 text-[10px] rounded-full {{ $activeStatus === 'highlight' ? 'bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-900' : 'bg-stone-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400' }}"
+                          x-text="counts.highlight">
                         {{ $counts['highlight'] ?? 0 }}
                     </span>
                 </a>
@@ -118,6 +124,7 @@
                         isPublished: {{ $article->is_published ? 'true' : 'false' }},
                         isHighlight: {{ $article->is_highlight ? 'true' : 'false' }},
                         loading: false,
+                        visible: true,
                         async toggle(field) {
                             if (this.loading) return;
                             this.loading = true;
@@ -144,7 +151,19 @@
                                 if (data.success) {
                                     this.isPublished = data.is_published;
                                     this.isHighlight = data.is_highlight;
+                                    if (data.counts) {
+                                        window.dispatchEvent(new CustomEvent('article-counts-updated', { detail: data.counts }));
+                                    }
                                     window.dispatchEvent(new CustomEvent('notify', { detail: { message: data.message } }));
+
+                                    const activeTab = '{{ $activeStatus }}';
+                                    if (activeTab === 'highlight' && !this.isHighlight) {
+                                        setTimeout(() => { this.visible = false; }, 250);
+                                    } else if (activeTab === 'draft' && this.isPublished) {
+                                        setTimeout(() => { this.visible = false; }, 250);
+                                    } else if (activeTab === 'published' && !this.isPublished) {
+                                        setTimeout(() => { this.visible = false; }, 250);
+                                    }
                                 } else {
                                     throw new Error();
                                 }
@@ -156,7 +175,7 @@
                                 this.loading = false;
                             }
                         }
-                    }" class="p-4 space-y-3">
+                    }" x-show="visible" x-transition.opacity.duration.300ms class="p-4 space-y-3">
                         {{-- Top: Cover Image & Title --}}
                         <div class="flex items-start gap-3">
                             @if ($article->cover_image_url)
@@ -275,6 +294,7 @@
                                 isPublished: {{ $article->is_published ? 'true' : 'false' }},
                                 isHighlight: {{ $article->is_highlight ? 'true' : 'false' }},
                                 loading: false,
+                                visible: true,
                                 async toggle(field) {
                                     if (this.loading) return;
                                     this.loading = true;
@@ -301,7 +321,19 @@
                                         if (data.success) {
                                             this.isPublished = data.is_published;
                                             this.isHighlight = data.is_highlight;
+                                            if (data.counts) {
+                                                window.dispatchEvent(new CustomEvent('article-counts-updated', { detail: data.counts }));
+                                            }
                                             window.dispatchEvent(new CustomEvent('notify', { detail: { message: data.message } }));
+
+                                            const activeTab = '{{ $activeStatus }}';
+                                            if (activeTab === 'highlight' && !this.isHighlight) {
+                                                setTimeout(() => { this.visible = false; }, 250);
+                                            } else if (activeTab === 'draft' && this.isPublished) {
+                                                setTimeout(() => { this.visible = false; }, 250);
+                                            } else if (activeTab === 'published' && !this.isPublished) {
+                                                setTimeout(() => { this.visible = false; }, 250);
+                                            }
                                         } else {
                                             throw new Error();
                                         }
@@ -313,7 +345,7 @@
                                         this.loading = false;
                                     }
                                 }
-                            }" class="hover:bg-stone-50 dark:hover:bg-zinc-800/40 transition duration-150">
+                            }" x-show="visible" x-transition.opacity.duration.300ms class="hover:bg-stone-50 dark:hover:bg-zinc-800/40 transition duration-150">
 
                                 {{-- Cover Image --}}
                                 <td class="px-6 py-4">

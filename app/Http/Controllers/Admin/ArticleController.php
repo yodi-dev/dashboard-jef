@@ -134,12 +134,20 @@ class ArticleController extends Controller
             $article->save();
 
             if ($request->wantsJson() || $request->ajax()) {
+                $counts = [
+                    'all' => Article::count(),
+                    'published' => Article::where('is_published', true)->count(),
+                    'draft' => Article::where('is_published', false)->count(),
+                    'highlight' => Article::where('is_highlight', true)->count(),
+                ];
+
                 return response()->json([
                     'success' => true,
                     'message' => 'Article status successfully changed!',
                     'is_published' => (bool)$article->is_published,
                     'is_highlight' => (bool)$article->is_highlight,
                     'published_at' => $article->published_at ? $article->published_at->format('d M Y, H:i') : null,
+                    'counts' => $counts,
                 ]);
             }
         }

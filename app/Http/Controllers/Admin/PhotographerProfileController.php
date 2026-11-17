@@ -18,45 +18,55 @@ class PhotographerProfileController extends Controller
 
     public function update(UpdatePhotographerProfileRequest $request)
     {
-        $validated = $request->validated();
+        try {
+            $validated = $request->validated();
 
-        $profile = PhotographerProfile::current();
-        $disk = env('FILESYSTEM_DISK', 'public');
+            $profile = PhotographerProfile::current();
+            $disk = config('filesystems.default', 'public');
 
-        // Handle Avatar
-        unset($validated['avatar']);
-        if ($request->boolean('remove_avatar')) {
-            if ($profile->avatar && !str_starts_with($profile->avatar, 'http') && Storage::disk($disk)->exists($profile->avatar)) {
-                Storage::disk($disk)->delete($profile->avatar);
+            // Handle Avatar
+            unset($validated['avatar']);
+            if ($request->boolean('remove_avatar')) {
+                if ($profile->avatar && !str_starts_with($profile->avatar, 'http') && Storage::disk($disk)->exists($profile->avatar)) {
+                    Storage::disk($disk)->delete($profile->avatar);
+                }
+                $validated['avatar'] = null;
+            } elseif ($request->hasFile('avatar')) {
+                if ($profile->avatar && !str_starts_with($profile->avatar, 'http') && Storage::disk($disk)->exists($profile->avatar)) {
+                    Storage::disk($disk)->delete($profile->avatar);
+                }
+                $validated['avatar'] = $request->file('avatar')->store('profiles', $disk);
             }
-            $validated['avatar'] = null;
-        } elseif ($request->hasFile('avatar')) {
-            if ($profile->avatar && !str_starts_with($profile->avatar, 'http') && Storage::disk($disk)->exists($profile->avatar)) {
-                Storage::disk($disk)->delete($profile->avatar);
+
+            // Handle Hero Banner Image
+            unset($validated['hero_image']);
+            if ($request->boolean('remove_hero_image')) {
+                if ($profile->hero_image && !str_starts_with($profile->hero_image, 'http') && Storage::disk($disk)->exists($profile->hero_image)) {
+                    Storage::disk($disk)->delete($profile->hero_image);
+                }
+                $validated['hero_image'] = null;
+            } elseif ($request->hasFile('hero_image')) {
+                if ($profile->hero_image && !str_starts_with($profile->hero_image, 'http') && Storage::disk($disk)->exists($profile->hero_image)) {
+                    Storage::disk($disk)->delete($profile->hero_image);
+                }
+                $validated['hero_image'] = $request->file('hero_image')->store('heroes', $disk);
             }
-            $validated['avatar'] = $request->file('avatar')->store('profiles', $disk);
+
+            unset($validated['remove_avatar'], $validated['remove_hero_image']);
+
+            $profile->update($validated);
+
+            return redirect()->route('admin.photographer-profile.edit')
+                ->with('success', 'Photographer public profile updated successfully!');
+        } catch (\Throwable $e) {
+            \Illuminate\Support\Facades\Log::error('Profile Update Failed: ' . $e->getMessage(), [
+                'exception' => $e,
+            ]);
+
+            return redirect()->route('admin.photographer-profile.edit')
+                ->withInput()
+                ->withErrors(['error' => 'Gagal menyimpan profil: ' . $e->getMessage()]);
         }
-
-        // Handle Hero Banner Image
-        unset($validated['hero_image']);
-        if ($request->boolean('remove_hero_image')) {
-            if ($profile->hero_image && !str_starts_with($profile->hero_image, 'http') && Storage::disk($disk)->exists($profile->hero_image)) {
-                Storage::disk($disk)->delete($profile->hero_image);
-            }
-            $validated['hero_image'] = null;
-        } elseif ($request->hasFile('hero_image')) {
-            if ($profile->hero_image && !str_starts_with($profile->hero_image, 'http') && Storage::disk($disk)->exists($profile->hero_image)) {
-                Storage::disk($disk)->delete($profile->hero_image);
-            }
-            $validated['hero_image'] = $request->file('hero_image')->store('heroes', $disk);
-        }
-
-        unset($validated['remove_avatar'], $validated['remove_hero_image']);
-
-        $profile->update($validated);
-
-        return redirect()->route('admin.photographer-profile.edit')
-            ->with('success', 'Photographer public profile updated successfully!');
     }
 }
 

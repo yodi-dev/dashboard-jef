@@ -63,6 +63,7 @@ COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
 ENV PORT=8000
+ENV LOG_CHANNEL=stderr
 EXPOSE 8000
 
 ENTRYPOINT ["docker-entrypoint.sh"]

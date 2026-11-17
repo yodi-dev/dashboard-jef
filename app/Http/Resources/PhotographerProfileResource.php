@@ -18,6 +18,8 @@ class PhotographerProfileResource extends JsonResource
             'headline'            => $this->headline,
             'sub_headline'        => $this->sub_headline,
             'quote'               => $this->quote,
+            'hero_image'          => $this->hero_image_url,
+            'hero_position'       => $this->hero_position ?? 'center',
             'about_title'         => $this->about_title,
             'about_journey'       => $this->about_journey,
             'about_philosophy'    => $this->about_philosophy,

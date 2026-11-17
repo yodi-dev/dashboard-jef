@@ -39,6 +39,22 @@ class PhotographerProfileController extends Controller
             $validated['avatar'] = $request->file('avatar')->store('profiles', $disk);
         }
 
+        // Handle Hero Banner Image Removal
+        if ($request->boolean('remove_hero_image')) {
+            if ($profile->hero_image && !str_starts_with($profile->hero_image, 'http') && Storage::disk($disk)->exists($profile->hero_image)) {
+                Storage::disk($disk)->delete($profile->hero_image);
+            }
+            $validated['hero_image'] = null;
+        }
+
+        // Handle New Hero Banner Image Upload
+        if ($request->hasFile('hero_image')) {
+            if ($profile->hero_image && !str_starts_with($profile->hero_image, 'http') && Storage::disk($disk)->exists($profile->hero_image)) {
+                Storage::disk($disk)->delete($profile->hero_image);
+            }
+            $validated['hero_image'] = $request->file('hero_image')->store('heroes', $disk);
+        }
+
         $profile->update($validated);
 
         return redirect()->route('admin.photographer-profile.edit')

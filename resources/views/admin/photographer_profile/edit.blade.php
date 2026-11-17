@@ -6,7 +6,10 @@
         isDirty: false,
         activeSection: 'identity',
         previewUrl: '{{ $profile->avatar_url ?: asset('images/jeff-portrait.jpeg') }}',
+        heroPreviewUrl: '{{ $profile->hero_image_url ?: '' }}',
+        heroPosition: '{{ old('hero_position', $profile->hero_position ?? 'center') }}',
         isDragging: false,
+        isHeroDragging: false,
         init() {
             const sections = ['identity', 'statements', 'biography', 'philosophy', 'contact'];
             const observer = new IntersectionObserver((entries) => {
@@ -49,6 +52,29 @@
             const reader = new FileReader();
             reader.onload = (evt) => {
                 this.previewUrl = evt.target.result;
+            };
+            reader.readAsDataURL(file);
+        },
+        handleHeroDrop(e) {
+            this.isHeroDragging = false;
+            const files = e.dataTransfer.files;
+            if (files && files.length > 0 && files[0].type.startsWith('image/')) {
+                this.$refs.heroInput.files = files;
+                this.updateHeroPreview(files[0]);
+                this.isDirty = true;
+            }
+        },
+        handleHeroChange(e) {
+            const file = e.target.files[0];
+            if (file) {
+                this.updateHeroPreview(file);
+                this.isDirty = true;
+            }
+        },
+        updateHeroPreview(file) {
+            const reader = new FileReader();
+            reader.onload = (evt) => {
+                this.heroPreviewUrl = evt.target.result;
             };
             reader.readAsDataURL(file);
         }
@@ -302,6 +328,92 @@
                         </label>
                         <textarea id="quote" name="quote" rows="2"
                             class="w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-zinc-800 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100 border-stone-300 dark:border-zinc-700 focus:border-zinc-800 dark:focus:border-zinc-200 dark:focus:ring-zinc-200 transition duration-150 leading-relaxed italic">{{ old('quote', $profile->quote) }}</textarea>
+                    </div>
+
+                    {{-- Homepage Hero Photograph & Framing --}}
+                    <div class="pt-5 border-t border-stone-200 dark:border-zinc-800 space-y-3">
+                        <div>
+                            <label class="block text-xs font-mono font-medium text-zinc-700 dark:text-zinc-300 uppercase tracking-wider">
+                                Homepage Hero Photograph (Cinematic Banner)
+                            </label>
+                            <p class="text-[11px] text-zinc-500 dark:text-zinc-400 mt-0.5">
+                                Ultra-wide 21:9 format. If left empty, the homepage automatically features your top Highlighted Portfolio work.
+                            </p>
+                        </div>
+
+                        {{-- 21:9 Aspect Ratio Live Preview Box --}}
+                        <div class="relative overflow-hidden rounded-xl border-2 border-dashed transition-all duration-200 aspect-[21/9] bg-stone-100 dark:bg-zinc-800/60"
+                            :class="isHeroDragging ? 'border-zinc-900 bg-stone-200 dark:border-zinc-100 dark:bg-zinc-800' : 'border-stone-300 dark:border-zinc-700'"
+                            @dragover.prevent="isHeroDragging = true"
+                            @dragleave.prevent="isHeroDragging = false"
+                            @drop.prevent="handleHeroDrop($event)">
+                            
+                            <template x-if="heroPreviewUrl">
+                                <div class="relative w-full h-full group">
+                                    <img :src="heroPreviewUrl"
+                                        alt="Hero Banner Preview"
+                                        class="w-full h-full object-cover transition-all duration-300"
+                                        :class="{
+                                            'object-top': heroPosition === 'top',
+                                            'object-center': heroPosition === 'center',
+                                            'object-bottom': heroPosition === 'bottom'
+                                        }">
+                                    <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-3">
+                                        <button type="button" @click="$refs.heroInput.click()"
+                                            class="px-3 py-1.5 bg-white/95 hover:bg-white text-zinc-900 rounded-lg text-xs font-mono font-medium shadow-sm transition">
+                                            Replace Image
+                                        </button>
+                                    </div>
+                                </div>
+                            </template>
+
+                            <template x-if="!heroPreviewUrl">
+                                <div class="w-full h-full flex flex-col items-center justify-center p-6 text-center cursor-pointer"
+                                    @click="$refs.heroInput.click()">
+                                    <svg class="w-8 h-8 text-zinc-400 dark:text-zinc-500 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                                    </svg>
+                                    <span class="text-xs font-mono text-zinc-700 dark:text-zinc-300 font-medium">Click to upload or drag & drop high-res banner photo</span>
+                                    <span class="text-[10px] font-mono text-zinc-400 dark:text-zinc-500 mt-1">Preserves 100% full quality. (JPG, PNG, WEBP max 10MB)</span>
+                                </div>
+                            </template>
+                        </div>
+
+                        <input type="file" id="hero_image" name="hero_image" x-ref="heroInput" accept="image/*"
+                            @change="handleHeroChange($event)"
+                            class="hidden">
+
+                        {{-- Framing Focal Point Selector (Pilihan 1) --}}
+                        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pt-1">
+                            <div class="flex items-center gap-2">
+                                <span class="text-[11px] font-mono text-zinc-600 dark:text-zinc-400 uppercase tracking-wider">Framing Focal Point:</span>
+                                <div class="inline-flex rounded-lg p-0.5 bg-stone-100 dark:bg-zinc-800 border border-stone-200 dark:border-zinc-700">
+                                    <button type="button" @click="heroPosition = 'top'; isDirty = true"
+                                        :class="heroPosition === 'top' ? 'bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-900 font-medium shadow-sm' : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-200'"
+                                        class="px-2.5 py-1 text-[11px] font-mono rounded-md transition-all">
+                                        Top (Sky / Head)
+                                    </button>
+                                    <button type="button" @click="heroPosition = 'center'; isDirty = true"
+                                        :class="heroPosition === 'center' ? 'bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-900 font-medium shadow-sm' : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-200'"
+                                        class="px-2.5 py-1 text-[11px] font-mono rounded-md transition-all">
+                                        Center (Balanced)
+                                    </button>
+                                    <button type="button" @click="heroPosition = 'bottom'; isDirty = true"
+                                        :class="heroPosition === 'bottom' ? 'bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-900 font-medium shadow-sm' : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-200'"
+                                        class="px-2.5 py-1 text-[11px] font-mono rounded-md transition-all">
+                                        Bottom (Foreground)
+                                    </button>
+                                </div>
+                                <input type="hidden" name="hero_position" :value="heroPosition">
+                            </div>
+
+                            @if ($profile->hero_image)
+                                <label class="inline-flex items-center gap-2 text-xs text-red-600 dark:text-red-400 cursor-pointer">
+                                    <input type="checkbox" name="remove_hero_image" value="1" @change="isDirty = true" class="rounded border-stone-300 dark:border-zinc-700 text-red-600 focus:ring-red-500">
+                                    <span>Revert to Highlight Portfolio banner</span>
+                                </label>
+                            @endif
+                        </div>
                     </div>
                 </div>
             </div>

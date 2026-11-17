@@ -16,6 +16,8 @@ class PhotographerProfile extends Model
         'headline',
         'sub_headline',
         'quote',
+        'hero_image',
+        'hero_position',
         'about_title',
         'about_journey',
         'about_philosophy',
@@ -47,6 +49,22 @@ class PhotographerProfile extends Model
         }
 
         return url(Storage::url($this->avatar));
+    }
+
+    /**
+     * Get the resolved public URL of the custom hero banner image.
+     */
+    public function getHeroImageUrlAttribute(): ?string
+    {
+        if (!$this->hero_image) {
+            return null;
+        }
+
+        if (str_starts_with($this->hero_image, 'http://') || str_starts_with($this->hero_image, 'https://')) {
+            return $this->hero_image;
+        }
+
+        return url(Storage::url($this->hero_image));
     }
 
     /**

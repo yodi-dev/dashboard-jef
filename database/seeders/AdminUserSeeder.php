@@ -16,7 +16,7 @@ class AdminUserSeeder extends Seeder
             ],
             [
                 'name' => 'Jef',
-                'password' => Hash::make(config('services.seeder_pwd'))
+                'password' => Hash::make(config('services.seeder_pwd') ?: env('ADMIN_SEEDER_PASSWORD', 'password123'))
             ]
         );
     }

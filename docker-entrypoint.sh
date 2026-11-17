@@ -17,6 +17,9 @@ chmod -R 777 storage bootstrap/cache
 rm -rf public/storage
 php artisan storage:link --no-interaction || true
 
+# Run database migrations automatically in production
+php artisan migrate --force || true
+
 # In production, cache config & routes if possible
 if [ "$APP_ENV" = "production" ]; then
     php artisan config:cache || true

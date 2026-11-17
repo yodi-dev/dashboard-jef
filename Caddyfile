@@ -5,8 +5,7 @@
 }
 
 :{$PORT:8000} {
-    root * public/
+    root * /app/public
     encode zstd gzip
     php_server
-    file_server
 }

@@ -65,7 +65,7 @@ class PhotographerProfileController extends Controller
 
             return redirect()->route('admin.photographer-profile.edit')
                 ->withInput()
-                ->withErrors(['error' => 'Gagal menyimpan profil: ' . $e->getMessage()]);
+                ->withErrors(['error' => 'Failed to update profile: ' . $e->getMessage()]);
         }
     }
 }

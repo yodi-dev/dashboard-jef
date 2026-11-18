@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <!-- Minimalist Paper Base -->
+  <rect width="64" height="64" rx="14" fill="#FAF9F6"/>
+  <rect x="0.75" y="0.75" width="62.5" height="62.5" rx="13.25" stroke="#18181B" stroke-width="1.5" stroke-opacity="0.12"/>
+  <!-- Elegant Serif Initials JL -->
+  <text
+    x="32"
+    y="44"
+    font-family="'Cormorant Garamond', Georgia, 'Times New Roman', serif"
+    font-size="32"
+    font-weight="500"
+    letter-spacing="-1.5"
+    fill="#18181B"
+    text-anchor="middle"
+  >JL</text>
+</svg>

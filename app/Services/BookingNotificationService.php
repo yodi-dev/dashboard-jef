@@ -34,9 +34,67 @@ class BookingNotificationService
 
     /**
      * Send email notification to photographer's public profile email.
+     * Supports Resend API, Brevo API (via HTTPS Port 443 to bypass Render SMTP port blocks), and standard Laravel Mail.
      */
     protected function sendEmailNotification(Booking $booking, string $targetEmail): void
     {
+        // 1. Resend HTTP API (HTTPS Port 443 - Bypasses Render free-tier SMTP port blocks)
+        $resendKey = config('services.resend.key');
+        if (!empty($resendKey)) {
+            try {
+                $html = (new NewBookingNotification($booking))->render();
+                $fromAddress = config('mail.from.address', 'onboarding@resend.dev');
+                $fromName = config('mail.from.name', 'Jef Lee Studio');
+
+                $response = Http::withHeaders([
+                    'Authorization' => 'Bearer ' . $resendKey,
+                    'Content-Type'  => 'application/json',
+                ])->timeout(8)->post('https://api.resend.com/emails', [
+                    'from'    => "{$fromName} <{$fromAddress}>",
+                    'to'      => [$targetEmail],
+                    'subject' => '! New Booking Request: ' . $booking->package,
+                    'html'    => $html,
+                ]);
+
+                if ($response->successful()) {
+                    return;
+                }
+
+                Log::warning('BookingNotificationService: Resend API returned error: ' . $response->body());
+            } catch (\Throwable $e) {
+                Log::warning('BookingNotificationService: Resend API failed: ' . $e->getMessage());
+            }
+        }
+
+        // 2. Brevo HTTP API (HTTPS Port 443 - Bypasses Render free-tier SMTP port blocks)
+        $brevoKey = config('services.brevo.key');
+        if (!empty($brevoKey)) {
+            try {
+                $html = (new NewBookingNotification($booking))->render();
+                $fromAddress = config('mail.from.address', 'no-reply@dashboard.jef.com');
+                $fromName = config('mail.from.name', 'Jef Lee Studio');
+
+                $response = Http::withHeaders([
+                    'api-key'      => $brevoKey,
+                    'Content-Type' => 'application/json',
+                ])->timeout(8)->post('https://api.brevo.com/v3/smtp/email', [
+                    'sender'      => ['name' => $fromName, 'email' => $fromAddress],
+                    'to'          => [['email' => $targetEmail]],
+                    'subject'     => '! New Booking Request: ' . $booking->package,
+                    'htmlContent' => $html,
+                ]);
+
+                if ($response->successful()) {
+                    return;
+                }
+
+                Log::warning('BookingNotificationService: Brevo API returned error: ' . $response->body());
+            } catch (\Throwable $e) {
+                Log::warning('BookingNotificationService: Brevo API failed: ' . $e->getMessage());
+            }
+        }
+
+        // 3. Fallback to Standard Laravel Mailer (SMTP / Log / Sendmail)
         try {
             Mail::to($targetEmail)->send(new NewBookingNotification($booking));
         } catch (\Throwable $e) {

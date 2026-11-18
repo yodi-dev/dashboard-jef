@@ -18,6 +18,18 @@ Someone just requested a photography booking through your portfolio website. Her
 
 Please check your admin dashboard to confirm the schedule and contact the client.
 
+@php
+    $cleanClientPhone = preg_replace('/[^0-9]/', '', $booking->phone);
+    if (str_starts_with($cleanClientPhone, '08')) {
+        $cleanClientPhone = '62' . substr($cleanClientPhone, 1);
+    }
+    $waChatUrl = 'https://wa.me/' . $cleanClientPhone . '?text=' . urlencode("Hello {$booking->name}, thank you for your booking request for {$booking->package} with Jef Lee Studio.");
+@endphp
+
+<x-mail::button :url="$waChatUrl">
+Chat with Client on WhatsApp
+</x-mail::button>
+
 <x-mail::button :url="route('admin.bookings.edit', $booking->id)">
 View Details in Dashboard
 </x-mail::button>

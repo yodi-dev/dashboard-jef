@@ -90,6 +90,17 @@ class PublicApiTest extends TestCase
     public function test_public_can_submit_booking_reservation(): void
     {
         Mail::fake();
+        \Illuminate\Support\Facades\Http::fake();
+        config(['services.fonnte.token' => 'mock-fonnte-token']);
+
+        $profile = \App\Models\PhotographerProfile::create([
+            'name'     => 'Jef Lee',
+            'tagline'  => 'Documentary',
+            'headline' => 'Visual stories',
+            'about_title' => 'My Journey',
+            'email'    => 'custom-profile@jef.com',
+            'phone'    => '+61400123456',
+        ]);
 
         $payload = [
             'name'         => 'Elena Rostova',
@@ -113,5 +124,16 @@ class PublicApiTest extends TestCase
             'email'   => 'elena@example.com',
             'package' => 'Portrait Session',
         ]);
+
+        // Assert email sent/queued to the email address defined in the public profile
+        Mail::assertQueued(\App\Mail\NewBookingNotification::class, function ($mail) {
+            return $mail->hasTo('custom-profile@jef.com');
+        });
+
+        // Assert WhatsApp notification was dispatched via Fonnte to public profile phone
+        \Illuminate\Support\Facades\Http::assertSent(function ($request) {
+            return str_contains($request->url(), 'fonnte.com/send')
+                && $request['target'] === '61400123456';
+        });
     }
 }

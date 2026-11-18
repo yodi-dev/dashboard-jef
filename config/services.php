@@ -24,4 +24,21 @@ return [
         ],
     ],
 
+    'fonnte' => [
+        'token' => env('FONNTE_TOKEN'),
+    ],
+
+    'callmebot' => [
+        'api_key' => env('CALLMEBOT_API_KEY'),
+    ],
+
+    'telegram' => [
+        'bot_token' => env('TELEGRAM_BOT_TOKEN'),
+        'chat_id' => env('TELEGRAM_CHAT_ID'),
+    ],
+
+    'whatsapp' => [
+        'admin_phone' => env('ADMIN_PHONE'),
+    ],
+
 ];

@@ -15,8 +15,7 @@
 x-show="open"
 x-cloak
 class="fixed inset-0 z-50 overflow-y-auto"
-aria-labelledby="modal-title" role="dialog" aria-modal="true"
-style="display: none;">
+aria-labelledby="modal-title" role="dialog" aria-modal="true">
     {{-- Backdrop --}}
     <div x-show="open"
          x-transition:enter="ease-out duration-200"

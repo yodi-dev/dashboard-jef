@@ -14,6 +14,10 @@
 
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+    <style>
+        [x-cloak] { display: none !important; }
+    </style>
 </head>
 
 <body class="font-sans antialiased text-zinc-900 dark:text-zinc-100 bg-stone-50 dark:bg-zinc-950">

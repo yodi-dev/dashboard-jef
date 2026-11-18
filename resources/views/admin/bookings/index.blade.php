@@ -1,7 +1,7 @@
 @section('title', 'Manage Bookings')
 
 <x-app-layout>
-    <div class="space-y-6">
+    <div x-data class="space-y-6">
 
         {{-- Header Section --}}
         <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">

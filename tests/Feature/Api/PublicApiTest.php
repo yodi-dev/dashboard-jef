@@ -125,8 +125,8 @@ class PublicApiTest extends TestCase
             'package' => 'Portrait Session',
         ]);
 
-        // Assert email sent/queued to the email address defined in the public profile
-        Mail::assertQueued(\App\Mail\NewBookingNotification::class, function ($mail) {
+        // Assert email sent directly to the email address defined in the public profile
+        Mail::assertSent(\App\Mail\NewBookingNotification::class, function ($mail) {
             return $mail->hasTo('custom-profile@jef.com');
         });
 

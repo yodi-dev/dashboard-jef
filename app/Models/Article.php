@@ -48,6 +48,11 @@ class Article extends Model
             return $this->cover_image;
         }
 
-        return Storage::url($this->cover_image);
+        $url = Storage::url($this->cover_image);
+        if ($url && ! Str::startsWith($url, ['http://', 'https://'])) {
+            $url = 'https://' . ltrim($url, '/');
+        }
+
+        return $url;
     }
 }

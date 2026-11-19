@@ -63,7 +63,12 @@ class Portfolio extends Model
             return $this->thumbnail;
         }
 
-        return Storage::url($this->thumbnail);
+        $url = Storage::url($this->thumbnail);
+        if ($url && ! Str::startsWith($url, ['http://', 'https://'])) {
+            $url = 'https://' . ltrim($url, '/');
+        }
+
+        return $url;
     }
 
     public function getGalleryUrlsAttribute(): array
@@ -76,7 +81,8 @@ class Portfolio extends Model
             if (Str::startsWith($path, ['http://', 'https://'])) {
                 return $path;
             }
-            return Storage::url($path);
+            $url = Storage::url($path);
+            return ($url && ! Str::startsWith($url, ['http://', 'https://'])) ? 'https://' . ltrim($url, '/') : $url;
         }, $this->gallery);
     }
 }

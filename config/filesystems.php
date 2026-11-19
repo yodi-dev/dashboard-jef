@@ -66,7 +66,9 @@ return [
             'secret' => env('CLOUDFLARE_R2_SECRET_ACCESS_KEY', env('AWS_SECRET_ACCESS_KEY')),
             'region' => 'auto',
             'bucket' => env('CLOUDFLARE_R2_BUCKET', env('AWS_BUCKET')),
-            'url' => env('CLOUDFLARE_R2_URL', env('AWS_URL')),
+            'url' => ($r2Url = env('CLOUDFLARE_R2_URL', env('AWS_URL')))
+                ? ((str_starts_with($r2Url, 'http://') || str_starts_with($r2Url, 'https://')) ? rtrim($r2Url, '/') : 'https://' . rtrim($r2Url, '/'))
+                : null,
             'endpoint' => env('CLOUDFLARE_R2_ENDPOINT', env('AWS_ENDPOINT')),
             'use_path_style_endpoint' => env('CLOUDFLARE_R2_USE_PATH_STYLE_ENDPOINT', false),
             'throw' => false,

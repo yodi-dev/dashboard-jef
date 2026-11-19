@@ -20,6 +20,10 @@ class PortfolioResource extends JsonResource
             $url = Storage::disk($disk)->url($path);
         }
 
+        if ($url && !str_starts_with($url, 'http://') && !str_starts_with($url, 'https://')) {
+            $url = 'https://' . ltrim($url, '/');
+        }
+
         if (!app()->runningInConsole() && (str_contains($url, 'localhost') || str_contains($url, '127.0.0.1'))) {
             $host = request()->getSchemeAndHttpHost();
             if (!str_contains($host, 'localhost') && !str_contains($host, '127.0.0.1')) {

@@ -56,7 +56,8 @@ class PhotographerProfile extends Model
         if (str_starts_with($this->avatar, 'http://') || str_starts_with($this->avatar, 'https://')) {
             $url = $this->avatar;
         } else {
-            $url = Storage::disk('public')->url($this->avatar);
+            $disk = config('filesystems.default', 'public');
+            $url = Storage::disk($disk)->url($this->avatar);
         }
 
         if (!app()->runningInConsole() && (str_contains($url, 'localhost') || str_contains($url, '127.0.0.1'))) {
@@ -81,7 +82,8 @@ class PhotographerProfile extends Model
         if (str_starts_with($this->hero_image, 'http://') || str_starts_with($this->hero_image, 'https://')) {
             $url = $this->hero_image;
         } else {
-            $url = Storage::disk('public')->url($this->hero_image);
+            $disk = config('filesystems.default', 'public');
+            $url = Storage::disk($disk)->url($this->hero_image);
         }
 
         if (!app()->runningInConsole() && (str_contains($url, 'localhost') || str_contains($url, '127.0.0.1'))) {
